@@ -18,7 +18,6 @@ Rectangle {
     color: keyColor
     radius: keyHeight/5
 
-
     property bool hold: false
     property bool entered: false
 
@@ -39,39 +38,56 @@ Rectangle {
         hoverEnabled: true
 
         onEntered: {
-            funcKey.color = keyHoverColor
-            symbol.color = textColor
+            if (!funcKey.hold){
+                funcKey.color = funcKey.keyHoverColor
+                symbol.color = funcKey.textColor
+
+
+            }
             funcKey.entered = true
         }
 
         onExited: {
             if (!funcKey.hold){
-                funcKey.color = keyColor
-                symbol.color = textColor
+                funcKey.color = funcKey.keyColor
+                symbol.color = funcKey.textColor
+
+
             }
             funcKey.entered = false
         }
 
         onPressed: {
-            funcKey.color = keyPressedColor
-            symbol.color = textPressedColor
-            console.log(symbol.text)
+            funcKey.color = funcKey.keyPressedColor
+            symbol.color = funcKey.textPressedColor
+
+main.nonStickyPressed(funcKey.keySymbolLevel1)
+
+
 
         }
         onPressAndHold: {
-            funcKey.color = keyPressedColor
-            symbol.color = textPressedColor
+            funcKey.color = funcKey.keyPressedColor
+            symbol.color = funcKey.textPressedColor
+
+
             funcKey.hold = true
-            console.log(funcKey.hold);
+
 
         }
         onReleased: {
-            funcKey.color = hoveredChanged() ? keyColor : keyHoverColor
-            symbol.color = textColor
             funcKey.hold = false
             if (!funcKey.entered){
-                funcKey.color = keyColor
-                symbol.color = textColor
+                funcKey.color = funcKey.keyColor
+                symbol.color = funcKey.textColor
+
+
+            }
+            else {
+                funcKey.color = funcKey.keyHoverColor
+                symbol.color = funcKey.textColor
+
+
             }
 
         }

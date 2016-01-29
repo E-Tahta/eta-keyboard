@@ -6,6 +6,9 @@
         <file>NumericKey.qml</file>
         <file>FunctionKey.qml</file>
         <file>EnterKey.qml</file>
-        <file>ImageKey.qml</file>
+        <file>SettingsKey.qml</file>
+        <file>MetaKey.qml</file>
+        <file>ArrowKey.qml</file>
+        <file>StickyKey.qml</file>
     </qresource>
 </RCC>
