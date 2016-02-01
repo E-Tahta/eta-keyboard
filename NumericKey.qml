@@ -64,39 +64,55 @@ Rectangle {
         hoverEnabled: true
 
         onEntered: {
-            numKey.color = keyHoverColor
-            symbol.color = textColor
+            if (!numKey.hold){
+                numKey.color = numKey.keyHoverColor
+                symbol.color = numKey.textColor
+
+
+            }
             numKey.entered = true
         }
 
         onExited: {
             if (!numKey.hold){
-                numKey.color = keyColor
-                symbol.color = textColor
+                numKey.color = numKey.keyColor
+                symbol.color = numKey.textColor
+
+
             }
             numKey.entered = false
         }
 
         onPressed: {
-            numKey.color = keyPressedColor
-            symbol.color = textPressedColor
-            console.log(symbol.text)
+            numKey.color = numKey.keyPressedColor
+            symbol.color = numKey.textPressedColor
+
+            main.nonStickyPressed(numKey.keySymbolLevel1)
+
 
         }
         onPressAndHold: {
-            numKey.color = keyPressedColor
-            symbol.color = textPressedColor
+            numKey.color = numKey.keyPressedColor
+            symbol.color = numKey.textPressedColor
+
+
             numKey.hold = true
-            console.log(numKey.hold);
+
 
         }
         onReleased: {
-            numKey.color = hoveredChanged() ? keyColor : keyHoverColor
-            symbol.color = textColor
             numKey.hold = false
             if (!numKey.entered){
-                numKey.color = keyColor
-                symbol.color = textColor
+                numKey.color = numKey.keyColor
+                symbol.color = numKey.textColor
+
+
+            }
+            else {
+                numKey.color = numKey.keyHoverColor
+                symbol.color = numKey.textColor
+
+
             }
 
         }

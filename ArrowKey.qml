@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Rectangle {
 
-    id: specKey
+    id: arwKey
 
     property string keyColor: main.keyColor
     property string keyPressedColor: main.keyPressedColor
@@ -10,7 +10,7 @@ Rectangle {
     property string textColor: main.textColor
     property string textPressedColor: main.textPressedColor
     property string keySymbolLevel1
-    property int keyWidth
+    property int keyWidth : main.keyWidth
     property int keyHeight: main.keyHeight
 
 
@@ -26,64 +26,63 @@ Rectangle {
         color: textColor
         font.pointSize: keyHeight * 3 / 15
         anchors {
-            centerIn: specKey
+            centerIn: arwKey
         }
         text: keySymbolLevel1
     }
-
     MouseArea{
         anchors.fill: parent
         hoverEnabled: true
 
         onEntered: {
-            if (!specKey.hold){
-                specKey.color = specKey.keyHoverColor
-                symbol.color = specKey.textColor
+            if (!arwKey.hold){
+                arwKey.color = arwKey.keyHoverColor
+                symbol.color = arwKey.textColor
 
 
             }
-            specKey.entered = true
+            arwKey.entered = true
         }
 
         onExited: {
-            if (!specKey.hold){
-                specKey.color = specKey.keyColor
-                symbol.color = specKey.textColor
+            if (!arwKey.hold){
+                arwKey.color = arwKey.keyColor
+                symbol.color = arwKey.textColor
 
 
             }
-            specKey.entered = false
+            arwKey.entered = false
         }
 
         onPressed: {
-            specKey.color = specKey.keyPressedColor
-            symbol.color = specKey.textPressedColor
+            arwKey.color = arwKey.keyPressedColor
+            symbol.color = arwKey.textPressedColor
 
-            main.nonStickyPressed(specKey.keySymbolLevel1)
+            main.nonStickyPressed(arwKey.keySymbolLevel1)
 
 
 
         }
         onPressAndHold: {
-            specKey.color = specKey.keyPressedColor
-            symbol.color = specKey.textPressedColor
+            arwKey.color = arwKey.keyPressedColor
+            symbol.color = arwKey.textPressedColor
 
 
-            specKey.hold = true
+            arwKey.hold = true
 
 
         }
         onReleased: {
-            specKey.hold = false
-            if (!specKey.entered){
-                specKey.color = specKey.keyColor
-                symbol.color = specKey.textColor
+            arwKey.hold = false
+            if (!arwKey.entered){
+                arwKey.color = arwKey.keyColor
+                symbol.color = arwKey.textColor
 
 
             }
             else {
-                specKey.color = specKey.keyHoverColor
-                symbol.color = specKey.textColor
+                arwKey.color = arwKey.keyHoverColor
+                symbol.color = arwKey.textColor
 
 
             }

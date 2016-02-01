@@ -20,7 +20,6 @@ Rectangle {
     color: keyColor
     radius: keyHeight/10
 
-
     property bool hold: false
     property bool entered: false
     Text {
@@ -62,39 +61,56 @@ Rectangle {
         hoverEnabled: true
 
         onEntered: {
-            alpKey.color = keyHoverColor
-            symbol.color = textColor
+            if (!alpKey.hold){
+                alpKey.color = alpKey.keyHoverColor
+                symbol.color = alpKey.textColor
+
+
+            }
             alpKey.entered = true
         }
 
         onExited: {
             if (!alpKey.hold){
-                alpKey.color = keyColor
-                symbol.color = textColor
+                alpKey.color = alpKey.keyColor
+                symbol.color = alpKey.textColor
+
+
             }
             alpKey.entered = false
         }
 
         onPressed: {
-            alpKey.color = keyPressedColor
-            symbol.color = textPressedColor
-            console.log(symbol.text)
+            alpKey.color = alpKey.keyPressedColor
+            symbol.color = alpKey.textPressedColor
+
+            main.nonStickyPressed(alpKey.keySymbolLevel1)
+
+
+
 
         }
         onPressAndHold: {
-            alpKey.color = keyPressedColor
-            symbol.color = textPressedColor
+            alpKey.color = alpKey.keyPressedColor
+            symbol.color = alpKey.textPressedColor
+
+
             alpKey.hold = true
-            console.log(alpKey.hold);
 
         }
         onReleased: {
-            alpKey.color = hoveredChanged() ? keyColor : keyHoverColor
-            symbol.color = textColor
             alpKey.hold = false
             if (!alpKey.entered){
-                alpKey.color = keyColor
-                symbol.color = textColor
+                alpKey.color = alpKey.keyColor
+                symbol.color = alpKey.textColor
+
+
+            }
+            else {
+                alpKey.color = alpKey.keyHoverColor
+                symbol.color = alpKey.textColor
+
+
             }
 
         }

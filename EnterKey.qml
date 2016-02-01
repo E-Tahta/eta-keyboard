@@ -10,10 +10,9 @@ Item {
     property string textColor: main.textColor
     property string textPressedColor: main.textPressedColor
     property string keySymbolLevel1
-    property string keySymbolLevel2
-    property string keySymbolLevel3
     property int keyWidth: main.keyWidth
     property int keyHeight: main.keyHeight
+
     property bool hold: false
     property bool entered: false
 
@@ -68,7 +67,8 @@ Item {
                 symbol.color = entKey.textPressedColor
                 foot.color = entKey.keyPressedColor
 
-                console.log(symbol.text)
+                main.nonStickyPressed(symbol.text)
+
 
             }
             onPressAndHold: {
@@ -77,7 +77,6 @@ Item {
                 foot.color = entKey.keyPressedColor
 
                 entKey.hold = true
-                console.log(entKey.hold);
 
             }
             onReleased: {
@@ -144,7 +143,7 @@ Item {
                 symbol.color = entKey.textPressedColor
                 foot.color = entKey.keyPressedColor
 
-                console.log(symbol.text)
+               main.nonStickyPressed(symbol.text)
 
             }
             onPressAndHold: {
@@ -153,7 +152,6 @@ Item {
                 foot.color = entKey.keyPressedColor
 
                 entKey.hold = true
-                console.log(entKey.hold);
 
             }
             onReleased: {

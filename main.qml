@@ -11,14 +11,59 @@ ApplicationWindow {
     flags: Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowDoesNotAcceptFocus
 
     property string keyColor: "#585858"
-    property string keyPressedColor: "#FDFFFE"
+    property string keyPressedColor: "#ffffff"
     property string keyHoverColor: "#848484"
-    property string textColor: "#fbfcfe"
-    property string textPressedColor: "#3A4040"
+    property string textColor: "#dddddd"
+    property string textPressedColor: "#5e5a5a"
     property int keyHeight
-    property int keyWidth
-    property int rowSpacing: keyWidth / 10
-    property int columnSpacing: keyHeight / 10
+    property int keyWidth: keyHeight
+    property int rowSpacing: keyHeight / 10
+    property int columnSpacing: rowSpacing
+
+
+    property bool keyCapsPressed: false
+
+    property int stickyNumber: 1
+    property string stickyButtons
+
+
+
+    function engine(btnCode){
+        if (stickyNumber>3){
+            releaseAll();
+        }
+        else {
+            stickyButtons+=btnCode+" "
+            stickyNumber++;
+        }
+
+
+    }
+
+    function checkNumOfSticky(){
+
+    }
+
+    function releaseAll(){
+        keyShiftL.releaseBtn()
+        keyCtrlL.releaseBtn()
+        keyCtrlR.releaseBtn()
+        keyAlt.releaseBtn()
+        keyAltGr.releaseBtn()
+        stickyNumber= 1
+        stickyButtons=""
+    }
+
+    function nonStickyPressed(btnCode){
+        if (stickyNumber>1){
+            stickyButtons+=btnCode
+            console.log(stickyButtons)
+            releaseAll()
+        }
+
+        else console.log(btnCode)
+    }
+
 
     Column{
         id: col1
@@ -129,7 +174,7 @@ ApplicationWindow {
             id: row4
             spacing: main.rowSpacing
 
-            SpecialKey{id:keyCapsLock; keySymbolLevel1: "CapsLock"; keyWidth: main.keyWidth * 9 / 5}
+            StickyKey{id:keyCapsLock; keySymbolLevel1: "CapsLock"; keyWidth: main.keyWidth * 9 / 5;onClickedSticky:{ main.keyCapsPressed=true}}
             AlphaKey{id: keyA; keySymbolLevel1: "A"}
             AlphaKey{id: keyS; keySymbolLevel1: "S"}
             AlphaKey{id: keyD; keySymbolLevel1: "D"}
@@ -149,8 +194,8 @@ ApplicationWindow {
             id: row5
             spacing: main.rowSpacing
 
-            SpecialKey{id:keyShiftL; keySymbolLevel1: "Shift"; keyWidth: main.keyWidth}
-            NumericKey{id: keyCompare; keySymbolLevel1: "<"; keySymbolLevel2: ">"; keySymbolLevel3: "|"}
+            StickyKey{id:keyShiftL; keySymbolLevel1: "Shift"; keyWidth: main.keyWidth;onClickedSticky:{ main.keyCapsPressed=true; main.engine(keySymbolLevel1)}}
+            AlphaKey{id: keyCompare; keySymbolLevel1: "<"; keySymbolLevel2: ">"; keySymbolLevel3: "|"}
             AlphaKey{id: keyZ; keySymbolLevel1: "Z"}
             AlphaKey{id: keyX; keySymbolLevel1: "X"}
             AlphaKey{id: keyC; keySymbolLevel1: "C"}
@@ -166,16 +211,16 @@ ApplicationWindow {
         Row {
             id: row6
             spacing: main.rowSpacing
-            ImageKey{id: keySettings; keyWidth: main.keyWidth; isAnimated: true; imgSource: "Images/gear.png"}
-            SpecialKey{id: keyCtrlL; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;}
-            ImageKey{id: keyMeta; imgSource:"Images/pardus.png"; keyWidth: main.keyWidth; isAnimated: false}
-            SpecialKey{id: keyAlt; keySymbolLevel1: "Alt"; keyWidth: main.keyWidth;}
+            SettingsKey{id: keySettings}
+            StickyKey{id: keyCtrlL; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;onClickedSticky:{ main.keyCapsPressed=true; main.engine(keySymbolLevel1)}}
+            MetaKey{id: keyMeta}
+            StickyKey{id: keyAlt; keySymbolLevel1: "Alt"; keyWidth: main.keyWidth;onClickedSticky:{ main.keyCapsPressed=true; main.engine(keySymbolLevel1)}}
             AlphaKey{id: keySpace; keySymbolLevel1: ""; keyWidth: main.keyWidth * 6 + 5 * main.rowSpacing;}
-            SpecialKey{id: keyAltGr; keySymbolLevel1: "Alt Gr"; keyWidth: main.keyWidth;}
-            SpecialKey{id: keyCtrlR; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;}
-            SpecialKey{id: keyArrowL; keySymbolLevel1: "◄"; keyWidth: main.keyWidth}
-            SpecialKey{id: keyArrowB; keySymbolLevel1: "▼"; keyWidth: main.keyWidth}
-            SpecialKey{id: keyArrowR; keySymbolLevel1: "►"; keyWidth: main.keyWidth}
+            StickyKey{id: keyAltGr; keySymbolLevel1: "Alt Gr"; keyWidth: main.keyWidth;onClickedSticky:{ main.keyCapsPressed=true; main.engine(keySymbolLevel1)}}
+            StickyKey{id: keyCtrlR; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;onClickedSticky:{ main.keyCapsPressed=true; main.engine(keySymbolLevel1)}}
+            ArrowKey{id: keyArrowL; keySymbolLevel1: "◄"}
+            ArrowKey{id: keyArrowB; keySymbolLevel1: "▼"}
+            ArrowKey{id: keyArrowR; keySymbolLevel1: "►"}
         }
 
 
@@ -188,11 +233,10 @@ ApplicationWindow {
         x: keyUU.x + main.keyWidth + main.rowSpacing
         y: row3.y
     }
-    SpecialKey{
+    ArrowKey{
         id: keyArrowU
         x: keyDot.x + main.keyWidth * 2 + main.rowSpacing * 2
         y: row5.y
-        keyWidth: main.keyWidth
         keySymbolLevel1: "▲"
     }
 
@@ -201,11 +245,11 @@ ApplicationWindow {
 
 
     Component.onCompleted: {
-        dock.height = Screen.height / 42
-        main.keyHeight = Screen.height / 20
-        main.keyWidth = Screen.width / 32
-        main.width = main.keyWidth * 16.4
+        dock.height = Screen.height / 30
+        main.keyHeight = Screen.height / 16
+        main.width = main.keyHeight * 16.4
         main.height = main.keyHeight * 6 + dock.height + main.columnSpacing
     }
 
 }
+
