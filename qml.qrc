@@ -10,5 +10,6 @@
         <file>MetaKey.qml</file>
         <file>ArrowKey.qml</file>
         <file>StickyKey.qml</file>
+        <file>Test.qml</file>
     </qresource>
 </RCC>
