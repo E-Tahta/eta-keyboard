@@ -19,68 +19,101 @@ Rectangle {
 
     property bool hold: false
     property bool entered: false
+    property bool clickedFlag: false
+
     Image {
         id: img
         width: parent.width * 2 / 3
         height: img.width
         anchors.centerIn: parent
         source: "Images/pardus.png"
+    }
+
+    signal clickedMeta(string btnCode)
+
+    function releaseBtn(){
+        if (metKey.clickedFlag)
+            btnClicked()
+    }
+
+
+    function btnClicked(){
+
+        metKey.clickedFlag = !clickedFlag;
+
+        if (metKey.clickedFlag){
+            btnPressed()
+        }
+
+        else {
+            btnHovered()
+        }
 
     }
 
+
+    function btnPressed(){
+        metKey.color = metKey.keyPressedColor
+
+    }
+
+    function btnHovered(){
+        if (!metKey.hold && !metKey.clickedFlag){
+            if (metKey.entered){
+                metKey.color = metKey.keyHoverColor
+
+            }
+
+            else {
+
+                metKey.color = metKey.keyColor
+            }
+        }
+    }
+
+    function btnHold(){
+        metKey.clickedFlag = false
+        metKey.hold = true
+
+        metKey.color = metKey.keyPressedColor
+    }
+
+    function btnReleased(){
+        metKey.hold = false
+        if (!metKey.clickedFlag)
+            btnHovered()
+    }
+
+
+
     MouseArea{
+        id: ma
         anchors.fill: parent
         hoverEnabled: true
 
         onEntered: {
-            if (!metKey.hold){
-                metKey.color = metKey.keyHoverColor
-
-
-            }
             metKey.entered = true
+            btnHovered()
         }
 
         onExited: {
-            if (!metKey.hold){
-                metKey.color = metKey.keyColor
-
-
-            }
             metKey.entered = false
+            btnHovered()
         }
 
         onPressed: {
-            metKey.color = metKey.keyPressedColor
-
-
+            btnPressed()
 
         }
         onPressAndHold: {
-            metKey.color = metKey.keyPressedColor
-
-
-
-            metKey.hold = true
-
+            btnHold()
 
         }
         onReleased: {
-            metKey.hold = false
-            if (!metKey.entered){
-                metKey.color = metKey.keyColor
-
-
-
-            }
-            else {
-                metKey.color = metKey.keyHoverColor
-
-
-
-            }
-
+            btnReleased()
         }
-
+        onClicked: {
+            metKey.btnClicked()
+        }
     }
 }

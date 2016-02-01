@@ -20,7 +20,7 @@ ApplicationWindow {
     property int rowSpacing: keyHeight / 10
     property int columnSpacing: rowSpacing
 
-
+/*
     property bool keyCapsPressed: false
 
     property int stickyNumber: 1
@@ -63,6 +63,10 @@ ApplicationWindow {
 
         else console.log(btnCode)
     }
+*/
+
+
+
 
 
     Column{

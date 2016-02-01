@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 Rectangle {
+
     id: numKey
 
     property string keyColor: main.keyColor
@@ -14,14 +15,15 @@ Rectangle {
     property int keyWidth: main.keyWidth
     property int keyHeight: main.keyHeight
 
+    property bool hold: false
+    property bool entered: false
 
     width: keyWidth
     height: keyHeight
     color: keyColor
     radius: keyHeight/10
 
-    property bool hold: false
-    property bool entered: false
+
 
     Text {
         id: symbol
@@ -59,62 +61,78 @@ Rectangle {
         text: keySymbolLevel3
     }
 
+
+    signal clickedNumeric(string btnCode)
+
+    function btnClicked(){
+
+    }
+
+    function btnPressed(){
+        numKey.color = numKey.keyPressedColor
+        symbol.color = numKey.textPressedColor
+    }
+
+    function btnHovered(){
+        if (!numKey.hold){
+            if (numKey.entered){
+                numKey.color = numKey.keyHoverColor
+                symbol.color = numKey.textColor
+            }
+
+            else {
+
+                numKey.color = numKey.keyColor
+                symbol.color = numKey.textColor
+
+            }
+        }
+    }
+
+    function btnHold(){
+        numKey.hold = true
+
+        numKey.color = numKey.keyPressedColor
+        symbol.color = numKey.textPressedColor
+    }
+
+    function btnReleased(){
+        numKey.hold = false
+        btnHovered()
+    }
+
+
+
+
     MouseArea{
+        id: ma
         anchors.fill: parent
         hoverEnabled: true
 
         onEntered: {
-            if (!numKey.hold){
-                numKey.color = numKey.keyHoverColor
-                symbol.color = numKey.textColor
-
-
-            }
             numKey.entered = true
+            btnHovered()
         }
 
         onExited: {
-            if (!numKey.hold){
-                numKey.color = numKey.keyColor
-                symbol.color = numKey.textColor
-
-
-            }
             numKey.entered = false
+            btnHovered()
         }
 
         onPressed: {
-            numKey.color = numKey.keyPressedColor
-            symbol.color = numKey.textPressedColor
-
-            main.nonStickyPressed(numKey.keySymbolLevel1)
-
+            btnPressed()
 
         }
         onPressAndHold: {
-            numKey.color = numKey.keyPressedColor
-            symbol.color = numKey.textPressedColor
-
-
-            numKey.hold = true
-
+            btnHold()
 
         }
         onReleased: {
-            numKey.hold = false
-            if (!numKey.entered){
-                numKey.color = numKey.keyColor
-                symbol.color = numKey.textColor
-
-
-            }
-            else {
-                numKey.color = numKey.keyHoverColor
-                symbol.color = numKey.textColor
-
-
-            }
-
+            btnReleased()
+        }
+        onClicked: {
+            numKey.btnClicked()
         }
     }
+
 }

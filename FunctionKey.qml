@@ -33,63 +33,77 @@ Rectangle {
         text: keySymbolLevel1
     }
 
+    signal clickedFunction(string btnCode)
+
+    function btnClicked(){
+
+    }
+
+    function btnPressed(){
+        funcKey.color = funcKey.keyPressedColor
+        symbol.color = funcKey.textPressedColor
+    }
+
+    function btnHovered(){
+        if (!funcKey.hold){
+            if (funcKey.entered){
+                funcKey.color = funcKey.keyHoverColor
+                symbol.color = funcKey.textColor
+            }
+
+            else {
+
+                funcKey.color = funcKey.keyColor
+                symbol.color = funcKey.textColor
+
+            }
+        }
+    }
+
+    function btnHold(){
+        funcKey.hold = true
+
+        funcKey.color = funcKey.keyPressedColor
+        symbol.color = funcKey.textPressedColor
+    }
+
+    function btnReleased(){
+        funcKey.hold = false
+        btnHovered()
+    }
+
+
+
+
     MouseArea{
+        id: ma
         anchors.fill: parent
         hoverEnabled: true
 
         onEntered: {
-            if (!funcKey.hold){
-                funcKey.color = funcKey.keyHoverColor
-                symbol.color = funcKey.textColor
-
-
-            }
             funcKey.entered = true
+            btnHovered()
         }
 
         onExited: {
-            if (!funcKey.hold){
-                funcKey.color = funcKey.keyColor
-                symbol.color = funcKey.textColor
-
-
-            }
             funcKey.entered = false
+            btnHovered()
         }
 
         onPressed: {
-            funcKey.color = funcKey.keyPressedColor
-            symbol.color = funcKey.textPressedColor
-
-main.nonStickyPressed(funcKey.keySymbolLevel1)
-
-
+            btnPressed()
 
         }
         onPressAndHold: {
-            funcKey.color = funcKey.keyPressedColor
-            symbol.color = funcKey.textPressedColor
-
-
-            funcKey.hold = true
-
+            btnHold()
 
         }
         onReleased: {
-            funcKey.hold = false
-            if (!funcKey.entered){
-                funcKey.color = funcKey.keyColor
-                symbol.color = funcKey.textColor
-
-
-            }
-            else {
-                funcKey.color = funcKey.keyHoverColor
-                symbol.color = funcKey.textColor
-
-
-            }
-
+            btnReleased()
+        }
+        onClicked: {
+            funcKey.btnClicked()
         }
     }
+
 }

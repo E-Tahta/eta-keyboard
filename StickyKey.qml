@@ -22,33 +22,6 @@ Rectangle {
     color: keyColor
     radius: keyHeight/10
 
-    signal clickedSticky(string btnCode)
-
-    function clickBtn(){
-
-        sticKey.clickedFlag = !clickedFlag;
-
-        if (sticKey.clickedFlag){
-            sticKey.color = sticKey.keyPressedColor;
-            symbol.color = sticKey.textPressedColor;
-            clickedSticky(sticKey.keySymbolLevel1);
-        }
-
-        else {
-
-            sticKey.color = sticKey.keyColor
-            symbol.color = sticKey.textColor
-        }
-
-
-
-
-    }
-
-    function releaseBtn(){
-        if (sticKey.clickedFlag)
-            clickBtn()
-    }
 
     Text {
         id: symbol
@@ -60,73 +33,94 @@ Rectangle {
         text: keySymbolLevel1
     }
 
+    signal clickedSticky(string btnCode)
+
+    function btnClicked(){
+
+        sticKey.clickedFlag = !clickedFlag;
+
+        if (sticKey.clickedFlag){
+            btnPressed()
+        }
+
+        else {
+            btnHovered()
+        }
+
+    }
+
+    function releaseBtn(){
+        if (sticKey.clickedFlag)
+            btnClicked()
+    }
+
+
+    function btnPressed(){
+        sticKey.color = sticKey.keyPressedColor
+        symbol.color = sticKey.textPressedColor
+    }
+
+    function btnHovered(){
+        if (!sticKey.hold && !sticKey.clickedFlag){
+            if (sticKey.entered){
+                sticKey.color = sticKey.keyHoverColor
+                symbol.color = sticKey.textColor
+            }
+
+            else {
+
+                sticKey.color = sticKey.keyColor
+                symbol.color = sticKey.textColor
+
+            }
+        }
+    }
+
+    function btnHold(){
+        sticKey.clickedFlag = false
+        sticKey.hold = true
+
+        sticKey.color = sticKey.keyPressedColor
+        symbol.color = sticKey.textPressedColor
+    }
+
+    function btnReleased(){
+        sticKey.hold = false
+        if (!sticKey.clickedFlag)
+        btnHovered()
+    }
+
+
+
     MouseArea{
         id: ma
         anchors.fill: parent
         hoverEnabled: true
 
         onEntered: {
-            if (!sticKey.hold && !sticKey.clickedFlag){
-                sticKey.color = sticKey.keyHoverColor
-                symbol.color = sticKey.textColor
-
-
-            }
             sticKey.entered = true
+            btnHovered()
         }
 
         onExited: {
-            if (!sticKey.hold && !sticKey.clickedFlag){
-                sticKey.color = sticKey.keyColor
-                symbol.color = sticKey.textColor
-
-
-            }
             sticKey.entered = false
+            btnHovered()
         }
 
         onPressed: {
-            sticKey.color = sticKey.keyPressedColor
-            symbol.color = sticKey.textPressedColor
-
-            if (!sticKey.clickedFlag);
-                //console.log(symbol.text)
+            btnPressed()
 
         }
         onPressAndHold: {
-            sticKey.color = sticKey.keyPressedColor
-
-            symbol.color = sticKey.textPressedColor
-
-            sticKey.clickedFlag = false
-            sticKey.hold = true
-            //console.log(sticKey.hold);
+            btnHold()
 
         }
         onReleased: {
-            sticKey.hold = false
-            if (!sticKey.entered){
-                sticKey.color = sticKey.keyColor
-                symbol.color = sticKey.textColor
-
-
-            }
-            else {
-                sticKey.color = sticKey.keyHoverColor
-                symbol.color = sticKey.textColor
-
-
-            }
-
+            btnReleased()
         }
         onClicked: {
-
-            sticKey.clickBtn()
-
-
-
+            sticKey.btnClicked()
         }
-
     }
 
 }

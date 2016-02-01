@@ -56,63 +56,77 @@ Rectangle {
         text: keySymbolLevel3
     }
 
+    signal clickedAlpha(string btnCode)
+
+    function btnClicked(){
+
+    }
+
+    function btnPressed(){
+        alpKey.color = alpKey.keyPressedColor
+        symbol.color = alpKey.textPressedColor
+    }
+
+    function btnHovered(){
+        if (!alpKey.hold){
+            if (alpKey.entered){
+                alpKey.color = alpKey.keyHoverColor
+                symbol.color = alpKey.textColor
+            }
+
+            else {
+
+                alpKey.color = alpKey.keyColor
+                symbol.color = alpKey.textColor
+
+            }
+        }
+    }
+
+    function btnHold(){
+        alpKey.hold = true
+
+        alpKey.color = alpKey.keyPressedColor
+        symbol.color = alpKey.textPressedColor
+    }
+
+    function btnReleased(){
+        alpKey.hold = false
+        btnHovered()
+    }
+
+
+
+
     MouseArea{
+        id: ma
         anchors.fill: parent
         hoverEnabled: true
 
         onEntered: {
-            if (!alpKey.hold){
-                alpKey.color = alpKey.keyHoverColor
-                symbol.color = alpKey.textColor
-
-
-            }
             alpKey.entered = true
+            btnHovered()
         }
 
         onExited: {
-            if (!alpKey.hold){
-                alpKey.color = alpKey.keyColor
-                symbol.color = alpKey.textColor
-
-
-            }
             alpKey.entered = false
+            btnHovered()
         }
 
         onPressed: {
-            alpKey.color = alpKey.keyPressedColor
-            symbol.color = alpKey.textPressedColor
-
-            main.nonStickyPressed(alpKey.keySymbolLevel1)
-
-
-
+            btnPressed()
 
         }
         onPressAndHold: {
-            alpKey.color = alpKey.keyPressedColor
-            symbol.color = alpKey.textPressedColor
-
-
-            alpKey.hold = true
+            btnHold()
 
         }
         onReleased: {
-            alpKey.hold = false
-            if (!alpKey.entered){
-                alpKey.color = alpKey.keyColor
-                symbol.color = alpKey.textColor
-
-
-            }
-            else {
-                alpKey.color = alpKey.keyHoverColor
-                symbol.color = alpKey.textColor
-
-
-            }
-
+            btnReleased()
+        }
+        onClicked: {
+            alpKey.btnClicked()
         }
     }
+
 }
