@@ -11,5 +11,7 @@
         <file>ArrowKey.qml</file>
         <file>StickyKey.qml</file>
         <file>Test.qml</file>
+        <file>TabletLayout.qml</file>
+        <file>FullLayout.qml</file>
     </qresource>
 </RCC>
