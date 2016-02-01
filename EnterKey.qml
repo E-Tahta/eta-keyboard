@@ -67,7 +67,6 @@ Item {
                 symbol.color = entKey.textPressedColor
                 foot.color = entKey.keyPressedColor
 
-                main.nonStickyPressed(symbol.text)
 
 
             }

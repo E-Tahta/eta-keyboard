@@ -1,100 +1,11 @@
-import QtQuick 2.3
+import QtQuick 2.0
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
 
-ApplicationWindow {
-    id: main
-    visible: true
-    title: qsTr("Hello World")
-    color: "#010101"
 
-    flags: Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowDoesNotAcceptFocus
+Item{
 
-    property string keyColor: "#585858"
-    property string keyPressedColor: "#ffffff"
-    property string keyHoverColor: "#848484"
-    property string textColor: "#dddddd"
-    property string textPressedColor: "#5e5a5a"
-    property int keyHeight
-    property int keyWidth: keyHeight
-    property int rowSpacing: keyHeight / 10
-    property int columnSpacing: rowSpacing
-
-    property int dockSize
-
-    property string layout: "tablet"
-
-
-   FullLayout{
-       id: fullLay
-
-       visible: main.layout=="full" ? true : false
-
-    }
-
-    TabletLayout{
-        id: tabletLayout
-
-        visible: main.layout=="tablet" ? true : false
-    }
-
-
-    Component.onCompleted: {
-        main.dockSize = Screen.height / 30
-        main.keyHeight = Screen.height / 16
-        main.width = main.keyHeight * 16.4
-        main.height = main.keyHeight * 6 + main.dockSize + main.columnSpacing
-    }
-
-
-/*
-    property bool keyCapsPressed: false
-
-    property int stickyNumber: 1
-    property string stickyButtons
-
-
-
-    function engine(btnCode){
-        if (stickyNumber>3){
-            releaseAll();
-        }
-        else {
-            stickyButtons+=btnCode+" "
-            stickyNumber++;
-        }
-
-
-    }
-
-    function checkNumOfSticky(){
-
-    }
-
-    function releaseAll(){
-        keyShiftL.releaseBtn()
-        keyCtrlL.releaseBtn()
-        keyCtrlR.releaseBtn()
-        keyAlt.releaseBtn()
-        keyAltGr.releaseBtn()
-        stickyNumber= 1
-        stickyButtons=""
-    }
-
-    function nonStickyPressed(btnCode){
-        if (stickyNumber>1){
-            stickyButtons+=btnCode
-            console.log(stickyButtons)
-            releaseAll()
-        }
-
-        else console.log(btnCode)
-    }
-*/
-
-
-
-/*
+    id: fullLayout
 
     Column{
         id: col1
@@ -103,6 +14,7 @@ ApplicationWindow {
 
         Rectangle {
             id: dock
+            height: main.dockSize
             width: main.width
             color: main.color
 
@@ -272,17 +184,4 @@ ApplicationWindow {
     }
 
 
-
-
-
-    Component.onCompleted: {
-        dock.height = Screen.height / 30
-        main.keyHeight = Screen.height / 16
-        main.width = main.keyHeight * 16.4
-        main.height = main.keyHeight * 6 + dock.height + main.columnSpacing
-    }
-*/
-
-
 }
-
