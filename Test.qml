@@ -52,6 +52,7 @@ ApplicationWindow {
 
     Column {
         Row {
+            id:row1
             Button {
                 id : shift
                 checkable: true
@@ -82,7 +83,7 @@ ApplicationWindow {
 
             Button {
                 id:alphaKey
-                property int keycode : 29
+                property int keycode : 35
                 property int level : test.keyLevel
                 text : test.levelChanged ? helperId.getSymbol(alphaKey.keycode,test.layout,alphaKey.level) : helperId.getSymbol(alphaKey.keycode,test.layout,1)
                 onClicked: {
@@ -91,6 +92,7 @@ ApplicationWindow {
             }
         }
         Row {
+            id:row2
             Button {
                 id :caps
                 checkable: true
@@ -122,6 +124,48 @@ ApplicationWindow {
                 }
             }
         }
+        Row {
+            id:row3
+            Button {
+                id :space
+                width: row2.width
+                property int keycode : 65
+                property int level : test.keyLevel
+                text :helperId.getSymbol(space.keycode,test.layout,space.level)
+                onClicked: {
+                    fakeKey(space.keycode)
+                }
+            }
+            ListModel {
+                id:comboModel
+
+            }
+
+            ComboBox{
+                id:languages
+                editable: false
+                model: comboModel
+                onCurrentIndexChanged: {
+                    test.layout = currentIndex;
+                    console.log (comboModel.get(currentIndex).text);
+                    helperId.setLayout(comboModel.get(currentIndex).text);
+                    console.log(test.layout + " --> selected layout");
+                }
+
+            }
+
+        }
+    }
+    Component.onCompleted: {
+        console.log("Number of layouts = "+helperId.getNumberOfLayouts());
+        //var model;
+        for(var i = 0; i< helperId.getNumberOfLayouts();i++)
+        {
+            comboModel.append({text:helperId.getLayoutName(i)});
+
+            console.log(helperId.getLayoutName(i));
+        }
+        //languages.model = model;
     }
 
 }

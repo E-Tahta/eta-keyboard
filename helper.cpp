@@ -1,5 +1,6 @@
 #include "helper.h"
 
+
 Helper::Helper(QObject *parent):
     QObject (parent)
 
@@ -25,13 +26,38 @@ Helper::Helper(QObject *parent):
                                             XKB_KEYMAP_COMPILE_NO_FLAGS);
     state = xkb_x11_state_new_from_device(keymap, connection, deviceId);
     display = XOpenDisplay(0);
+
+    QDBusConnection dbus = QDBusConnection::sessionBus();
+    interface = new QDBusInterface("org.kde.keyboard","/Layouts","org.kde.KeyboardLayouts",dbus,this);
+    //dbus.connect("org.kde.keyboard", "/Layouts", "org.kde.KeyboardLayouts", "currentLayoutChanged", this, SLOT(slotofsomething));
+
 }
+
 Helper::~Helper()
 {
     xkb_state_unref(state);
     xkb_keymap_unref(keymap);
     xcb_disconnect(connection);
     xkb_context_unref(context);
+}
+
+void Helper::setLayout(QString layout)
+{
+    interface->call("setLayout",layout);
+}
+
+QString Helper::getLayoutName(int layoutIndex)
+{
+    QList<QVariant> tmp;
+    tmp = interface->call("getLayoutsList").arguments();
+    QStringList qsl;
+    qsl = tmp.at(0).toStringList();
+    return qsl.at(layoutIndex);
+}
+
+int Helper::getNumberOfLayouts()
+{
+    return xkb_keymap_num_layouts(keymap);
 }
 
 QString Helper::getSymbol(int keycode, int layoutIndex, int keyLevel)
@@ -63,3 +89,4 @@ void Helper::fakeKeyRelease(const unsigned int code)
     XTestFakeKeyEvent(display, code, false, 0);
     XSync(display, False);
 }
+
