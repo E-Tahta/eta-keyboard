@@ -40,10 +40,15 @@ QString Helper::getSymbol(int keycode, int layoutIndex, int keyLevel)
     const xkb_keysym_t *arr;
     int size = xkb_keymap_key_get_syms_by_level(keymap,keycode,layoutIndex,keyLevel,&arr);
     qDebug() << size << " = size" ;
-    char symbol[100];
-    xkb_keysym_to_utf8(arr[0],symbol,100);
-    qDebug() << symbol << " = symbol";
 
+    char symbol[10];
+    if (size > 0) {
+        xkb_keysym_to_utf8(arr[0],symbol,10);
+    }else {
+        char space[] = " ";
+        strcpy(symbol,space);
+    }
+    qDebug() << symbol << " = symbol";
     return QString::fromUtf8(symbol);
 }
 
