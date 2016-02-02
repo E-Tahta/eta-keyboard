@@ -16,6 +16,8 @@ Rectangle {
     property bool hold: false
     property bool entered: false
 
+    property int keyCode: 24
+
 
     width: keyWidth
     height: keyHeight

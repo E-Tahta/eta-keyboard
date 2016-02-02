@@ -13,6 +13,8 @@ Rectangle {
     property int keyHeight: main.keyHeight / 2
     property int fontPointSize: 10
 
+    property int keyCode: 24
+
 
     width: keyWidth
     height: keyHeight

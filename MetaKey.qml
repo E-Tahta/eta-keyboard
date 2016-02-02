@@ -21,6 +21,8 @@ Rectangle {
     property bool entered: false
     property bool clickedFlag: false
 
+    property int keyCode: 24
+
     Image {
         id: img
         width: parent.width * 2 / 3

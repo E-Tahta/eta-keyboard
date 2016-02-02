@@ -3,7 +3,8 @@ import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
 
 Item{
-    id: tabletLay
+    /*
+   id: tabletLay
     Column{
         id: col1
         spacing: main.columnSpacing
@@ -91,11 +92,11 @@ Item{
         }*/
 
 
-        Row {
+   /*     Row {
             id: row3
             spacing: main.rowSpacing
 
-            /*SpecialKey{id:keyTab; keySymbolLevel1: "Tab ↔"; keyWidth: main.keyWidth* 3/2}*/
+            SpecialKey{id:keyTab; keySymbolLevel1: "Tab ↔"; keyWidth: main.keyWidth* 3/2}
             SpecialKey{id: keyEsc; keySymbolLevel1: "Esc"; keyWidth: main.keyWidth}
             AlphaKey{id: keyQ; keySymbolLevel1: "Q"; keySymbolLevel3: "@"}
             AlphaKey{id: keyW; keySymbolLevel1: "W"}
@@ -115,7 +116,7 @@ Item{
             id: row4
             spacing: main.rowSpacing
 
-            /*StickyKey{id:keyCapsLock; keySymbolLevel1: "CapsLock"; keyWidth: main.keyWidth * 9 / 5}*/
+            StickyKey{id:keyCapsLock; keySymbolLevel1: "CapsLock"; keyWidth: main.keyWidth * 9 / 5}
             StickyKey{id:alphaNumeric; keySymbolLevel1: "Switch"; keyWidth: main.keyWidth * 4/3}
             AlphaKey{id: keyA; keySymbolLevel1: "A"}
             AlphaKey{id: keyS; keySymbolLevel1: "S"}
@@ -162,7 +163,7 @@ Item{
             StickyKey{id: keyCtrlR; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;}
             /*ArrowKey{id: keyArrowL; keySymbolLevel1: "◄"}
             ArrowKey{id: keyArrowB; keySymbolLevel1: "▼"}
-            ArrowKey{id: keyArrowR; keySymbolLevel1: "►"}*/
+            ArrowKey{id: keyArrowR; keySymbolLevel1: "►"}
         }
 
 
@@ -170,7 +171,7 @@ Item{
 
 
 
-   /* EnterKey{
+   EnterKey{
         id: keyEnter
         x: keyUU.x + main.keyWidth + main.rowSpacing
         y: row3.y

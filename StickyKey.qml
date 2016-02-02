@@ -18,6 +18,9 @@ Rectangle {
     property bool entered: false
     property bool clickedFlag: false
 
+    property int keyCode: 24
+
+
     width: keyWidth
     height: keyHeight
     color: keyColor
@@ -46,12 +49,13 @@ Rectangle {
 
         if (sticKey.clickedFlag){
             btnPressed()
-             main.stickyKeyPressed(sticKey.keySymbolLevel1)
+             main.stickyKeyPressed(sticKey.keyCode)
+            //console.log(sticKey.keyCode)
         }
 
         else {
             btnHovered()
-            main.stickyKeyReleased(sticKey.keySymbolLevel1)
+            main.stickyKeyReleased(sticKey.keyCode)
         }
 
     }

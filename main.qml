@@ -1,6 +1,7 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
+import eta.helper 1.0
 
 
 ApplicationWindow {
@@ -24,24 +25,30 @@ ApplicationWindow {
     property int dockSize
 
     property string layout: "full"
-
+    property int languageLayoutIndex: 0 // Current System Language Layout
     property int keyLevel: 0
 
 
+    Test{
 
+    }
+
+    Helper {
+        id: helper
+    }
 
     function stickyKeyPressed(keyCode){
         switch(keyCode){
-        case "Shift": main.keyLevel+=1;break;
-        case "Alt Gr": main.keyLevel+=2;
+        case 50: main.keyLevel+=1;break;      //Shift
+        case 108: main.keyLevel+=2;           //Alt Gr
         }
         console.log(keyLevel)
     }
 
     function stickyKeyReleased(keyCode){
         switch(keyCode){
-        case "Shift": main.keyLevel-=1;break;
-        case "Alt Gr": main.keyLevel-=2;
+        case 50: main.keyLevel-=1;break;      //Shift
+        case 108: main.keyLevel-=2;           //Alt Gr
         }
         console.log(keyLevel)
     }

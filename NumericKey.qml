@@ -21,6 +21,12 @@ Rectangle {
 
     property int keyLevel: main.keyLevel
 
+    property int keyCode: 24
+
+    property bool isLevel3Visible: true
+
+
+
     width: keyWidth
     height: keyHeight
     color: keyColor
@@ -63,7 +69,7 @@ Rectangle {
             bottom: numKey.bottom
             margins: keyHeight/10
         }
-        text: keySymbolLevel1
+        text: helper.getSymbol(numKey.keyCode,main.languageLayoutIndex,0)
     }
 
     Text {
@@ -75,7 +81,7 @@ Rectangle {
             top: numKey.top
             margins: keyHeight/10
         }
-        text: keySymbolLevel2
+        text:helper.getSymbol(numKey.keyCode,main.languageLayoutIndex,1)
     }
 
     Text {
@@ -87,7 +93,8 @@ Rectangle {
             bottom: numKey.bottom
             margins: keyHeight/10
         }
-        text: keySymbolLevel3
+        text: helper.getSymbol(numKey.keyCode,main.languageLayoutIndex,2)
+        visible: isLevel3Visible
     }
 
 
