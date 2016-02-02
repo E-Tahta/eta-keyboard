@@ -2,6 +2,7 @@ import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
 
+
 ApplicationWindow {
     id: main
     visible: true
@@ -22,13 +23,35 @@ ApplicationWindow {
 
     property int dockSize
 
-    property string layout: "tablet"
+    property string layout: "full"
+
+    property int keyLevel: 0
 
 
-   FullLayout{
-       id: fullLay
 
-       visible: main.layout=="full" ? true : false
+
+    function stickyKeyPressed(keyCode){
+        switch(keyCode){
+        case "Shift": main.keyLevel+=1;break;
+        case "Alt Gr": main.keyLevel+=2;
+        }
+        console.log(keyLevel)
+    }
+
+    function stickyKeyReleased(keyCode){
+        switch(keyCode){
+        case "Shift": main.keyLevel-=1;break;
+        case "Alt Gr": main.keyLevel-=2;
+        }
+        console.log(keyLevel)
+    }
+
+
+
+    FullLayout{
+        id: fullLay
+
+        visible: main.layout=="full" ? true : false
 
     }
 
@@ -40,14 +63,14 @@ ApplicationWindow {
 
 
     Component.onCompleted: {
-        main.dockSize = Screen.height / 30
+        main.dockSize = Screen.height / 30 //check if tablet or full then give different
         main.keyHeight = Screen.height / 16
         main.width = main.keyHeight * 16.4
         main.height = main.keyHeight * 6 + main.dockSize + main.columnSpacing
     }
 
 
-/*
+    /*
     property bool keyCapsPressed: false
 
     property int stickyNumber: 1
@@ -94,7 +117,7 @@ ApplicationWindow {
 
 
 
-/*
+    /*
 
     Column{
         id: col1

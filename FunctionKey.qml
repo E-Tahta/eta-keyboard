@@ -11,6 +11,7 @@ Rectangle {
     property string keySymbolLevel1
     property int keyWidth: main.keyWidth * 49 / 60
     property int keyHeight: main.keyHeight / 2
+    property int fontPointSize: 10
 
 
     width: keyWidth
@@ -24,7 +25,7 @@ Rectangle {
     Text {
         id: symbol
         color: textColor
-        font.pointSize: keyHeight * 1 / 3
+        font.pointSize: fontPointSize
         anchors {
             left: funcKey.left
             top: funcKey.top

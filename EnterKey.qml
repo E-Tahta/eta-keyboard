@@ -12,6 +12,7 @@ Item {
     property string keySymbolLevel1
     property int keyWidth: main.keyWidth
     property int keyHeight: main.keyHeight
+    property int fontPointSize: 10
 
     property bool hold: false
     property bool entered: false
@@ -31,7 +32,7 @@ Item {
         Text {
             id: symbol
             color: textColor
-            font.pointSize: entKey.keyHeight * 3 / 15
+            font.pointSize: fontPointSize
             anchors {
                 centerIn: head
             }
@@ -142,7 +143,7 @@ Item {
                 symbol.color = entKey.textPressedColor
                 foot.color = entKey.keyPressedColor
 
-               main.nonStickyPressed(symbol.text)
+
 
             }
             onPressAndHold: {

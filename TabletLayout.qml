@@ -136,7 +136,7 @@ Item{
             id: row5
             spacing: main.rowSpacing
 
-            StickyKey{id:keyShiftL; keySymbolLevel1: "Shift"; keyWidth: main.keyWidth;onClickedSticky:{ main.keyCapsPressed=true; main.engine(keySymbolLevel1)}}
+            StickyKey{id:keyShiftL; keySymbolLevel1: "Shift"; keyWidth: main.keyWidth;}
             AlphaKey{id: keyCompare; keySymbolLevel1: "<"; keySymbolLevel2: ">"; keySymbolLevel3: "|"}
             AlphaKey{id: keyZ; keySymbolLevel1: "Z"}
             AlphaKey{id: keyX; keySymbolLevel1: "X"}
@@ -154,12 +154,12 @@ Item{
             id: row6
             spacing: main.rowSpacing
             SettingsKey{id: keySettings}
-            StickyKey{id: keyCtrlL; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;onClickedSticky:{ main.keyCapsPressed=true; main.engine(keySymbolLevel1)}}
+            StickyKey{id: keyCtrlL; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth}
             MetaKey{id: keyMeta}
-            StickyKey{id: keyAlt; keySymbolLevel1: "Alt"; keyWidth: main.keyWidth;onClickedSticky:{ main.keyCapsPressed=true; main.engine(keySymbolLevel1)}}
+            StickyKey{id: keyAlt; keySymbolLevel1: "Alt"; keyWidth: main.keyWidth;}
             AlphaKey{id: keySpace; keySymbolLevel1: ""; keyWidth: main.keyWidth * 6 + 5 * main.rowSpacing;}
-            StickyKey{id: keyAltGr; keySymbolLevel1: "Alt Gr"; keyWidth: main.keyWidth;onClickedSticky:{ main.keyCapsPressed=true; main.engine(keySymbolLevel1)}}
-            StickyKey{id: keyCtrlR; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;onClickedSticky:{ main.keyCapsPressed=true; main.engine(keySymbolLevel1)}}
+            StickyKey{id: keyAltGr; keySymbolLevel1: "Alt Gr"; keyWidth: main.keyWidth;}
+            StickyKey{id: keyCtrlR; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;}
             /*ArrowKey{id: keyArrowL; keySymbolLevel1: "◄"}
             ArrowKey{id: keyArrowB; keySymbolLevel1: "▼"}
             ArrowKey{id: keyArrowR; keySymbolLevel1: "►"}*/

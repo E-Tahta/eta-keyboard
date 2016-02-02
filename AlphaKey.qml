@@ -8,12 +8,18 @@ Rectangle {
     property string keyHoverColor: main.keyHoverColor
     property string textColor: main.textColor
     property string textPressedColor: main.textPressedColor
+
     property string keySymbolLevel1
     property string keySymbolLevel2
     property string keySymbolLevel3
+
+
+
     property int keyWidth: main.keyWidth
     property int keyHeight: main.keyHeight
+    property int fontPointSize: 10
 
+    property int keyLevel: main.keyLevel
 
     width: keyWidth
     height: keyHeight
@@ -22,10 +28,36 @@ Rectangle {
 
     property bool hold: false
     property bool entered: false
+
+    onKeyLevelChanged: {
+        switch (main.keyLevel){
+        case 0:
+            symbol2.color = main.textColor
+            symbol3.color = main.textColor
+            break;
+        case 1:
+            symbol2.color = "red"
+            symbol3.color = main.textColor
+            break;
+        case 2:
+            symbol2.color = main.textColor
+            symbol3.color = "red"
+            break;
+        case 3:
+            symbol2.color = main.textColor
+            symbol3.color = main.textColor
+
+        }
+
+        //console.log("catch")
+    }
+
+
+
     Text {
         id: symbol
         color: textColor
-        font.pointSize: keyHeight * 3 / 12
+        font.pointSize: fontPointSize
         anchors {
             left: alpKey.left
             top: alpKey.top
@@ -36,7 +68,7 @@ Rectangle {
     Text {
         id: symbol2
         color: textColor
-        font.pointSize: keyHeight * 3 / 12
+        font.pointSize: fontPointSize
         anchors {
             left: alpKey.left
             bottom: alpKey.bottom
@@ -47,7 +79,7 @@ Rectangle {
     Text {
         id: symbol3
         color: textColor
-        font.pointSize: keyHeight * 3 / 12
+        font.pointSize: fontPointSize
         anchors {
             right: alpKey.right
             bottom: alpKey.bottom

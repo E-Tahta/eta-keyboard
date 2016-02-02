@@ -12,6 +12,7 @@ Rectangle {
     property string keySymbolLevel1
     property int keyWidth
     property int keyHeight: main.keyHeight
+    property int fontPointSize: 10
 
     property bool hold: false
     property bool entered: false
@@ -23,17 +24,21 @@ Rectangle {
     radius: keyHeight/10
 
 
+
+
+
+
     Text {
         id: symbol
         color: textColor
-        font.pointSize: keyHeight * 3 / 15
+        font.pointSize: fontPointSize
         anchors {
             centerIn: sticKey
         }
         text: keySymbolLevel1
     }
 
-    signal clickedSticky(string btnCode)
+
 
     function btnClicked(){
 
@@ -41,10 +46,12 @@ Rectangle {
 
         if (sticKey.clickedFlag){
             btnPressed()
+             main.stickyKeyPressed(sticKey.keySymbolLevel1)
         }
 
         else {
             btnHovered()
+            main.stickyKeyReleased(sticKey.keySymbolLevel1)
         }
 
     }
@@ -58,6 +65,7 @@ Rectangle {
     function btnPressed(){
         sticKey.color = sticKey.keyPressedColor
         symbol.color = sticKey.textPressedColor
+
     }
 
     function btnHovered(){

@@ -14,9 +14,12 @@ Rectangle {
     property string keySymbolLevel3
     property int keyWidth: main.keyWidth
     property int keyHeight: main.keyHeight
+    property int fontPointSize: 10
 
     property bool hold: false
     property bool entered: false
+
+    property int keyLevel: main.keyLevel
 
     width: keyWidth
     height: keyHeight
@@ -25,10 +28,36 @@ Rectangle {
 
 
 
+    onKeyLevelChanged: {
+        switch (main.keyLevel){
+        case 0:
+            symbol2.color = main.textColor
+            symbol3.color = main.textColor
+            break;
+        case 1:
+            symbol2.color = "red"
+            symbol3.color = main.textColor
+            break;
+        case 2:
+            symbol2.color = main.textColor
+            symbol3.color = "red"
+            break;
+        case 3:
+            symbol2.color = main.textColor
+            symbol3.color = main.textColor
+
+        }
+
+        //console.log("catch")
+    }
+
+
+
+
     Text {
         id: symbol
         color: textColor
-        font.pointSize: keyHeight * 3 / 12
+        font.pointSize: fontPointSize
         anchors {
             left: numKey.left
             bottom: numKey.bottom
@@ -40,7 +69,7 @@ Rectangle {
     Text {
         id: symbol2
         color: textColor
-        font.pointSize: keyHeight * 3 / 12
+        font.pointSize:fontPointSize
         anchors {
             left: numKey.left
             top: numKey.top
@@ -52,7 +81,7 @@ Rectangle {
     Text {
         id: symbol3
         color: textColor
-        font.pointSize: keyHeight * 3 / 12
+        font.pointSize: fontPointSize
         anchors {
             right: numKey.right
             bottom: numKey.bottom

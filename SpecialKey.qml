@@ -12,7 +12,7 @@ Rectangle {
     property string keySymbolLevel1
     property int keyWidth
     property int keyHeight: main.keyHeight
-
+    property int fontPointSize: 10
     property bool hold: false
     property bool entered: false
 
@@ -26,7 +26,7 @@ Rectangle {
     Text {
         id: symbol
         color: textColor
-        font.pointSize: keyHeight * 3 / 15
+        font.pointSize: fontPointSize
         anchors {
             centerIn: specKey
         }

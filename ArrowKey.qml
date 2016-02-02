@@ -12,6 +12,7 @@ Rectangle {
     property string keySymbolLevel1
     property int keyWidth : main.keyWidth
     property int keyHeight: main.keyHeight
+    property int fontPointSize: 10
 
 
     width: keyWidth
@@ -24,7 +25,7 @@ Rectangle {
     Text {
         id: symbol
         color: textColor
-        font.pointSize: keyHeight * 3 / 15
+        font.pointSize: fontPointSize
         anchors {
             centerIn: arwKey
         }

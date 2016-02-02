@@ -1,9 +1,15 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
-
+import eta.helper 1.0
 
 Item{
+
+
+    Helper {
+        id:helperId
+    }
+
 
     id: fullLayout
 
@@ -50,7 +56,7 @@ Item{
         Row {
             id: row1
             spacing: main.rowSpacing
-            FunctionKey{id: keyEsc; keySymbolLevel1: "Esc"}
+            FunctionKey{id: keyEsc; keySymbolLevel1: "Esc";}
             FunctionKey{id: keyF1; keySymbolLevel1: "F1"}
             FunctionKey{id: keyF2; keySymbolLevel1: "F2"}
             FunctionKey{id: keyF3; keySymbolLevel1: "F3"}
@@ -117,7 +123,7 @@ Item{
             id: row4
             spacing: main.rowSpacing
 
-            StickyKey{id:keyCapsLock; keySymbolLevel1: "CapsLock"; keyWidth: main.keyWidth * 9 / 5;onClickedSticky:{ main.keyCapsPressed=true}}
+            StickyKey{id:keyCapsLock; keySymbolLevel1: "CapsLock"; keyWidth: main.keyWidth * 9 / 5;}
             AlphaKey{id: keyA; keySymbolLevel1: "A"}
             AlphaKey{id: keyS; keySymbolLevel1: "S"}
             AlphaKey{id: keyD; keySymbolLevel1: "D"}
@@ -137,8 +143,8 @@ Item{
             id: row5
             spacing: main.rowSpacing
 
-            StickyKey{id:keyShiftL; keySymbolLevel1: "Shift"; keyWidth: main.keyWidth;onClickedSticky:{ main.keyCapsPressed=true; main.engine(keySymbolLevel1)}}
-            AlphaKey{id: keyCompare; keySymbolLevel1: "<"; keySymbolLevel2: ">"; keySymbolLevel3: "|"}
+            StickyKey{id:keyShiftL; keySymbolLevel1: "Shift"; keyWidth: main.keyWidth;}
+            NumericKey{id: keyCompare; keySymbolLevel1: "<"; keySymbolLevel2: ">"; keySymbolLevel3: "|"}
             AlphaKey{id: keyZ; keySymbolLevel1: "Z"}
             AlphaKey{id: keyX; keySymbolLevel1: "X"}
             AlphaKey{id: keyC; keySymbolLevel1: "C"}
@@ -155,12 +161,12 @@ Item{
             id: row6
             spacing: main.rowSpacing
             SettingsKey{id: keySettings}
-            StickyKey{id: keyCtrlL; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;onClickedSticky:{ main.keyCapsPressed=true; main.engine(keySymbolLevel1)}}
+            StickyKey{id: keyCtrlL; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;}
             MetaKey{id: keyMeta}
-            StickyKey{id: keyAlt; keySymbolLevel1: "Alt"; keyWidth: main.keyWidth;onClickedSticky:{ main.keyCapsPressed=true; main.engine(keySymbolLevel1)}}
+            StickyKey{id: keyAlt; keySymbolLevel1: "Alt"; keyWidth: main.keyWidth;}
             AlphaKey{id: keySpace; keySymbolLevel1: ""; keyWidth: main.keyWidth * 6 + 5 * main.rowSpacing;}
-            StickyKey{id: keyAltGr; keySymbolLevel1: "Alt Gr"; keyWidth: main.keyWidth;onClickedSticky:{ main.keyCapsPressed=true; main.engine(keySymbolLevel1)}}
-            StickyKey{id: keyCtrlR; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;onClickedSticky:{ main.keyCapsPressed=true; main.engine(keySymbolLevel1)}}
+            StickyKey{id: keyAltGr; keySymbolLevel1: "Alt Gr"; keyWidth: main.keyWidth;}
+            StickyKey{id: keyCtrlR; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;}
             ArrowKey{id: keyArrowL; keySymbolLevel1: "◄"}
             ArrowKey{id: keyArrowB; keySymbolLevel1: "▼"}
             ArrowKey{id: keyArrowR; keySymbolLevel1: "►"}
