@@ -1,5 +1,6 @@
 #include "helper.h"
 
+
 Helper::Helper(QObject *parent):
     QObject (parent)
 
@@ -25,7 +26,13 @@ Helper::Helper(QObject *parent):
                                             XKB_KEYMAP_COMPILE_NO_FLAGS);
     state = xkb_x11_state_new_from_device(keymap, connection, deviceId);
     display = XOpenDisplay(0);
+
+    QDBusConnection dbus = QDBusConnection::sessionBus();
+    interface = new QDBusInterface("org.kde.keyboard","/Layouts","org.kde.KeyboardLayouts",dbus,this);
+    //dbus.connect("org.kde.keyboard", "/Layouts", "org.kde.KeyboardLayouts", "currentLayoutChanged", this, SLOT(slotofsomething));
+
 }
+
 Helper::~Helper()
 {
     xkb_state_unref(state);
@@ -34,16 +41,40 @@ Helper::~Helper()
     xkb_context_unref(context);
 }
 
+void Helper::setLayout(QString layout)
+{
+    interface->call("setLayout",layout);
+}
+
+QString Helper::getLayoutName(int layoutIndex)
+{
+    QList<QVariant> tmp;
+    tmp = interface->call("getLayoutsList").arguments();
+    QStringList qsl;
+    qsl = tmp.at(0).toStringList();
+    return qsl.at(layoutIndex);
+}
+
+int Helper::getNumberOfLayouts()
+{
+    return xkb_keymap_num_layouts(keymap);
+}
+
 QString Helper::getSymbol(int keycode, int layoutIndex, int keyLevel)
 {
 
     const xkb_keysym_t *arr;
     int size = xkb_keymap_key_get_syms_by_level(keymap,keycode,layoutIndex,keyLevel,&arr);
     qDebug() << size << " = size" ;
-    char symbol[100];
-    xkb_keysym_to_utf8(arr[0],symbol,100);
-    qDebug() << symbol << " = symbol";
 
+    char symbol[10];
+    if (size > 0) {
+        xkb_keysym_to_utf8(arr[0],symbol,10);
+    }else {
+        char space[] = " ";
+        strcpy(symbol,space);
+    }
+    qDebug() << symbol << " = symbol";
     return QString::fromUtf8(symbol);
 }
 
@@ -58,3 +89,4 @@ void Helper::fakeKeyRelease(const unsigned int code)
     XTestFakeKeyEvent(display, code, false, 0);
     XSync(display, False);
 }
+
