@@ -27,36 +27,46 @@ ApplicationWindow {
     property string layout: "full"
     property int languageLayoutIndex: 0 // Current System Language Layout
     property int keyLevel: 0
+    property int stickyNum: 0
+    property bool releaseAll: false
 
 
-    Test{
-
-    }
 
     Helper {
         id: helper
     }
 
+
+
     function stickyKeyPressed(keyCode){
+        main.stickyNum++
         switch(keyCode){
-        case 50: main.keyLevel+=1;break;      //Shift
-        case 108: main.keyLevel+=2;           //Alt Gr
+        case 50: main.keyLevel+=1;break;        //Shift
+        case 108: main.keyLevel+=2;break;        //Alt Gr
+        case 66 : main.stickyNum--
         }
-        console.log(keyLevel)
+
+        if (main.stickyNum>3) main.releaseAll=!main.releaseAll
+
+
+        console.log(keyLevel+" "+main.stickyNum)
     }
 
     function stickyKeyReleased(keyCode){
+        main.stickyNum--
         switch(keyCode){
-        case 50: main.keyLevel-=1;break;      //Shift
-        case 108: main.keyLevel-=2;           //Alt Gr
+        case 50: main.keyLevel-=1;break;        //Shift
+        case 108: main.keyLevel-=2;break;       //Alt Gr
+        case 66: main.stickyNum++;
         }
-        console.log(keyLevel)
+        console.log(keyLevel+" "+main.stickyNum)
     }
 
 
 
     FullLayout{
         id: fullLay
+
 
         visible: main.layout=="full" ? true : false
 

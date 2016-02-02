@@ -4,6 +4,23 @@ import QtQuick.Window 2.0
 import eta.helper 1.0
 
 Item{
+    id: fullLayout
+
+    property bool releaseAll : main.releaseAll
+
+    onReleaseAllChanged: releaseAllSticky()
+
+
+    function releaseAllSticky(){
+
+        keyShiftL.releaseBtn()
+        keyCtrlL.releaseBtn()
+        keyMeta.releaseBtn()
+        keyAlt.releaseBtn()
+        keyAltGr.releaseBtn()
+        keyCtrlR.releaseBtn()
+
+}
 
 
     Helper {
@@ -11,7 +28,7 @@ Item{
     }
 
 
-    id: fullLayout
+
 
     Column{
         id: col1

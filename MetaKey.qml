@@ -45,10 +45,12 @@ Rectangle {
 
         if (metKey.clickedFlag){
             btnPressed()
+            main.stickyKeyPressed(metKey.keyCode)
         }
 
         else {
             btnHovered()
+            main.stickyKeyReleased(metKey.keyCode)
         }
 
     }
