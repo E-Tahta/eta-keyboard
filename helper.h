@@ -14,12 +14,14 @@ class Helper : public QObject
 public:
     explicit Helper(QObject *parent = 0);
     ~Helper();
+    QString layout();
     Q_INVOKABLE QString getSymbol(int keycode, int layoutIndex, int keyLevel);
     Q_INVOKABLE void fakeKeyPress(const unsigned int code);
     Q_INVOKABLE void fakeKeyRelease(const unsigned int code);
     Q_INVOKABLE int getNumberOfLayouts();
     Q_INVOKABLE QString getLayoutName(int layoutIndex);
-    Q_INVOKABLE void setLayout(QString layout);
+    Q_INVOKABLE QString getCurrentLayout();
+    Q_INVOKABLE void setLayout(const QString &layout);
 private:
     struct xkb_context *context;
     struct xkb_keymap *keymap;
@@ -28,6 +30,10 @@ private:
     int32_t deviceId;
     Display *display;
     QDBusInterface *interface;
+public slots:
+    void layoutChangedSlot();
+signals:
+    void layoutChanged();
 };
 
 #endif // HELPER_H
