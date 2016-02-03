@@ -38,11 +38,13 @@ Rectangle {
 
     function btnClicked(){
 
+
     }
 
     function btnPressed(){
         arwKey.color = arwKey.keyPressedColor
         symbol.color = arwKey.textPressedColor
+        main.nonStickyPressed(arwKey.keyCode)
     }
 
     function btnHovered(){

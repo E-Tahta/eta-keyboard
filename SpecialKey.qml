@@ -40,11 +40,16 @@ Rectangle {
 
     function btnClicked(){
 
+
+
+
     }
 
     function btnPressed(){
         specKey.color = specKey.keyPressedColor
         symbol.color = specKey.textPressedColor
+
+          main.nonStickyPressed(specKey.keyCode)
     }
 
     function btnHovered(){

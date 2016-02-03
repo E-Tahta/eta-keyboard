@@ -97,12 +97,13 @@ Rectangle {
     //signal clickedAlpha(string btnCode)
 
     function btnClicked(){
-
     }
 
     function btnPressed(){
         alpKey.color = alpKey.keyPressedColor
         symbol.color = alpKey.textPressedColor
+        main.nonStickyPressed(alpKey.keyCode)
+
     }
 
     function btnHovered(){

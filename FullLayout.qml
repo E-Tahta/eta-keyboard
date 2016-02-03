@@ -41,6 +41,26 @@ Item{
             width: main.width
             color: main.color
 
+
+            ListModel {
+                id:comboModel
+
+            }
+
+
+            ComboBox{
+                id:languages
+                editable: false
+                model: comboModel
+                onCurrentIndexChanged: {
+                    main.languageLayoutIndex = currentIndex;
+                    console.log (comboModel.get(currentIndex).text);
+                    helperId.setLayout(comboModel.get(currentIndex).text);
+                    console.log(test.layout + " --> selected layout");
+                }
+
+            }
+
             Button{
                 id: closeBtn
                 anchors.right: dock.right
@@ -54,7 +74,7 @@ Item{
             MouseArea{
                 anchors{
                     top: dock.top
-                    left: dock.left
+                    left: languages.right
                     bottom: dock.bottom
                     right:closeBtn.left
                 }
@@ -181,7 +201,7 @@ Item{
             StickyKey{id: keyCtrlL; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;keyCode: 37}
             MetaKey{id: keyMeta; keyCode: 133}
             StickyKey{id: keyAlt; keySymbolLevel1: "Alt"; keyWidth: main.keyWidth;keyCode: 64}
-            AlphaKey{id: keySpace; keyWidth: main.keyWidth * 6 + 5 * main.rowSpacing;}
+            AlphaKey{id: keySpace; keyWidth: main.keyWidth * 6 + 5 * main.rowSpacing; keyCode: 65}
             StickyKey{id: keyAltGr; keySymbolLevel1: "Alt Gr"; keyWidth: main.keyWidth; keyCode: 108}
             StickyKey{id: keyCtrlR; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;keyCode: 105}
             ArrowKey{id: keyArrowL; keySymbolLevel1: "◄"; keyCode: 113}
@@ -198,6 +218,7 @@ Item{
         id: keyEnter
         x: keyUU.x + main.keyWidth + main.rowSpacing
         y: row3.y
+        keyCode: 36
     }
     ArrowKey{
         id: keyArrowU
@@ -205,6 +226,19 @@ Item{
         y: row5.y
         keySymbolLevel1: "▲"
         keyCode: 111
+    }
+
+
+    Component.onCompleted: {
+        console.log("Number of layouts = "+helperId.getNumberOfLayouts());
+        //var model;
+        for(var i = 0; i< helperId.getNumberOfLayouts();i++)
+        {
+            comboModel.append({text:helperId.getLayoutName(i)});
+
+            console.log(helperId.getLayoutName(i));
+        }
+        //languages.model = model;
     }
 
 

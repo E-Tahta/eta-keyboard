@@ -30,6 +30,14 @@ ApplicationWindow {
     property int stickyNum: 0
     property bool releaseAll: false
 
+    property bool capsLock: false
+    property bool shift: false
+    property bool ctrlL: false
+    property bool meta: false
+    property bool alt: false
+    property bool altGr: false
+    property bool ctrlR: false
+
 
 
     Helper {
@@ -41,25 +49,78 @@ ApplicationWindow {
     function stickyKeyPressed(keyCode){
         main.stickyNum++
         switch(keyCode){
-        case 50: main.keyLevel+=1;break;        //Shift
-        case 108: main.keyLevel+=2;break;        //Alt Gr
-        case 66 : main.stickyNum--
+        case 50: //Shift
+            main.keyLevel+=1;
+            main.shiftL = true;
+            break;
+        case 108: //Alt Gr
+            main.keyLevel+=2;
+            main.altGr = true;
+            break;
+        case 66 : //CapsLock
+            main.stickyNum--;
+            main.capsLock = true;
+            break;
+        case 37: //CtrlL
+            main.ctrlL = true;
+            break;
+        case 133: //Meta
+            main.meta = true;
+            break;
+        case 64: //Alt
+            main.alt = true;
+            break;
+        case 105://CtrlR
+            main.ctrlR = true;
+            break;
+
         }
 
         if (main.stickyNum>3) main.releaseAll=!main.releaseAll
 
 
-        console.log(keyLevel+" "+main.stickyNum)
+
     }
 
     function stickyKeyReleased(keyCode){
         main.stickyNum--
         switch(keyCode){
-        case 50: main.keyLevel-=1;break;        //Shift
-        case 108: main.keyLevel-=2;break;       //Alt Gr
-        case 66: main.stickyNum++;
+        case 50: //Shift
+            main.keyLevel-=1;
+            main.shiftL = false;
+            break;
+        case 108: //Alt Gr
+            main.keyLevel-=2;
+            main.altGr = false;
+            break;
+        case 66 : //CapsLock
+            main.stickyNum++;
+            main.capsLock = false;
+            break;
+        case 37: //CtrlL
+            main.ctrlL = false;
+            break;
+        case 133: //Meta
+            main.meta = false;
+            break;
+        case 64: //Alt
+            main.alt = false;
+            break;
+        case 105://CtrlR
+            main.ctrlR = false;
+            break;
+
         }
-        console.log(keyLevel+" "+main.stickyNum)
+    }
+
+
+    function nonStickyPressed(keyCode){
+
+
+
+        console.log(keyCode+" "+keyLevel+" "+main.capsLock+" "+main.stickyNum)
+        main.releaseAll=!main.releaseAll
+
     }
 
 

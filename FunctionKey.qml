@@ -40,11 +40,14 @@ Rectangle {
 
     function btnClicked(){
 
+
+
     }
 
     function btnPressed(){
         funcKey.color = funcKey.keyPressedColor
         symbol.color = funcKey.textPressedColor
+        main.nonStickyPressed(funcKey.keyCode)
     }
 
     function btnHovered(){

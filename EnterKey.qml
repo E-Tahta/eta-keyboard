@@ -14,6 +14,8 @@ Item {
     property int keyHeight: main.keyHeight
     property int fontPointSize: 10
 
+    property int keyCode: 24
+
     property bool hold: false
     property bool entered: false
 
@@ -67,6 +69,7 @@ Item {
                 head.color = entKey.keyPressedColor
                 symbol.color = entKey.textPressedColor
                 foot.color = entKey.keyPressedColor
+                main.nonStickyPressed(entKey.keyCode)
 
 
 
@@ -142,6 +145,8 @@ Item {
                 head.color = entKey.keyPressedColor
                 symbol.color = entKey.textPressedColor
                 foot.color = entKey.keyPressedColor
+
+                 main.nonStickyPressed(entKey.keyCode)
 
 
 

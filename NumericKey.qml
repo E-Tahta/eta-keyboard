@@ -102,11 +102,15 @@ Rectangle {
 
     function btnClicked(){
 
+
+
+
     }
 
     function btnPressed(){
         numKey.color = numKey.keyPressedColor
         symbol.color = numKey.textPressedColor
+         main.nonStickyPressed(numKey.keyCode)
     }
 
     function btnHovered(){
