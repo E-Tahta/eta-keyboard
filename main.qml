@@ -25,7 +25,7 @@ ApplicationWindow {
     property int dockSize
 
     property string layout: "full"
-    property int languageLayoutIndex: 0 // Current System Language Layout
+    property int languageLayoutIndex: 2 // Current System Language Layout
     property int keyLevel: 0
     property int stickyNum: 0
     property bool releaseAll: false
@@ -123,7 +123,9 @@ ApplicationWindow {
 
     }
 
+    Test{
 
+    }
 
     FullLayout{
         id: fullLay

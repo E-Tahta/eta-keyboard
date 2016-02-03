@@ -13,5 +13,6 @@
         <file>Test.qml</file>
         <file>TabletLayout.qml</file>
         <file>FullLayout.qml</file>
+        <file>AlphaNumericKey.qml</file>
     </qresource>
 </RCC>

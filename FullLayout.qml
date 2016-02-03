@@ -120,19 +120,19 @@ Item{
             id: row2
             spacing: main.rowSpacing
 
-            NumericKey{id: keyCoute; keyCode: 49}
-            NumericKey{id: key1; keyCode: 10}
-            NumericKey{id: key2; keyCode: 11}
-            NumericKey{id: key3; keyCode: 12}
-            NumericKey{id: key4; keyCode: 13}
-            NumericKey{id: key5; keyCode: 14}
-            NumericKey{id: key6; keyCode: 15}
-            NumericKey{id: key7; keyCode: 16}
-            NumericKey{id: key8; keyCode: 17}
-            NumericKey{id: key9; keyCode: 18}
-            NumericKey{id: key0; keyCode: 19}
-            NumericKey{id: keyStar; keyCode: 20}
-            NumericKey{id: keyMinus; keyCode: 21}
+            AlphaNumericKey{id: keyCoute; keyCode: 49}
+            AlphaNumericKey{id: key1; keyCode: 10}
+            AlphaNumericKey{id: key2; keyCode: 11}
+            AlphaNumericKey{id: key3; keyCode: 12}
+            AlphaNumericKey{id: key4; keyCode: 13}
+            AlphaNumericKey{id: key5; keyCode: 14}
+            AlphaNumericKey{id: key6; keyCode: 15}
+            AlphaNumericKey{id: key7; keyCode: 16}
+            AlphaNumericKey{id: key8; keyCode: 17}
+            AlphaNumericKey{id: key9; keyCode: 18}
+            AlphaNumericKey{id: key0; keyCode: 19}
+            AlphaNumericKey{id: keyStar; keyCode: 20}
+            AlphaNumericKey{id: keyMinus; keyCode: 21}
             SpecialKey{id: keyBackspace; keySymbolLevel1: "← Backspace"; keyWidth: main.keyWidth * 21/10; keyCode: 22}
         }
 
@@ -142,18 +142,18 @@ Item{
             spacing: main.rowSpacing
 
             SpecialKey{id:keyTab; keySymbolLevel1: "Tab ↔"; keyWidth: main.keyWidth* 3/2; keyCode: 23}
-            AlphaKey{id: keyQ; keyCode: 24; isLevel2Visible: true}
-            AlphaKey{id: keyW; keyCode: 25}
-            AlphaKey{id: keyE; keyCode: 26; isLevel2Visible: true}
-            AlphaKey{id: keyR; keyCode: 27}
-            AlphaKey{id: keyT; keyCode: 28}
-            AlphaKey{id: keyY; keyCode: 29}
-            AlphaKey{id: keyU; keyCode: 30}
-            AlphaKey{id: keyI; keyCode: 31}
-            AlphaKey{id: keyO; keyCode: 32}
-            AlphaKey{id: keyP; keyCode: 33}
-            AlphaKey{id: keyGG; keyCode: 34}
-            AlphaKey{id: keyUU; keyCode: 35; isLevel2Visible: true}
+            AlphaNumericKey{id: keyQ; keyCode: 24; leVis2: true}
+            AlphaNumericKey{id: keyW; keyCode: 25}
+            AlphaNumericKey{id: keyE; keyCode: 26; leVis2: true}
+            AlphaNumericKey{id: keyR; keyCode: 27}
+            AlphaNumericKey{id: keyT; keyCode: 28}
+            AlphaNumericKey{id: keyY; keyCode: 29}
+            AlphaNumericKey{id: keyU; keyCode: 30}
+            AlphaNumericKey{id: keyI; keyCode: 31}
+            AlphaNumericKey{id: keyO; keyCode: 32}
+            AlphaNumericKey{id: keyP; keyCode: 33}
+            AlphaNumericKey{id: keyGG; keyCode: 34}
+            AlphaNumericKey{id: keyUU; keyCode: 35; leVis2: true}
 
         }
         Row {
@@ -161,18 +161,18 @@ Item{
             spacing: main.rowSpacing
 
             StickyKey{id:keyCapsLock; keySymbolLevel1: "CapsLock"; keyWidth: main.keyWidth * 9 / 5; keyCode: 66}
-            AlphaKey{id: keyA; keyCode: 38}
-            AlphaKey{id: keyS; keyCode: 39}
-            AlphaKey{id: keyD; keyCode: 40}
-            AlphaKey{id: keyF; keyCode: 41}
-            AlphaKey{id: keyG; keyCode: 42}
-            AlphaKey{id: keyH; keyCode: 43}
-            AlphaKey{id: keyJ; keyCode: 44}
-            AlphaKey{id: keyK; keyCode: 45}
-            AlphaKey{id: keyL; keyCode: 46}
-            AlphaKey{id: keySS; keyCode: 47}
-            AlphaKey{id: keyII; keyCode: 48}
-            NumericKey{id: keyComma;keyCode: 51 }
+            AlphaNumericKey{id: keyA; keyCode: 38}
+            AlphaNumericKey{id: keyS; keyCode: 39}
+            AlphaNumericKey{id: keyD; keyCode: 40}
+            AlphaNumericKey{id: keyF; keyCode: 41}
+            AlphaNumericKey{id: keyG; keyCode: 42}
+            AlphaNumericKey{id: keyH; keyCode: 43}
+            AlphaNumericKey{id: keyJ; keyCode: 44}
+            AlphaNumericKey{id: keyK; keyCode: 45}
+            AlphaNumericKey{id: keyL; keyCode: 46}
+            AlphaNumericKey{id: keySS; keyCode: 47}
+            AlphaNumericKey{id: keyII; keyCode: 48}
+            AlphaNumericKey{id: keyComma;keyCode: 51 }
 
 
         }
@@ -181,17 +181,17 @@ Item{
             spacing: main.rowSpacing
 
             StickyKey{id:keyShiftL; keySymbolLevel1: "Shift"; keyWidth: main.keyWidth; keyCode: 50}
-            NumericKey{id: keyCompare; keyCode: 94 }
-            AlphaKey{id: keyZ; keyCode: 52}
-            AlphaKey{id: keyX; keyCode: 53}
-            AlphaKey{id: keyC; keyCode: 54}
-            AlphaKey{id: keyV; keyCode: 55}
-            AlphaKey{id: keyB; keyCode: 56}
-            AlphaKey{id: keyN; keyCode: 57}
-            AlphaKey{id: keyM; keyCode: 58}
-            AlphaKey{id: keyOO; keyCode: 59}
-            AlphaKey{id: keyCC; keyCode: 60}
-            NumericKey{id: keyDot; keyCode: 61; isLevel3Visible: false}
+            AlphaNumericKey{id: keyCompare; keyCode: 94 }
+            AlphaNumericKey{id: keyZ; keyCode: 52}
+            AlphaNumericKey{id: keyX; keyCode: 53}
+            AlphaNumericKey{id: keyC; keyCode: 54}
+            AlphaNumericKey{id: keyV; keyCode: 55}
+            AlphaNumericKey{id: keyB; keyCode: 56}
+            AlphaNumericKey{id: keyN; keyCode: 57}
+            AlphaNumericKey{id: keyM; keyCode: 58}
+            AlphaNumericKey{id: keyOO; keyCode: 59}
+            AlphaNumericKey{id: keyCC; keyCode: 60}
+            AlphaNumericKey{id: keyDot; keyCode: 61}
 
         }
         Row {
@@ -201,7 +201,7 @@ Item{
             StickyKey{id: keyCtrlL; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;keyCode: 37}
             MetaKey{id: keyMeta; keyCode: 133}
             StickyKey{id: keyAlt; keySymbolLevel1: "Alt"; keyWidth: main.keyWidth;keyCode: 64}
-            AlphaKey{id: keySpace; keyWidth: main.keyWidth * 6 + 5 * main.rowSpacing; keyCode: 65}
+            AlphaNumericKey{id: keySpace; keyWidth: main.keyWidth * 6 + 5 * main.rowSpacing; keyCode: 65}
             StickyKey{id: keyAltGr; keySymbolLevel1: "Alt Gr"; keyWidth: main.keyWidth; keyCode: 108}
             StickyKey{id: keyCtrlR; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;keyCode: 105}
             ArrowKey{id: keyArrowL; keySymbolLevel1: "◄"; keyCode: 113}
