@@ -29,8 +29,16 @@ Helper::Helper(QObject *parent):
 
     QDBusConnection dbus = QDBusConnection::sessionBus();
     interface = new QDBusInterface("org.kde.keyboard","/Layouts","org.kde.KeyboardLayouts",dbus,this);
-    //dbus.connect("org.kde.keyboard", "/Layouts", "org.kde.KeyboardLayouts", "currentLayoutChanged", this, SLOT(slotofsomething));
 
+    dbus.connect("org.kde.keyboard", "/Layouts", "org.kde.KeyboardLayouts", "currentLayoutChanged", this, SLOT(layoutChangedSlot()));
+
+}
+
+QString Helper::getCurrentLayout()
+{
+    QList<QVariant> tmp;
+    tmp = interface->call("getCurrentLayout").arguments();
+    return tmp.at(0).toString();
 }
 
 Helper::~Helper()
@@ -41,7 +49,14 @@ Helper::~Helper()
     xkb_context_unref(context);
 }
 
-void Helper::setLayout(QString layout)
+void Helper::layoutChangedSlot()
+{
+    qDebug() << "layoutChangedSlot called by dbus";
+
+    emit layoutChanged();
+}
+
+void Helper::setLayout(const QString& layout)
 {
     interface->call("setLayout",layout);
 }
@@ -65,8 +80,6 @@ QString Helper::getSymbol(int keycode, int layoutIndex, int keyLevel)
 
     const xkb_keysym_t *arr;
     int size = xkb_keymap_key_get_syms_by_level(keymap,keycode,layoutIndex,keyLevel,&arr);
-    qDebug() << size << " = size" ;
-
     char symbol[10];
     if (size > 0) {
         xkb_keysym_to_utf8(arr[0],symbol,10);
@@ -74,7 +87,6 @@ QString Helper::getSymbol(int keycode, int layoutIndex, int keyLevel)
         char space[] = " ";
         strcpy(symbol,space);
     }
-    qDebug() << symbol << " = symbol";
     return QString::fromUtf8(symbol);
 }
 

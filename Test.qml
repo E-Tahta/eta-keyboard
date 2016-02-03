@@ -10,42 +10,55 @@ ApplicationWindow {
     title: qsTr("xkbcommon-qmake-test")
     flags: Qt.WindowStaysOnTopHint | Qt.WindowDoesNotAcceptFocus
 
-    property int layout : 0 // TRQ
+    property int layoutIndex : 0 // TRQ
+    property string currentLayoutName
     property int keyLevel : 0
     property bool levelChanged : false
 
 
     Helper {
-        id:helperId
+        id:helper
+        onLayoutChanged: {
+            console.log("signal from cpp");
+            test.currentLayoutName = helper.getCurrentLayout()
+            for(var i = 0; i< helper.getNumberOfLayouts();i++)
+            {
+                if ( test.currentLayoutName == comboModel.get(i).text) {
+                    languages.currentIndex = i;
+                    languages.update()
+                }
+                console.log(helper.getCurrentLayout());
+            }
+        }
     }
     function fakeKey(code){
         if (levelChanged) {
             switch(test.keyLevel){
             case 1:
-                helperId.fakeKeyPress(shift.keycode);
-                helperId.fakeKeyPress(code);
-                helperId.fakeKeyRelease(code);
-                helperId.fakeKeyRelease(shift.keycode);
+                helper.fakeKeyPress(shift.keycode);
+                helper.fakeKeyPress(code);
+                helper.fakeKeyRelease(code);
+                helper.fakeKeyRelease(shift.keycode);
                 break
             case 2:
-                helperId.fakeKeyPress(altgr.keycode);
-                helperId.fakeKeyPress(code);
-                helperId.fakeKeyRelease(code);
-                helperId.fakeKeyRelease(altgr.keycode);
+                helper.fakeKeyPress(altgr.keycode);
+                helper.fakeKeyPress(code);
+                helper.fakeKeyRelease(code);
+                helper.fakeKeyRelease(altgr.keycode);
                 break
             case 3:
-                helperId.fakeKeyPress(altgr.keycode);
-                helperId.fakeKeyPress(shift.keycode);
-                helperId.fakeKeyPress(code);
-                helperId.fakeKeyRelease(code);
-                helperId.fakeKeyRelease(shift.keycode);
-                helperId.fakeKeyRelease(altgr.keycode);
+                helper.fakeKeyPress(altgr.keycode);
+                helper.fakeKeyPress(shift.keycode);
+                helper.fakeKeyPress(code);
+                helper.fakeKeyRelease(code);
+                helper.fakeKeyRelease(shift.keycode);
+                helper.fakeKeyRelease(altgr.keycode);
                 break
             }
         } else {
 
-            helperId.fakeKeyPress(code);
-            helperId.fakeKeyRelease(code);
+            helper.fakeKeyPress(code);
+            helper.fakeKeyRelease(code);
 
         }
     }
@@ -75,7 +88,7 @@ ApplicationWindow {
                 id:numericKey
                 property int keycode : 13
                 property int level : test.keyLevel
-                text :helperId.getSymbol(numericKey.keycode,test.layout,numericKey.level)
+                text :helper.getSymbol(numericKey.keycode,test.layoutIndex,numericKey.level)
                 onClicked: {
                     fakeKey(numericKey.keycode)
                 }
@@ -85,7 +98,7 @@ ApplicationWindow {
                 id:alphaKey
                 property int keycode : 35
                 property int level : test.keyLevel
-                text : test.levelChanged ? helperId.getSymbol(alphaKey.keycode,test.layout,alphaKey.level) : helperId.getSymbol(alphaKey.keycode,test.layout,1)
+                text : helper.getSymbol(alphaKey.keycode,test.layoutIndex,alphaKey.level)
                 onClicked: {
                     fakeKey(alphaKey.keycode)
                 }
@@ -100,8 +113,8 @@ ApplicationWindow {
                 text : "Caps_Lock"
 
                 onClicked: {
-                    helperId.fakeKeyPress(caps.keycode);
-                    helperId.fakeKeyRelease(caps.keycode);
+                    helper.fakeKeyPress(caps.keycode);
+                    helper.fakeKeyRelease(caps.keycode);
 
                 }
 
@@ -131,7 +144,7 @@ ApplicationWindow {
                 width: row2.width
                 property int keycode : 65
                 property int level : test.keyLevel
-                text :helperId.getSymbol(space.keycode,test.layout,space.level)
+                text :helper.getSymbol(space.keycode,test.layoutIndex,space.level)
                 onClicked: {
                     fakeKey(space.keycode)
                 }
@@ -146,10 +159,11 @@ ApplicationWindow {
                 editable: false
                 model: comboModel
                 onCurrentIndexChanged: {
-                    test.layout = currentIndex;
+                    test.layoutIndex = currentIndex;
                     console.log (comboModel.get(currentIndex).text);
-                    helperId.setLayout(comboModel.get(currentIndex).text);
-                    console.log(test.layout + " --> selected layout");
+                    helper.setLayout(comboModel.get(currentIndex).text);
+                    test.currentLayoutName = comboModel.get(currentIndex).text;
+                    console.log(test.layoutIndex + " --> selected layoutIndex");
                 }
 
             }
@@ -157,15 +171,14 @@ ApplicationWindow {
         }
     }
     Component.onCompleted: {
-        console.log("Number of layouts = "+helperId.getNumberOfLayouts());
+        console.log("Number of layouts = "+helper.getNumberOfLayouts());
         //var model;
-        for(var i = 0; i< helperId.getNumberOfLayouts();i++)
+        for(var i = 0; i< helper.getNumberOfLayouts();i++)
         {
-            comboModel.append({text:helperId.getLayoutName(i)});
+            comboModel.append({text:helper.getLayoutName(i)});
 
-            console.log(helperId.getLayoutName(i));
+            console.log(helper.getLayoutName(i));
         }
-        //languages.model = model;
     }
 
 }
