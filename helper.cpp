@@ -34,13 +34,6 @@ Helper::Helper(QObject *parent):
 
 }
 
-QString Helper::getCurrentLayout()
-{
-    QList<QVariant> tmp;
-    tmp = interface->call("getCurrentLayout").arguments();
-    return tmp.at(0).toString();
-}
-
 Helper::~Helper()
 {
     xkb_state_unref(state);
@@ -49,10 +42,22 @@ Helper::~Helper()
     xkb_context_unref(context);
 }
 
+QString Helper::getCurrentLayout() const
+{
+    QList<QVariant> tmp;
+    tmp = interface->call("getCurrentLayout").arguments();
+    return tmp.at(0).toString();
+}
+
+int Helper::getCapslockStatus()
+{
+    unsigned n;
+    XkbGetIndicatorState(display, XkbUseCoreKbd, &n);
+    return ((n & 0x01) == 1);
+}
+
 void Helper::layoutChangedSlot()
 {
-    qDebug() << "layoutChangedSlot called by dbus";
-
     emit layoutChanged();
 }
 
@@ -61,7 +66,7 @@ void Helper::setLayout(const QString& layout)
     interface->call("setLayout",layout);
 }
 
-QString Helper::getLayoutName(int layoutIndex)
+QString Helper::getLayoutName(int layoutIndex) const
 {
     QList<QVariant> tmp;
     tmp = interface->call("getLayoutsList").arguments();
@@ -75,7 +80,7 @@ int Helper::getNumberOfLayouts()
     return xkb_keymap_num_layouts(keymap);
 }
 
-QString Helper::getSymbol(int keycode, int layoutIndex, int keyLevel)
+QString Helper::getSymbol(int keycode, int layoutIndex, int keyLevel) const
 {
 
     const xkb_keysym_t *arr;
