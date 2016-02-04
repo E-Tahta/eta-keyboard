@@ -12,7 +12,7 @@ Rectangle {
     property string keySymbolLevel1
     property int keyWidth
     property int keyHeight: main.keyHeight
-    property int fontPointSize: 10
+    property int fontPointSize: 9
 
     property bool hold: false
     property bool entered: false
@@ -44,33 +44,33 @@ Rectangle {
 
 
     function btnClicked(){
-
-        sticKey.clickedFlag = !clickedFlag;
-
-        if (sticKey.clickedFlag){
-            btnPressed()
-             main.stickyKeyPressed(sticKey.keyCode)
-            //console.log(sticKey.keyCode)
-        }
-
-        else {
-            btnHovered()
-            main.stickyKeyReleased(sticKey.keyCode)
-        }
-
     }
 
     function releaseBtn(){
-        if (sticKey.clickedFlag)
-            btnClicked()
+
+        if (sticKey.clickedFlag){
+            btnPressed()
+            btnReleased()
+        }
+
     }
 
 
     function btnPressed(){
-        sticKey.color = sticKey.keyPressedColor
-        symbol.color = sticKey.textPressedColor
+        sticKey.clickedFlag = !sticKey.clickedFlag
+        if (sticKey.clickedFlag)
+        main.stickyKeyPressed(keyCode)
+
 
     }
+
+
+    function btnReleased(){
+        sticKey.hold = false
+        if (!sticKey.clickedFlag)
+        main.stickyKeyReleased(keyCode)
+    }
+
 
     function btnHovered(){
         if (!sticKey.hold && !sticKey.clickedFlag){
@@ -89,18 +89,10 @@ Rectangle {
     }
 
     function btnHold(){
-        sticKey.clickedFlag = false
+
         sticKey.hold = true
-
-        sticKey.color = sticKey.keyPressedColor
-        symbol.color = sticKey.textPressedColor
     }
 
-    function btnReleased(){
-        sticKey.hold = false
-        if (!sticKey.clickedFlag)
-        btnHovered()
-    }
 
 
 
@@ -132,6 +124,16 @@ Rectangle {
         }
         onClicked: {
             sticKey.btnClicked()
+        }
+    }
+
+    onClickedFlagChanged: {
+        if (clickedFlag){
+            sticKey.color = sticKey.keyPressedColor
+            symbol.color = sticKey.textPressedColor
+        }
+        else {
+            btnHovered()
         }
     }
 

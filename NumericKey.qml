@@ -8,13 +8,12 @@ Rectangle {
     property string keyPressedColor: main.keyPressedColor
     property string keyHoverColor: main.keyHoverColor
     property string textColor: main.textColor
+    property string activeTextColor: main.activeTextColor
     property string textPressedColor: main.textPressedColor
-    property string keySymbolLevel1
-    property string keySymbolLevel2
-    property string keySymbolLevel3
+
     property int keyWidth: main.keyWidth
     property int keyHeight: main.keyHeight
-    property int fontPointSize: 10
+    property int fontPointSize: 11
 
     property bool hold: false
     property bool entered: false
@@ -23,7 +22,12 @@ Rectangle {
 
     property int keyCode: 24
 
-    property bool isLevel3Visible: true
+    property double activeOpacity: 1
+    property double passiveOpacity: 0.2
+
+    property bool leVis0: true
+    property bool leVis1: true
+    property bool leVis2: true
 
 
 
@@ -37,43 +41,57 @@ Rectangle {
     onKeyLevelChanged: {
         switch (main.keyLevel){
         case 0:
-            symbol2.color = main.textColor
-            symbol3.color = main.textColor
+            lev0.color = numKey.activeTextColor
+            lev1.color = numKey.textColor
+            lev2.color = numKey.textColor
+            lev0.opacity = numKey.activeOpacity
+            lev1.opacity = numKey.passiveOpacity
+            lev2.opacity = numKey.passiveOpacity
             break;
         case 1:
-            symbol2.color = "red"
-            symbol3.color = main.textColor
+            lev0.color = numKey.textColor
+            lev1.color = numKey.activeTextColor
+            lev2.color = numKey.textColor
+            lev0.opacity = numKey.passiveOpacity
+            lev1.opacity = numKey.activeOpacity
+            lev2.opacity = numKey.passiveOpacity
             break;
         case 2:
-            symbol2.color = main.textColor
-            symbol3.color = "red"
+            lev0.color = numKey.textColor
+            lev1.color = numKey.textColor
+            lev2.color = "light green"
+            lev0.opacity = numKey.passiveOpacity
+            lev1.opacity = numKey.passiveOpacity
+            lev2.opacity = numKey.activeOpacity
+            //leVis2 = true
             break;
         case 3:
-            symbol2.color = main.textColor
-            symbol3.color = main.textColor
+            lev0.color = numKey.textColor
+            lev1.color = numKey.textColor
+            lev2.color = numKey.activeTextColor
+            lev0.opacity = numKey.passiveOpacity
+            lev1.opacity = numKey.passiveOpacity
+            lev2.opacity = numKey.passiveOpacity
 
         }
-
-        //console.log("catch")
     }
 
-
-
-
     Text {
-        id: symbol
-        color: textColor
+        id: lev0
+        color: activeTextColor
         font.pointSize: fontPointSize
         anchors {
             left: numKey.left
             bottom: numKey.bottom
-            margins: keyHeight/10
+            margins: keyHeight/7
         }
         text: helper.getSymbol(numKey.keyCode,main.languageLayoutIndex,0)
+        visible: leVis0
+        opacity: activeOpacity
     }
 
     Text {
-        id: symbol2
+        id: lev1
         color: textColor
         font.pointSize:fontPointSize
         anchors {
@@ -82,10 +100,12 @@ Rectangle {
             margins: keyHeight/10
         }
         text:helper.getSymbol(numKey.keyCode,main.languageLayoutIndex,1)
+        visible: leVis1
+        opacity: passiveOpacity
     }
 
     Text {
-        id: symbol3
+        id: lev2
         color: textColor
         font.pointSize: fontPointSize
         anchors {
@@ -94,54 +114,57 @@ Rectangle {
             margins: keyHeight/10
         }
         text: helper.getSymbol(numKey.keyCode,main.languageLayoutIndex,2)
-        visible: isLevel3Visible
+        visible: leVis2
+        opacity: passiveOpacity
     }
 
 
     signal clickedNumeric(string btnCode)
 
+
+
     function btnClicked(){
-
-
-
-
     }
 
     function btnPressed(){
         numKey.color = numKey.keyPressedColor
-        symbol.color = numKey.textPressedColor
-         main.nonStickyPressed(numKey.keyCode)
+        switch (numKey.keyLevel){
+        case 0: lev0.color = numKey.textPressedColor; break;
+        case 1: lev1.color = numKey.textPressedColor; break;
+        case 2: lev2.color = numKey.textPressedColor; break;
+        }
+
+        helper.fakeKeyPress(numKey.keyCode)
+        main.nonStickyPressed(numKey.keyCode)
     }
 
     function btnHovered(){
         if (!numKey.hold){
             if (numKey.entered){
                 numKey.color = numKey.keyHoverColor
-                symbol.color = numKey.textColor
+                lev0.color = numKey.textColor
+                lev1.color = numKey.textColor
+                lev2.color = numKey.textColor
             }
 
             else {
-
                 numKey.color = numKey.keyColor
-                symbol.color = numKey.textColor
-
+                lev0.color = numKey.textColor
+                lev1.color = numKey.textColor
+                lev2.color = numKey.textColor
             }
         }
     }
 
     function btnHold(){
         numKey.hold = true
-
-        numKey.color = numKey.keyPressedColor
-        symbol.color = numKey.textPressedColor
     }
 
     function btnReleased(){
         numKey.hold = false
+         helper.fakeKeyRelease(numKey.keyCode)
         btnHovered()
     }
-
-
 
 
     MouseArea{
@@ -174,5 +197,4 @@ Rectangle {
             numKey.btnClicked()
         }
     }
-
 }

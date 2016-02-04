@@ -11,7 +11,7 @@ Rectangle {
     property string keySymbolLevel1
     property int keyWidth: main.keyWidth * 49 / 60
     property int keyHeight: main.keyHeight / 2
-    property int fontPointSize: 10
+    property int fontPointSize: 8
 
     property int keyCode: 24
 
@@ -23,6 +23,8 @@ Rectangle {
 
     property bool hold: false
     property bool entered: false
+
+
 
     Text {
         id: symbol

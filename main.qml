@@ -16,6 +16,7 @@ ApplicationWindow {
     property string keyPressedColor: "#ffffff"
     property string keyHoverColor: "#848484"
     property string textColor: "#dddddd"
+    property string activeTextColor: "white"
     property string textPressedColor: "#5e5a5a"
     property int keyHeight
     property int keyWidth: keyHeight
@@ -29,14 +30,8 @@ ApplicationWindow {
     property int keyLevel: 0
     property int stickyNum: 0
     property bool releaseAll: false
+    property variant stickyKeyList: []
 
-    property bool capsLock: false
-    property bool shift: false
-    property bool ctrlL: false
-    property bool meta: false
-    property bool alt: false
-    property bool altGr: false
-    property bool ctrlR: false
 
 
 
@@ -47,85 +42,82 @@ ApplicationWindow {
 
 
     function stickyKeyPressed(keyCode){
+
+        var t = new Array (0)
+
         main.stickyNum++
-        switch(keyCode){
-        case 50: //Shift
-            main.keyLevel+=1;
-            main.shiftL = true;
-            break;
-        case 108: //Alt Gr
-            main.keyLevel+=2;
-            main.altGr = true;
-            break;
-        case 66 : //CapsLock
-            main.stickyNum--;
-            main.capsLock = true;
-            break;
-        case 37: //CtrlL
-            main.ctrlL = true;
-            break;
-        case 133: //Meta
-            main.meta = true;
-            break;
-        case 64: //Alt
-            main.alt = true;
-            break;
-        case 105://CtrlR
-            main.ctrlR = true;
-            break;
+        if (main.stickyNum<4){
+
+            switch(keyCode){
+            case 50: //shift
+                keyLevel++;
+                t.push(keyCode)
+                break;
+            case 37: //ctrlL
+                t.push(keyCode)
+                break;
+            case 133: //meta
+                t.push(keyCode)
+                break;
+            case 64: //alt
+                t.push(keyCode)
+                break;
+            case 108: //AltGr
+                main.keyLevel+=2;
+                t.push(keyCode)
+                break;
+            case 105: //AltGr
+                t.push(keyCode)
+                break;
+            }
+
+            main.stickyKeyList = t
+        }
+        else {
+            main.releaseAll = ! main.releaseAll;
+
+            t = new Array(0)
+            main.stickyKeyList = t
 
         }
-
-        if (main.stickyNum>3) main.releaseAll=!main.releaseAll
-
-
-
     }
 
     function stickyKeyReleased(keyCode){
-        main.stickyNum--
-        switch(keyCode){
-        case 50: //Shift
-            main.keyLevel-=1;
-            main.shiftL = false;
-            break;
-        case 108: //Alt Gr
-            main.keyLevel-=2;
-            main.altGr = false;
-            break;
-        case 66 : //CapsLock
-            main.stickyNum++;
-            main.capsLock = false;
-            break;
-        case 37: //CtrlL
-            main.ctrlL = false;
-            break;
-        case 133: //Meta
-            main.meta = false;
-            break;
-        case 64: //Alt
-            main.alt = false;
-            break;
-        case 105://CtrlR
-            main.ctrlR = false;
-            break;
 
+        main.stickyNum--
+
+        switch(keyCode){
+        case 50: //shift
+            keyLevel--;
+            helper.fakeKeyRelease(keyCode);
+            break;
+        case 37: //ctrlL
+            helper.fakeKeyRelease(keyCode);
+            break;
+        case 133: //meta
+            helper.fakeKeyRelease(keyCode);
+            break;
+        case 64: //alt
+            helper.fakeKeyRelease(keyCode);
+            break;
+        case 108: //AltGr
+            main.keyLevel-=2;
+            helper.fakeKeyRelease(keyCode);
+            break;
+        case 105: //AltGr
+            helper.fakeKeyRelease(keyCode);
+            break;
         }
     }
 
 
     function nonStickyPressed(keyCode){
 
-
-
-        console.log(keyCode+" "+keyLevel+" "+main.capsLock+" "+main.stickyNum+" "+Qt.Key_1)
         main.releaseAll=!main.releaseAll
 
     }
 
-    Test{
 
-    }
 
     FullLayout{
         id: fullLay
@@ -143,7 +135,7 @@ ApplicationWindow {
     Component.onCompleted: {
         main.dockSize = Screen.height / 30 //check if tablet or full then give different
         main.keyHeight = Screen.height / 16
-        main.width = main.keyHeight * 16.4
+        main.width = main.keyHeight * 16.2 + 2
         main.height = main.keyHeight * 6 + main.dockSize + main.columnSpacing
     }
 

@@ -7,20 +7,25 @@ Rectangle {
     property string keyPressedColor: main.keyPressedColor
     property string keyHoverColor: main.keyHoverColor
     property string textColor: main.textColor
+    property string activeTextColor: main.activeTextColor
     property string textPressedColor: main.textPressedColor
     property int keyWidth: main.keyWidth
     property int keyHeight: main.keyHeight
     property int keyCode: 24
-    property int fontPointSize: 10
+    property int fontPointSize: 11
 
     property bool hold: false
     property bool entered: false
 
     property int keyLevel: main.keyLevel
 
-    property bool leVis0: false
-    property bool leVis1: false
+    property bool leVis0: true
+    property bool leVis1: true
     property bool leVis2: false
+
+    property double activeOpacity: 1
+    property double passiveOpacity: 0.2
+
 
 
 
@@ -36,20 +41,37 @@ Rectangle {
     onKeyLevelChanged: {
         switch (main.keyLevel){
         case 0:
+            lev0.color = alpNumKey.activeTextColor
             lev1.color = alpNumKey.textColor
             lev2.color = alpNumKey.textColor
+            lev0.opacity = alpNumKey.activeOpacity
+            lev1.opacity = alpNumKey.passiveOpacity
+            lev2.opacity = alpNumKey.passiveOpacity
             break;
         case 1:
-            lev1.color = "red"
+            lev0.color = alpNumKey.textColor
+            lev1.color = alpNumKey.activeTextColor
             lev2.color = alpNumKey.textColor
+            lev0.opacity = alpNumKey.passiveOpacity
+            lev1.opacity = alpNumKey.activeOpacity
+            lev2.opacity = alpNumKey.passiveOpacity
             break;
         case 2:
+            lev0.color = alpNumKey.textColor
             lev1.color = alpNumKey.textColor
-            lev2.color = "red"
+            lev2.color = "light green"
+            lev0.opacity = alpNumKey.passiveOpacity
+            lev1.opacity = alpNumKey.passiveOpacity
+            lev2.opacity = alpNumKey.activeOpacity
+            //leVis2 = true
             break;
         case 3:
+            lev0.color = alpNumKey.textColor
             lev1.color = alpNumKey.textColor
-            lev2.color = alpNumKey.textColor
+            lev2.color = alpNumKey.activeTextColor
+            lev0.opacity = alpNumKey.passiveOpacity
+            lev1.opacity = alpNumKey.passiveOpacity
+            lev2.opacity = alpNumKey.passiveOpacity
 
         }
     }
@@ -57,7 +79,7 @@ Rectangle {
 
     Text {
         id: lev0
-        color: textColor
+        color: activeTextColor
         font.pointSize: fontPointSize
         anchors {
             left: alpNumKey.left
@@ -66,6 +88,7 @@ Rectangle {
         }
         text: helper.getSymbol(alpNumKey.keyCode,main.languageLayoutIndex,0)
         visible: leVis0
+        opacity: activeOpacity
     }
 
     Text {
@@ -79,6 +102,7 @@ Rectangle {
         }
         text:helper.getSymbol(alpNumKey.keyCode,main.languageLayoutIndex,1)
         visible: leVis1
+        opacity: passiveOpacity
     }
 
     Text {
@@ -92,6 +116,7 @@ Rectangle {
         }
         text: helper.getSymbol(alpNumKey.keyCode,main.languageLayoutIndex,2)
         visible: leVis2
+        opacity: passiveOpacity
     }
 
     function btnClicked(){
@@ -99,7 +124,13 @@ Rectangle {
 
     function btnPressed(){
         alpNumKey.color = alpNumKey.keyPressedColor
-        lev0.color = alpNumKey.textPressedColor
+        switch (alpNumKey.keyLevel){
+        case 0: lev0.color = alpNumKey.textPressedColor; break;
+        case 1: lev1.color = alpNumKey.textPressedColor; break;
+        case 2: lev2.color = alpNumKey.textPressedColor; break;
+        }
+
+        helper.fakeKeyPress(alpNumKey.keyCode)
         main.nonStickyPressed(alpNumKey.keyCode)
     }
 
@@ -108,28 +139,28 @@ Rectangle {
             if (alpNumKey.entered){
                 alpNumKey.color = alpNumKey.keyHoverColor
                 lev0.color = alpNumKey.textColor
+                lev1.color = alpNumKey.textColor
+                lev2.color = alpNumKey.textColor
             }
 
             else {
                 alpNumKey.color = alpNumKey.keyColor
                 lev0.color = alpNumKey.textColor
+                lev1.color = alpNumKey.textColor
+                lev2.color = alpNumKey.textColor
             }
         }
     }
 
     function btnHold(){
         alpNumKey.hold = true
-
-        alpNumKey.color = alpNumKey.keyPressedColor
-        lev0.color = alpNumKey.textPressedColor
     }
 
     function btnReleased(){
         alpNumKey.hold = false
+        helper.fakeKeyRelease(alpNumKey.keyCode)
         btnHovered()
     }
-
-
 
 
     MouseArea{
@@ -161,21 +192,6 @@ Rectangle {
         onClicked: {
             alpNumKey.btnClicked()
         }
-    }
-
-    Component.onCompleted: {
-        if (helper.getSymbol(alpNumKey.keyCode,main.languageLayoutIndex,0)>="a" && helper.getSymbol(alpNumKey.keyCode,main.languageLayoutIndex,0)<="z"){
-            leVis1 = true
-
-            console.log(alpNumKey.keyCode)
-
-        }
-        else {
-            leVis0 = true
-            leVis1 = true
-            leVis2 = true
-        }
-
     }
 
 }

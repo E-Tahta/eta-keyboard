@@ -71,7 +71,7 @@ ApplicationWindow {
     Helper {
         id:helper
         onLayoutChanged: {
-            console.log("signal from cpp");
+            //console.log("signal from cpp");
             test.currentLayoutName = helper.getCurrentLayout()
             for(var i = 0; i< helper.getNumberOfLayouts();i++)
             {
@@ -80,7 +80,7 @@ ApplicationWindow {
                     languages.update()
                 }
             }
-            console.log(helper.getCurrentLayout());
+            //console.log(helper.getCurrentLayout());
         }
         onShowFromBottomCalled: {
             console.log("showFroomBottomCalled from dbus");
@@ -198,7 +198,9 @@ ApplicationWindow {
                 property int level : test.keyLevel
                 text : helper.getSymbol(alphaKey.keycode,test.layoutIndex,alphaKey.level)
                 onClicked: {
+
                     fakeKey(alphaKey.keycode)
+
                 }
             }
 
@@ -211,7 +213,7 @@ ApplicationWindow {
                 property int keycode : 66
                 text : "Caps_Lock"
                 checked: helper.getCapslockStatus()
-                onClicked: {
+               onClicked: {
                     helper.fakeKeyPress(caps.keycode);
                     helper.fakeKeyRelease(caps.keycode);
 
@@ -277,7 +279,7 @@ ApplicationWindow {
         }
     }
     Component.onCompleted: {
-        console.log("Number of layouts = "+helper.getNumberOfLayouts());
+        //console.log("Number of layouts = "+helper.getNumberOfLayouts());
         for(var i = 0; i< helper.getNumberOfLayouts();i++)
         {
             comboModel.append({text:helper.getLayoutName(i)});

@@ -54,9 +54,9 @@ Item{
                 model: comboModel
                 onCurrentIndexChanged: {
                     main.languageLayoutIndex = currentIndex;
-                    console.log (comboModel.get(currentIndex).text);
+                    //console.log (comboModel.get(currentIndex).text);
                     helperId.setLayout(comboModel.get(currentIndex).text);
-                    console.log(test.layout + " --> selected layout");
+                    //console.log(test.layout + " --> selected layout");
                 }
 
             }
@@ -120,19 +120,19 @@ Item{
             id: row2
             spacing: main.rowSpacing
 
-            AlphaNumericKey{id: keyCoute; keyCode: 49}
-            AlphaNumericKey{id: key1; keyCode: 10}
-            AlphaNumericKey{id: key2; keyCode: 11}
-            AlphaNumericKey{id: key3; keyCode: 12}
-            AlphaNumericKey{id: key4; keyCode: 13}
-            AlphaNumericKey{id: key5; keyCode: 14}
-            AlphaNumericKey{id: key6; keyCode: 15}
-            AlphaNumericKey{id: key7; keyCode: 16}
-            AlphaNumericKey{id: key8; keyCode: 17}
-            AlphaNumericKey{id: key9; keyCode: 18}
-            AlphaNumericKey{id: key0; keyCode: 19}
-            AlphaNumericKey{id: keyStar; keyCode: 20}
-            AlphaNumericKey{id: keyMinus; keyCode: 21}
+            NumericKey{id: keyCoute; keyCode: 49}
+            NumericKey{id: key1; keyCode: 10}
+            NumericKey{id: key2; keyCode: 11}
+            NumericKey{id: key3; keyCode: 12}
+            NumericKey{id: key4; keyCode: 13}
+            NumericKey{id: key5; keyCode: 14}
+            NumericKey{id: key6; keyCode: 15}
+            NumericKey{id: key7; keyCode: 16}
+            NumericKey{id: key8; keyCode: 17}
+            NumericKey{id: key9; keyCode: 18}
+            NumericKey{id: key0; keyCode: 19}
+            NumericKey{id: keyStar; keyCode: 20}
+            NumericKey{id: keyMinus; keyCode: 21}
             SpecialKey{id: keyBackspace; keySymbolLevel1: "← Backspace"; keyWidth: main.keyWidth * 21/10; keyCode: 22}
         }
 
@@ -144,7 +144,7 @@ Item{
             SpecialKey{id:keyTab; keySymbolLevel1: "Tab ↔"; keyWidth: main.keyWidth* 3/2; keyCode: 23}
             AlphaNumericKey{id: keyQ; keyCode: 24; leVis2: true}
             AlphaNumericKey{id: keyW; keyCode: 25}
-            AlphaNumericKey{id: keyE; keyCode: 26; leVis2: true}
+            AlphaNumericKey{id: keyE; keyCode: 26}
             AlphaNumericKey{id: keyR; keyCode: 27}
             AlphaNumericKey{id: keyT; keyCode: 28}
             AlphaNumericKey{id: keyY; keyCode: 29}
@@ -160,7 +160,7 @@ Item{
             id: row4
             spacing: main.rowSpacing
 
-            StickyKey{id:keyCapsLock; keySymbolLevel1: "CapsLock"; keyWidth: main.keyWidth * 9 / 5; keyCode: 66}
+            CapsLockKey{id:keyCapsLock; keySymbolLevel1: "CapsLock"; keyWidth: main.keyWidth * 9 / 5; keyCode: 66}
             AlphaNumericKey{id: keyA; keyCode: 38}
             AlphaNumericKey{id: keyS; keyCode: 39}
             AlphaNumericKey{id: keyD; keyCode: 40}
@@ -230,13 +230,13 @@ Item{
 
 
     Component.onCompleted: {
-        console.log("Number of layouts = "+helperId.getNumberOfLayouts());
+        //console.log("Number of layouts = "+helperId.getNumberOfLayouts());
         //var model;
         for(var i = 0; i< helperId.getNumberOfLayouts();i++)
         {
             comboModel.append({text:helperId.getLayoutName(i)});
 
-            console.log(helperId.getLayoutName(i));
+            //console.log(helperId.getLayoutName(i));
         }
         //languages.model = model;
     }
