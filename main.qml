@@ -118,7 +118,7 @@ ApplicationWindow {
 
 
 
-        console.log(keyCode+" "+keyLevel+" "+main.capsLock+" "+main.stickyNum)
+        console.log(keyCode+" "+keyLevel+" "+main.capsLock+" "+main.stickyNum+" "+Qt.Key_1)
         main.releaseAll=!main.releaseAll
 
     }

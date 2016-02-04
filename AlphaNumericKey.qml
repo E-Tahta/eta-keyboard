@@ -18,15 +18,19 @@ Rectangle {
 
     property int keyLevel: main.keyLevel
 
-    property bool leVis0: true
-    property bool leVis1: true
+    property bool leVis0: false
+    property bool leVis1: false
     property bool leVis2: false
+
+
 
 
     width: keyWidth
     height: keyHeight
     color: keyColor
     radius: keyHeight/10
+
+
 
 
     onKeyLevelChanged: {
@@ -158,4 +162,20 @@ Rectangle {
             alpNumKey.btnClicked()
         }
     }
+
+    Component.onCompleted: {
+        if (helper.getSymbol(alpNumKey.keyCode,main.languageLayoutIndex,0)>="a" && helper.getSymbol(alpNumKey.keyCode,main.languageLayoutIndex,0)<="z"){
+            leVis1 = true
+
+            console.log(alpNumKey.keyCode)
+
+        }
+        else {
+            leVis0 = true
+            leVis1 = true
+            leVis2 = true
+        }
+
+    }
+
 }
