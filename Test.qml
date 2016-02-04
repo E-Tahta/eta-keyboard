@@ -27,8 +27,8 @@ ApplicationWindow {
                     languages.currentIndex = i;
                     languages.update()
                 }
-                console.log(helper.getCurrentLayout());
             }
+            console.log(helper.getCurrentLayout());
         }
     }
     function fakeKey(code){
@@ -111,12 +111,13 @@ ApplicationWindow {
                 checkable: true
                 property int keycode : 66
                 text : "Caps_Lock"
-
+                checked: helper.getCapslockStatus()
                 onClicked: {
                     helper.fakeKeyPress(caps.keycode);
                     helper.fakeKeyRelease(caps.keycode);
 
                 }
+
 
             }
             Button {
@@ -160,24 +161,27 @@ ApplicationWindow {
                 model: comboModel
                 onCurrentIndexChanged: {
                     test.layoutIndex = currentIndex;
-                    console.log (comboModel.get(currentIndex).text);
                     helper.setLayout(comboModel.get(currentIndex).text);
                     test.currentLayoutName = comboModel.get(currentIndex).text;
-                    console.log(test.layoutIndex + " --> selected layoutIndex");
                 }
 
             }
 
         }
     }
+    Timer {
+        running: true
+        repeat: true
+        interval: 5
+        onTriggered: {
+            caps.checked = helper.getCapslockStatus();
+        }
+    }
     Component.onCompleted: {
         console.log("Number of layouts = "+helper.getNumberOfLayouts());
-        //var model;
         for(var i = 0; i< helper.getNumberOfLayouts();i++)
         {
             comboModel.append({text:helper.getLayoutName(i)});
-
-            console.log(helper.getLayoutName(i));
         }
     }
 
