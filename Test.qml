@@ -1,19 +1,71 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import eta.helper 1.0
+import QtQuick.Window 2.0
+
 
 ApplicationWindow {
     id: test
     visible: true
+    x:screenWidth/2 - test.width/2
+    y:screenHeight
     width: 400
-    height: 100
-    title: qsTr("xkbcommon-qmake-test")
-    flags: Qt.WindowStaysOnTopHint | Qt.WindowDoesNotAcceptFocus
+    height: m_height
+    title: qsTr("qmlkeyboardtest")
+    color:"#010101"
+    flags: Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowDoesNotAcceptFocus | Qt.X11BypassWindowManagerHint
 
+    property int screenWidth: Screen.width
+    property int screenHeight: Screen.height
+    property int m_height: body.height
     property int layoutIndex : 0 // TRQ
     property string currentLayoutName
     property int keyLevel : 0
     property bool levelChanged : false
+
+    property string keyColor: "#585858"
+    property string keyPressedColor: "#ffffff"
+    property string keyHoverColor: "#848484"
+    property string textColor: "#dddddd"
+    property string textPressedColor: "#5e5a5a"
+
+
+    NumberAnimation {
+        id:showFromBottom
+        target:test
+        property: "y"
+        from:screenHeight-test.height
+        to : screenHeight/2
+        easing.overshoot: 2
+        duration: 400
+        easing.type: Easing.OutBack
+        onStarted: {
+            test.height = m_height
+        }
+
+    }
+
+    ParallelAnimation {
+        id: hide
+        NumberAnimation {
+            target: test
+            property: "height"
+            from: test.height
+            to : test.height-m_height
+            duration: 100
+            easing.type: Easing.Linear
+
+        }
+        NumberAnimation {
+            target: test
+            property: "y"
+            from: test.y
+            to : test.y+screenHeight/2
+            duration: 315
+            easing.type: Easing.Linear
+
+        }
+    }
 
 
     Helper {
@@ -30,6 +82,17 @@ ApplicationWindow {
             }
             console.log(helper.getCurrentLayout());
         }
+        onShowFromBottomCalled: {
+            console.log("showFroomBottomCalled from dbus");
+            showFromBottom.start();
+        }
+        onShowFromLeftCalled: {
+            console.log("showFromLeftCalled from dbus");
+        }
+        onHideCalled: {
+            hide.start();
+        }
+
     }
     function fakeKey(code){
         if (levelChanged) {
@@ -63,7 +126,44 @@ ApplicationWindow {
         }
     }
 
+
     Column {
+        id:body
+        Row {
+            id:dock
+            Rectangle {
+                height: row1.height
+                width: test.width - closeButton.width
+                color : "gray"
+
+                MouseArea{
+                    anchors.fill: parent
+                    property variant cpos: "1,1"
+                    anchors.rightMargin: 0
+                    anchors.bottomMargin: 0
+                    anchors.leftMargin: 0
+                    anchors.topMargin: 0
+                    onPressed: {
+                        cpos = Qt.point(mouse.x,mouse.y);
+                    }
+                    onPositionChanged: {
+                        var delta = Qt.point(mouse.x - cpos.x, mouse.y - cpos.y);
+                        test.x += delta.x;
+                        test.y += delta.y;
+                    }
+                }
+            }
+            Button {
+                id:closeButton
+                height: dock.height
+                visible: true
+                iconSource: "Images/window-close.png"
+                onClicked: {
+                    Qt.quit();
+                }
+            }
+        }
+
         Row {
             id:row1
             Button {
@@ -72,7 +172,6 @@ ApplicationWindow {
                 property int keycode : 50
                 text:"Shift"
                 onCheckedChanged: {
-
                     if(shift.checked) {
                         test.keyLevel +=1;
                         test.levelChanged = true;
@@ -82,7 +181,6 @@ ApplicationWindow {
                         test.levelChanged = test.keyLevel!=0 ? true :false;
                     }
                 }
-
             }
             Button {
                 id:numericKey
@@ -103,6 +201,7 @@ ApplicationWindow {
                     fakeKey(alphaKey.keycode)
                 }
             }
+
         }
         Row {
             id:row2

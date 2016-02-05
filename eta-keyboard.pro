@@ -3,18 +3,21 @@ TEMPLATE = app
 QT += qml quick widgets dbus
 
 SOURCES += main.cpp \
-    helper.cpp
+    helper.cpp \
+    xwrapper.cpp \
+    vkdbusinterface.cpp \
+    adaptor.cpp
 
 RESOURCES += qml.qrc images.qrc
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
 
 # Default rules for deployment.
 include(deployment.pri)
 
 HEADERS += \
-    helper.h
+    helper.h \
+    xwrapper.h \
+    vkdbusinterface.h \
+    adaptor.h
+LIBS += -lxcb -lxkbcommon -lxkbcommon-x11 -lX11 -lXtst -lxcb-xkb
 
-LIBS += -lxcb -lxkbcommon -lxkbcommon-x11 -lX11 -lXtst
 
