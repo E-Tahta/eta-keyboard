@@ -12,6 +12,11 @@ Rectangle {
     property string keySymbolLevel1
     property int keyWidth
     property int keyHeight: main.keyHeight
+    property int fontPointSize: 10
+    property bool hold: false
+    property bool entered: false
+
+    property int keyCode: 24
 
 
     width: keyWidth
@@ -19,75 +24,96 @@ Rectangle {
     color: keyColor
     radius: keyHeight/10
 
-    property bool hold: false
-    property bool entered: false
+
     Text {
         id: symbol
         color: textColor
-        font.pointSize: keyHeight * 3 / 15
+        font.pointSize: fontPointSize
         anchors {
             centerIn: specKey
         }
         text: keySymbolLevel1
     }
 
+
+    signal clickedSpecial(string btnCode)
+
+    function btnClicked(){
+
+
+
+
+    }
+
+    function btnPressed(){
+        specKey.color = specKey.keyPressedColor
+        symbol.color = specKey.textPressedColor
+
+          main.nonStickyPressed(specKey.keyCode)
+    }
+
+    function btnHovered(){
+        if (!specKey.hold){
+            if (specKey.entered){
+                specKey.color = specKey.keyHoverColor
+                symbol.color = specKey.textColor
+            }
+
+            else {
+
+                specKey.color = specKey.keyColor
+                symbol.color = specKey.textColor
+
+            }
+        }
+    }
+
+    function btnHold(){
+        specKey.hold = true
+
+        specKey.color = specKey.keyPressedColor
+        symbol.color = specKey.textPressedColor
+    }
+
+    function btnReleased(){
+        specKey.hold = false
+        btnHovered()
+
+         main.nonStickyReleased(specKey.keyCode)
+    }
+
+
+
+
     MouseArea{
+        id: ma
         anchors.fill: parent
         hoverEnabled: true
 
         onEntered: {
-            if (!specKey.hold){
-                specKey.color = specKey.keyHoverColor
-                symbol.color = specKey.textColor
-
-
-            }
             specKey.entered = true
+            btnHovered()
         }
 
         onExited: {
-            if (!specKey.hold){
-                specKey.color = specKey.keyColor
-                symbol.color = specKey.textColor
-
-
-            }
             specKey.entered = false
+            btnHovered()
         }
 
         onPressed: {
-            specKey.color = specKey.keyPressedColor
-            symbol.color = specKey.textPressedColor
-
-            main.nonStickyPressed(specKey.keySymbolLevel1)
-
-
+            btnPressed()
 
         }
         onPressAndHold: {
-            specKey.color = specKey.keyPressedColor
-            symbol.color = specKey.textPressedColor
-
-
-            specKey.hold = true
-
+            btnHold()
 
         }
         onReleased: {
-            specKey.hold = false
-            if (!specKey.entered){
-                specKey.color = specKey.keyColor
-                symbol.color = specKey.textColor
-
-
-            }
-            else {
-                specKey.color = specKey.keyHoverColor
-                symbol.color = specKey.textColor
-
-
-            }
-
+            btnReleased()
+        }
+        onClicked: {
+            specKey.btnClicked()
         }
     }
+
 }

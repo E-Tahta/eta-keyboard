@@ -23,6 +23,7 @@ Rectangle {
 
     property bool hold: false
     property bool entered: false
+
     Image {
         id: img
         width: parent.width * 2 / 3
@@ -38,62 +39,85 @@ Rectangle {
                 else
                     setKey.angle = 90
                 setKey.open = !setKey.open;
+                main.settingsVisible = !main.settingsVisible
             }
             id: rotationAnimation
             from: 0 + setKey.angle
             to: 90 - setKey.angle
             duration: 500
             easing.type: Easing.OutBounce
+
+
+
         }
     }
 
+    signal clickedMeta(string btnCode)
+
+    function btnClicked(){
+        rotationAnimation.start()
+
+    }
+
+
+    function btnPressed(){
+        setKey.color = setKey.keyPressedColor
+
+    }
+
+    function btnHovered(){
+        if (!setKey.hold){
+            if (setKey.entered){
+                setKey.color = setKey.keyHoverColor
+            }
+
+            else {
+                setKey.color = setKey.keyColor
+            }
+        }
+    }
+
+    function btnHold(){
+        setKey.hold = true
+
+        setKey.color = setKey.keyPressedColor
+    }
+
+    function btnReleased(){
+        setKey.hold = false
+        btnHovered()
+    }
+
+
+
     MouseArea{
+        id: ma
         anchors.fill: parent
         hoverEnabled: true
 
         onEntered: {
-            if (!setKey.hold){
-                setKey.color = setKey.keyHoverColor
-
-
-            }
             setKey.entered = true
+            btnHovered()
         }
 
         onExited: {
-            if (!setKey.hold){
-                setKey.color = setKey.keyColor
-
-            }
             setKey.entered = false
+            btnHovered()
         }
 
         onPressed: {
-            setKey.color = setKey.keyPressedColor
-
-
-
+            btnPressed()
 
         }
         onPressAndHold: {
-            setKey.color = setKey.keyPressedColor
-
-            setKey.hold = true
-
+            btnHold()
 
         }
         onReleased: {
-            setKey.hold = false
-            if (!setKey.entered){
-                setKey.color = setKey.keyColor
-
-            }
-            else {
-                setKey.color = setKey.keyHoverColor
-
-            }
-
+            btnReleased()
         }
-         onClicked: rotationAnimation.start();
+        onClicked: {
+            setKey.btnClicked()
+        }
     }
 }

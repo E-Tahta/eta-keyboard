@@ -12,6 +12,9 @@ Item {
     property string keySymbolLevel1
     property int keyWidth: main.keyWidth
     property int keyHeight: main.keyHeight
+    property int fontPointSize: 10
+
+    property int keyCode: 24
 
     property bool hold: false
     property bool entered: false
@@ -31,7 +34,7 @@ Item {
         Text {
             id: symbol
             color: textColor
-            font.pointSize: entKey.keyHeight * 3 / 15
+            font.pointSize: fontPointSize
             anchors {
                 centerIn: head
             }
@@ -66,8 +69,8 @@ Item {
                 head.color = entKey.keyPressedColor
                 symbol.color = entKey.textPressedColor
                 foot.color = entKey.keyPressedColor
+                main.nonStickyPressed(entKey.keyCode)
 
-                main.nonStickyPressed(symbol.text)
 
 
             }
@@ -93,6 +96,7 @@ Item {
                     foot.color = entKey.keyHoverColor
 
                 }
+                main.nonStickyReleased(entKey.keyCode)
 
             }
         }
@@ -143,7 +147,9 @@ Item {
                 symbol.color = entKey.textPressedColor
                 foot.color = entKey.keyPressedColor
 
-               main.nonStickyPressed(symbol.text)
+                 main.nonStickyPressed(entKey.keyCode)
+
+
 
             }
             onPressAndHold: {
@@ -168,6 +174,7 @@ Item {
                     foot.color = entKey.keyHoverColor
 
                 }
+                 main.nonStickyReleased(entKey.keyCode)
 
             }
         }

@@ -19,68 +19,106 @@ Rectangle {
 
     property bool hold: false
     property bool entered: false
+    property bool clickedFlag: false
+
+    property int keyCode: 24
+
     Image {
         id: img
         width: parent.width * 2 / 3
         height: img.width
         anchors.centerIn: parent
         source: "Images/pardus.png"
+    }
+
+
+    function btnClicked(){
+    }
+
+    function releaseBtn(){
+
+        metKey.clickedFlag = false
 
     }
 
+
+    function btnPressed(){
+        metKey.clickedFlag = !metKey.clickedFlag
+        if (metKey.clickedFlag)
+        main.stickyKeyPressed(keyCode)
+
+
+    }
+
+    function btnReleased(){
+        metKey.hold = false
+        if (!metKey.clickedFlag)
+        main.stickyKeyReleased(keyCode)
+    }
+
+
+    function btnHovered(){
+        if (!metKey.hold && !metKey.clickedFlag){
+            if (metKey.entered){
+                metKey.color = metKey.keyHoverColor
+
+            }
+
+            else {
+
+                metKey.color = metKey.keyColor
+
+            }
+        }
+    }
+
+    function btnHold(){
+
+        metKey.hold = true
+    }
+
+
+
+
     MouseArea{
+        id: ma
         anchors.fill: parent
         hoverEnabled: true
 
         onEntered: {
-            if (!metKey.hold){
-                metKey.color = metKey.keyHoverColor
-
-
-            }
             metKey.entered = true
+            btnHovered()
         }
 
         onExited: {
-            if (!metKey.hold){
-                metKey.color = metKey.keyColor
-
-
-            }
             metKey.entered = false
+            btnHovered()
         }
 
         onPressed: {
-            metKey.color = metKey.keyPressedColor
-
-
+            btnPressed()
 
         }
         onPressAndHold: {
-            metKey.color = metKey.keyPressedColor
-
-
-
-            metKey.hold = true
-
+            btnHold()
 
         }
         onReleased: {
-            metKey.hold = false
-            if (!metKey.entered){
-                metKey.color = metKey.keyColor
+            btnReleased()
+        }
+        onClicked: {
+            metKey.btnClicked()
+        }
+    }
 
-
-
-            }
-            else {
-                metKey.color = metKey.keyHoverColor
-
-
-
-            }
+    onClickedFlagChanged: {
+        if (clickedFlag){
+            metKey.color = metKey.keyPressedColor
 
         }
-
+        else {
+            btnHovered()
+        }
     }
+
 }

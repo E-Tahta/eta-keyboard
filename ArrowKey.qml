@@ -12,6 +12,9 @@ Rectangle {
     property string keySymbolLevel1
     property int keyWidth : main.keyWidth
     property int keyHeight: main.keyHeight
+    property int fontPointSize: 10
+
+    property int keyCode: 24
 
 
     width: keyWidth
@@ -24,69 +27,87 @@ Rectangle {
     Text {
         id: symbol
         color: textColor
-        font.pointSize: keyHeight * 3 / 15
+        font.pointSize: fontPointSize
         anchors {
             centerIn: arwKey
         }
         text: keySymbolLevel1
     }
+
+    signal clickedArrow(string btnCode)
+
+    function btnClicked(){
+
+
+    }
+
+    function btnPressed(){
+        arwKey.color = arwKey.keyPressedColor
+        symbol.color = arwKey.textPressedColor
+        main.nonStickyPressed(arwKey.keyCode)
+    }
+
+    function btnHovered(){
+        if (!arwKey.hold){
+            if (arwKey.entered){
+                arwKey.color = arwKey.keyHoverColor
+                symbol.color = arwKey.textColor
+            }
+
+            else {
+
+                arwKey.color = arwKey.keyColor
+                symbol.color = arwKey.textColor
+
+            }
+        }
+    }
+
+    function btnHold(){
+        arwKey.hold = true
+
+        arwKey.color = arwKey.keyPressedColor
+        symbol.color = arwKey.textPressedColor
+    }
+
+    function btnReleased(){
+        arwKey.hold = false
+        btnHovered()
+        main.nonStickyReleased(arwKey.keyCode)
+    }
+
+
+
+
     MouseArea{
+        id: ma
         anchors.fill: parent
         hoverEnabled: true
 
         onEntered: {
-            if (!arwKey.hold){
-                arwKey.color = arwKey.keyHoverColor
-                symbol.color = arwKey.textColor
-
-
-            }
             arwKey.entered = true
+            btnHovered()
         }
 
         onExited: {
-            if (!arwKey.hold){
-                arwKey.color = arwKey.keyColor
-                symbol.color = arwKey.textColor
-
-
-            }
             arwKey.entered = false
+            btnHovered()
         }
 
         onPressed: {
-            arwKey.color = arwKey.keyPressedColor
-            symbol.color = arwKey.textPressedColor
-
-            main.nonStickyPressed(arwKey.keySymbolLevel1)
-
-
+            btnPressed()
 
         }
         onPressAndHold: {
-            arwKey.color = arwKey.keyPressedColor
-            symbol.color = arwKey.textPressedColor
-
-
-            arwKey.hold = true
-
+            btnHold()
 
         }
         onReleased: {
-            arwKey.hold = false
-            if (!arwKey.entered){
-                arwKey.color = arwKey.keyColor
-                symbol.color = arwKey.textColor
-
-
-            }
-            else {
-                arwKey.color = arwKey.keyHoverColor
-                symbol.color = arwKey.textColor
-
-
-            }
-
+            btnReleased()
+        }
+        onClicked: {
+            arwKey.btnClicked()
         }
     }
+
 }
