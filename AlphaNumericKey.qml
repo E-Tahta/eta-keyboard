@@ -130,7 +130,7 @@ Rectangle {
         case 2: lev2.color = alpNumKey.textPressedColor; break;
         }
 
-        helper.fakeKeyPress(alpNumKey.keyCode)
+
         main.nonStickyPressed(alpNumKey.keyCode)
     }
 
@@ -158,8 +158,13 @@ Rectangle {
 
     function btnReleased(){
         alpNumKey.hold = false
-        helper.fakeKeyRelease(alpNumKey.keyCode)
         btnHovered()
+
+
+        main.nonStickyReleased(alpNumKey.keyCode)
+
+
+
     }
 
 

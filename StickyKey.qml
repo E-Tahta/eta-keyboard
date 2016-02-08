@@ -28,9 +28,6 @@ Rectangle {
 
 
 
-
-
-
     Text {
         id: symbol
         color: textColor
@@ -63,7 +60,6 @@ Rectangle {
 
 
     }
-
 
     function btnReleased(){
         sticKey.hold = false

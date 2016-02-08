@@ -96,6 +96,7 @@ Item {
                     foot.color = entKey.keyHoverColor
 
                 }
+                main.nonStickyReleased(entKey.keyCode)
 
             }
         }
@@ -173,6 +174,7 @@ Item {
                     foot.color = entKey.keyHoverColor
 
                 }
+                 main.nonStickyReleased(entKey.keyCode)
 
             }
         }

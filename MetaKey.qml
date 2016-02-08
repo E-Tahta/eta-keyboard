@@ -31,35 +31,31 @@ Rectangle {
         source: "Images/pardus.png"
     }
 
-    signal clickedMeta(string btnCode)
-
-    function releaseBtn(){
-        if (metKey.clickedFlag)
-            btnClicked()
-    }
-
 
     function btnClicked(){
+    }
 
-        metKey.clickedFlag = !clickedFlag;
+    function releaseBtn(){
 
-        if (metKey.clickedFlag){
-            btnPressed()
-            main.stickyKeyPressed(metKey.keyCode)
-        }
-
-        else {
-            btnHovered()
-            main.stickyKeyReleased(metKey.keyCode)
-        }
+        metKey.clickedFlag = false
 
     }
 
 
     function btnPressed(){
-        metKey.color = metKey.keyPressedColor
+        metKey.clickedFlag = !metKey.clickedFlag
+        if (metKey.clickedFlag)
+        main.stickyKeyPressed(keyCode)
+
 
     }
+
+    function btnReleased(){
+        metKey.hold = false
+        if (!metKey.clickedFlag)
+        main.stickyKeyReleased(keyCode)
+    }
+
 
     function btnHovered(){
         if (!metKey.hold && !metKey.clickedFlag){
@@ -71,22 +67,16 @@ Rectangle {
             else {
 
                 metKey.color = metKey.keyColor
+
             }
         }
     }
 
     function btnHold(){
-        metKey.clickedFlag = false
+
         metKey.hold = true
-
-        metKey.color = metKey.keyPressedColor
     }
 
-    function btnReleased(){
-        metKey.hold = false
-        if (!metKey.clickedFlag)
-            btnHovered()
-    }
 
 
 
@@ -120,4 +110,15 @@ Rectangle {
             metKey.btnClicked()
         }
     }
+
+    onClickedFlagChanged: {
+        if (clickedFlag){
+            metKey.color = metKey.keyPressedColor
+
+        }
+        else {
+            btnHovered()
+        }
+    }
+
 }

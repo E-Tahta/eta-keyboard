@@ -7,10 +7,12 @@ import eta.helper 1.0
 ApplicationWindow {
     id: main
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("ETA Virtual Keyboard")
     color: "#010101"
 
-    flags: Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowDoesNotAcceptFocus
+
+    flags:Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowDoesNotAcceptFocus
+
 
     property string keyColor: "#585858"
     property string keyPressedColor: "#ffffff"
@@ -26,94 +28,114 @@ ApplicationWindow {
     property int dockSize
 
     property string layout: "full"
-    property int languageLayoutIndex: 2 // Current System Language Layout
+    property int languageLayoutIndex: 0 // Current System Language Layout
     property int keyLevel: 0
     property int stickyNum: 0
     property bool releaseAll: false
-    property variant stickyKeyList: []
 
 
+
+
+
+    ListModel {
+        id:stickyModel
+
+    }
 
 
     Helper {
         id: helper
     }
 
-
-
     function stickyKeyPressed(keyCode){
 
-        var t = new Array (0)
 
-        main.stickyNum++
-        if (main.stickyNum<4){
+        if (main.stickyNum<3){
+            main.stickyNum++
 
             switch(keyCode){
             case 50: //shift
                 keyLevel++;
-                t.push(keyCode)
-                break;
-            case 37: //ctrlL
-                t.push(keyCode)
-                break;
-            case 133: //meta
-                t.push(keyCode)
-                break;
-            case 64: //alt
-                t.push(keyCode)
                 break;
             case 108: //AltGr
                 main.keyLevel+=2;
-                t.push(keyCode)
-                break;
-            case 105: //AltGr
-                t.push(keyCode)
                 break;
             }
 
-            main.stickyKeyList = t
+            stickyModel.append({keyCode:keyCode})
+
         }
         else {
             main.releaseAll = ! main.releaseAll;
-
-            t = new Array(0)
-            main.stickyKeyList = t
-
         }
+
     }
 
     function stickyKeyReleased(keyCode){
 
-        main.stickyNum--
+        if (main.stickyNum>0){
 
-        switch(keyCode){
-        case 50: //shift
-            keyLevel--;
-            helper.fakeKeyRelease(keyCode);
-            break;
-        case 37: //ctrlL
-            helper.fakeKeyRelease(keyCode);
-            break;
-        case 133: //meta
-            helper.fakeKeyRelease(keyCode);
-            break;
-        case 64: //alt
-            helper.fakeKeyRelease(keyCode);
-            break;
-        case 108: //AltGr
-            main.keyLevel-=2;
-            helper.fakeKeyRelease(keyCode);
-            break;
-        case 105: //AltGr
-            helper.fakeKeyRelease(keyCode);
-            break;
+            main.stickyNum--
+
+            for (var i=0; i<stickyModel.count; i++){
+                if (stickyModel.get(i).keyCode == keyCode)
+                    stickyModel.remove(i)
+            }
+
+            switch(keyCode){
+
+            case 50: //shift
+                keyLevel--;
+                break;
+            case 108: //AltGr
+                main.keyLevel-=2;
+                break;
+            }
+
         }
+    }
+
+    function checkAlt(){
+        return stickyModel.count === 1 && stickyModel.get(0).keyCode === 64;
     }
 
 
     function nonStickyPressed(keyCode){
 
-        main.releaseAll=!main.releaseAll
+        if (checkAlt()){
+            helper.fakeKeyPress(64)
+            helper.fakeKeyPress(keyCode)
+            helper.fakeKeyRelease(keyCode)
+            helper.fakeKeyRelease(64)
+            main.releaseAll = ! main.releaseAll;
+
+        }
+
+        else {
+            for (var i=0; i<stickyModel.count; i++){
+                helper.fakeKeyPress(stickyModel.get(i).keyCode)
+            }
+
+            helper.fakeKeyPress(keyCode)
+        }
+
+
+
+    }
+
+
+    function nonStickyReleased(keyCode){
+
+        if (!checkAlt()){
+            helper.fakeKeyRelease(keyCode)
+
+            for (var i=0; i<stickyModel.count; i++){
+                helper.fakeKeyRelease(stickyModel.get(i).keyCode)
+            }
+
+            main.releaseAll = ! main.releaseAll;
+        }
+
 
     }
 
@@ -133,7 +155,7 @@ ApplicationWindow {
 
 
     Component.onCompleted: {
-        main.dockSize = Screen.height / 30 //check if tablet or full then give different
+        main.dockSize = Screen.height / 30  //check if tablet or full then give different
         main.keyHeight = Screen.height / 16
         main.width = main.keyHeight * 16.2 + 2
         main.height = main.keyHeight * 6 + main.dockSize + main.columnSpacing

@@ -78,6 +78,8 @@ Rectangle {
     function btnReleased(){
         specKey.hold = false
         btnHovered()
+
+         main.nonStickyReleased(specKey.keyCode)
     }
 
 

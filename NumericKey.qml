@@ -134,7 +134,6 @@ Rectangle {
         case 2: lev2.color = numKey.textPressedColor; break;
         }
 
-        helper.fakeKeyPress(numKey.keyCode)
         main.nonStickyPressed(numKey.keyCode)
     }
 
@@ -162,8 +161,8 @@ Rectangle {
 
     function btnReleased(){
         numKey.hold = false
-         helper.fakeKeyRelease(numKey.keyCode)
         btnHovered()
+        main.nonStickyReleased(numKey.keyCode)
     }
 
 

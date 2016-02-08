@@ -15,12 +15,13 @@ Item{
 
         keyShiftL.releaseBtn()
         keyCtrlL.releaseBtn()
+        keyCtrlR.releaseBtn()
         keyMeta.releaseBtn()
         keyAlt.releaseBtn()
         keyAltGr.releaseBtn()
-        keyCtrlR.releaseBtn()
 
-}
+        main.keyLevel = 0
+    }
 
 
     Helper {
@@ -54,29 +55,36 @@ Item{
                 model: comboModel
                 onCurrentIndexChanged: {
                     main.languageLayoutIndex = currentIndex;
-                    //console.log (comboModel.get(currentIndex).text);
                     helperId.setLayout(comboModel.get(currentIndex).text);
-                    //console.log(test.layout + " --> selected layout");
+
                 }
 
             }
 
-            Button{
-                id: closeBtn
+            Image {
+                id: closeBtnImage
+                source: "Images/window-close.png"
+
                 anchors.right: dock.right
                 anchors.top: dock.top
                 anchors.bottom: dock.bottom
-                width: 40
-                text: "Close"
-                onClicked: Qt.quit()
+                height:main.dockSize
+                width: closeBtnImage.height
+                MouseArea{
+                    anchors.fill: closeBtnImage
+                    onClicked: Qt.quit()
+                }
             }
+
+
+
 
             MouseArea{
                 anchors{
                     top: dock.top
                     left: languages.right
                     bottom: dock.bottom
-                    right:closeBtn.left
+                    right:closeBtnImage.left
                 }
                 property variant cpos: "1,1"
                 onPressed: {
@@ -93,24 +101,24 @@ Item{
         Row {
             id: row1
             spacing: main.rowSpacing
-            FunctionKey{id: keyEsc; keySymbolLevel1: "Esc"; keyCode: 9}
-            FunctionKey{id: keyF1; keySymbolLevel1: "F1"; keyCode: 67}
-            FunctionKey{id: keyF2; keySymbolLevel1: "F2"; keyCode: 68}
-            FunctionKey{id: keyF3; keySymbolLevel1: "F3"; keyCode: 69}
-            FunctionKey{id: keyF4; keySymbolLevel1: "F4"; keyCode: 70}
-            FunctionKey{id: keyF5; keySymbolLevel1: "F5"; keyCode: 71}
-            FunctionKey{id: keyF6; keySymbolLevel1: "F6"; keyCode: 72}
-            FunctionKey{id: keyF7; keySymbolLevel1: "F7"; keyCode: 73}
-            FunctionKey{id: keyF8; keySymbolLevel1: "F8"; keyCode: 74}
-            FunctionKey{id: keyF9; keySymbolLevel1: "F9"; keyCode: 75}
-            FunctionKey{id: keyF10; keySymbolLevel1: "F10"; keyCode: 76}
-            FunctionKey{id: keyF11; keySymbolLevel1: "F11"; keyCode: 95}
-            FunctionKey{id: keyF12; keySymbolLevel1: "F12"; keyCode: 96}
-            FunctionKey{id: keyDel; keySymbolLevel1: "Delete"; keyCode: 119}
-            FunctionKey{id: keyHome; keySymbolLevel1: "Home"; keyCode: 110}
-            FunctionKey{id: keyPageUp; keySymbolLevel1: "PgUp"; keyCode: 112}
-            FunctionKey{id: keyPageDown; keySymbolLevel1: "PgDn"; keyCode: 117}
-            FunctionKey{id: keyEnd; keySymbolLevel1: "End"; keyCode: 115}
+            FunctionKey{id: keyEsc; keyText: "Esc"; keyCode: 9}
+            FunctionKey{id: keyF1; keyText: "F1"; keyCode: 67}
+            FunctionKey{id: keyF2; keyText: "F2"; keyCode: 68}
+            FunctionKey{id: keyF3; keyText: "F3"; keyCode: 69}
+            FunctionKey{id: keyF4; keyText: "F4"; keyCode: 70}
+            FunctionKey{id: keyF5; keyText: "F5"; keyCode: 71}
+            FunctionKey{id: keyF6; keyText: "F6"; keyCode: 72}
+            FunctionKey{id: keyF7; keyText: "F7"; keyCode: 73}
+            FunctionKey{id: keyF8; keyText: "F8"; keyCode: 74}
+            FunctionKey{id: keyF9; keyText: "F9"; keyCode: 75}
+            FunctionKey{id: keyF10; keyText: "F10"; keyCode: 76}
+            FunctionKey{id: keyF11; keyText: "F11"; keyCode: 95}
+            FunctionKey{id: keyF12; keyText: "F12"; keyCode: 96}
+            FunctionKey{id: keyDel; keyText: "Delete"; keyCode: 119}
+            FunctionKey{id: keyHome; keyText: "Home"; keyCode: 110}
+            FunctionKey{id: keyPageUp; keyText: "PgUp"; keyCode: 112}
+            FunctionKey{id: keyPageDown; keyText: "PgDn"; keyCode: 117}
+            FunctionKey{id: keyEnd; keyText: "End"; keyCode: 115}
 
 
         }
@@ -230,15 +238,14 @@ Item{
 
 
     Component.onCompleted: {
-        //console.log("Number of layouts = "+helperId.getNumberOfLayouts());
-        //var model;
+
         for(var i = 0; i< helperId.getNumberOfLayouts();i++)
         {
             comboModel.append({text:helperId.getLayoutName(i)});
 
-            //console.log(helperId.getLayoutName(i));
+
         }
-        //languages.model = model;
+
     }
 
 

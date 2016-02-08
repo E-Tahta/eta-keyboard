@@ -7,13 +7,20 @@ Rectangle {
     property string keyPressedColor: main.keyPressedColor
     property string keyHoverColor: main.keyHoverColor
     property string textColor: main.textColor
+    property string activeTextColor: main.activeTextColor
     property string textPressedColor: main.textPressedColor
-    property string keySymbolLevel1
-    property int keyWidth: main.keyWidth * 49 / 60
-    property int keyHeight: main.keyHeight / 2
+    property double keyWidth: main.keyWidth * 41/50
+    property int keyHeight: main.keyHeight/2
+    property int keyCode: 24
     property int fontPointSize: 8
 
-    property int keyCode: 24
+    property bool hold: false
+    property bool entered: false
+
+    property int keyLevel: main.keyLevel
+    property string keyText
+
+
 
 
     width: keyWidth
@@ -21,34 +28,28 @@ Rectangle {
     color: keyColor
     radius: keyHeight/5
 
-    property bool hold: false
-    property bool entered: false
-
 
 
     Text {
-        id: symbol
-        color: textColor
+        id: lev0
+        color: activeTextColor
         font.pointSize: fontPointSize
         anchors {
-            left: funcKey.left
-            top: funcKey.top
-            margins: keyHeight/10
+            centerIn: parent
         }
-        text: keySymbolLevel1
+        text:funcKey.keyText
+
+
     }
 
-    signal clickedFunction(string btnCode)
 
     function btnClicked(){
-
-
-
     }
 
     function btnPressed(){
         funcKey.color = funcKey.keyPressedColor
-        symbol.color = funcKey.textPressedColor
+        lev0.color = funcKey.textPressedColor
+
         main.nonStickyPressed(funcKey.keyCode)
     }
 
@@ -56,13 +57,13 @@ Rectangle {
         if (!funcKey.hold){
             if (funcKey.entered){
                 funcKey.color = funcKey.keyHoverColor
-                symbol.color = funcKey.textColor
+                lev0.color = funcKey.textColor
+
             }
 
             else {
-
                 funcKey.color = funcKey.keyColor
-                symbol.color = funcKey.textColor
+                lev0.color = funcKey.textColor
 
             }
         }
@@ -70,17 +71,16 @@ Rectangle {
 
     function btnHold(){
         funcKey.hold = true
-
-        funcKey.color = funcKey.keyPressedColor
-        symbol.color = funcKey.textPressedColor
     }
 
     function btnReleased(){
         funcKey.hold = false
         btnHovered()
+
+        main.nonStickyReleased(funcKey.keyCode)
+
+
     }
-
-
 
 
     MouseArea{

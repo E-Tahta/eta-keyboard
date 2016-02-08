@@ -73,6 +73,7 @@ Rectangle {
     function btnReleased(){
         arwKey.hold = false
         btnHovered()
+        main.nonStickyReleased(arwKey.keyCode)
     }
 
 
