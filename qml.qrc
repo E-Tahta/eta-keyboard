@@ -15,5 +15,6 @@
         <file>FullLayout.qml</file>
         <file>AlphaNumericKey.qml</file>
         <file>CapsLockKey.qml</file>
+        <file>Settings.qml</file>
     </qresource>
 </RCC>

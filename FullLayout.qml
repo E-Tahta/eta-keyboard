@@ -8,6 +8,9 @@ Item{
 
     property bool releaseAll : main.releaseAll
 
+
+
+
     onReleaseAllChanged: releaseAllSticky()
 
 
@@ -26,7 +29,12 @@ Item{
 
     Helper {
         id:helperId
+
+
     }
+
+
+
 
 
 
@@ -43,23 +51,7 @@ Item{
             color: main.color
 
 
-            ListModel {
-                id:comboModel
 
-            }
-
-
-            ComboBox{
-                id:languages
-                editable: false
-                model: comboModel
-                onCurrentIndexChanged: {
-                    main.languageLayoutIndex = currentIndex;
-                    helperId.setLayout(comboModel.get(currentIndex).text);
-
-                }
-
-            }
 
             Image {
                 id: closeBtnImage
@@ -82,7 +74,7 @@ Item{
             MouseArea{
                 anchors{
                     top: dock.top
-                    left: languages.right
+                    left: dock.left
                     bottom: dock.bottom
                     right:closeBtnImage.left
                 }
@@ -239,12 +231,6 @@ Item{
 
     Component.onCompleted: {
 
-        for(var i = 0; i< helperId.getNumberOfLayouts();i++)
-        {
-            comboModel.append({text:helperId.getLayoutName(i)});
-
-
-        }
 
     }
 

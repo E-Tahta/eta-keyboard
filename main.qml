@@ -34,6 +34,22 @@ ApplicationWindow {
     property bool releaseAll: false
 
 
+    property int screenWidth: Screen.width
+    property int screenHeight: Screen.height
+    property int m_height
+
+    property bool settingsVisible : false
+
+
+
+
+
+    Settings{
+
+        id: settings
+
+
+    }
 
 
 
@@ -45,6 +61,7 @@ ApplicationWindow {
 
     Helper {
         id: helper
+
     }
 
     function stickyKeyPressed(keyCode){

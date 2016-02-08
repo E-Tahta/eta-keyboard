@@ -39,12 +39,16 @@ Rectangle {
                 else
                     setKey.angle = 90
                 setKey.open = !setKey.open;
+                main.settingsVisible = !main.settingsVisible
             }
             id: rotationAnimation
             from: 0 + setKey.angle
             to: 90 - setKey.angle
             duration: 500
             easing.type: Easing.OutBounce
+
+
+
         }
     }
 
@@ -52,6 +56,7 @@ Rectangle {
 
     function btnClicked(){
         rotationAnimation.start()
+
     }
 
 
