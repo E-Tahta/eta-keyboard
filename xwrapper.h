@@ -50,7 +50,8 @@ public:
     void fakeKeyRelease(unsigned int code);
     int getNumberOfLayouts();
     int getCapslockStatus();
-    virtual bool nativeEventFilter(const QByteArray &eventType, void *message, long * );
+    virtual bool nativeEventFilter(const QByteArray &eventType,
+                                   void *message, long * );
     void setHelper(Helper *h);
 private:
     int updateKeymap(struct keyboard *kbd);

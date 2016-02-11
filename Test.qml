@@ -32,7 +32,11 @@ ApplicationWindow {
     height: m_height
     title: qsTr("testQml")
     color:"#010101"
-    flags: Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowDoesNotAcceptFocus | Qt.X11BypassWindowManagerHint
+    flags: Qt.WindowStaysOnTopHint |
+           Qt.FramelessWindowHint |
+           Qt.WindowSystemMenuHint |
+           Qt.WindowDoesNotAcceptFocus |
+           Qt.X11BypassWindowManagerHint
 
     property int screenWidth: Screen.width
     property int screenHeight: Screen.height
@@ -165,7 +169,8 @@ ApplicationWindow {
                         cpos = Qt.point(mouse.x,mouse.y);
                     }
                     onPositionChanged: {
-                        var delta = Qt.point(mouse.x - cpos.x, mouse.y - cpos.y);
+                        var delta =
+                                Qt.point(mouse.x - cpos.x, mouse.y - cpos.y);
                         test.x += delta.x;
                         test.y += delta.y;
                     }
@@ -204,7 +209,8 @@ ApplicationWindow {
                 id:numericKey
                 property int keycode : 13
                 property int level : test.keyLevel
-                text :helper.getSymbol(numericKey.keycode,test.layoutIndex,numericKey.level)
+                text :helper.getSymbol(numericKey.keycode,
+                                       test.layoutIndex,numericKey.level)
                 onClicked: {
                     fakeKey(numericKey.keycode)
                 }
@@ -214,7 +220,8 @@ ApplicationWindow {
                 id:alphaKey
                 property int keycode : 34
                 property int level : test.keyLevel
-                text : helper.getSymbol(alphaKey.keycode,test.layoutIndex,alphaKey.level)
+                text : helper.getSymbol(alphaKey.keycode,
+                                        test.layoutIndex,alphaKey.level)
                 onClicked: {
                     fakeKey(alphaKey.keycode)
                 }
@@ -229,7 +236,8 @@ ApplicationWindow {
                 color : ma.containsMouse ? "light green" : "green"
                 Text{
                     anchors.centerIn: parent
-                    text: helper.getSymbol(newKey.keycode,test.layoutIndex,newKey.level)
+                    text: helper.getSymbol(newKey.keycode,
+                                           test.layoutIndex,newKey.level)
                 }
                 MouseArea {
                     id:ma
@@ -240,10 +248,12 @@ ApplicationWindow {
                         helper.fakeKeyPress(newKey.keycode);
                     }
                     onReleased: {
-                        newKey.color= ma.containsMouse ? "light green" : "green";
+                        newKey.color= ma.containsMouse ?
+                                    "light green" : "green";
                         helper.fakeKeyRelease(newKey.keycode);
                     }
-                    onHoveredChanged: newKey.color= ma.containsMouse ? "light green" : "green"
+                    onHoveredChanged: newKey.color= ma.containsMouse ?
+                                          "light green" : "green"
                 }
             }
         }
@@ -288,7 +298,8 @@ ApplicationWindow {
                 width: row2.width
                 property int keycode : 65
                 property int level : test.keyLevel
-                text :helper.getSymbol(space.keycode,test.layoutIndex,space.level)
+                text :helper.getSymbol(space.keycode,
+                                       test.layoutIndex,space.level)
                 onClicked: {
                     fakeKey(space.keycode)
                 }

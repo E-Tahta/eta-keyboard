@@ -30,9 +30,11 @@ XWrapper::XWrapper()
     kbd->ctx = xkb_context_new((xkb_context_flags)0);
     kbd->conn = QX11Info::connection();
     kbd->device_id = xkb_x11_get_core_keyboard_device_id(kbd->conn);
-    kbd->keymap = xkb_x11_keymap_new_from_device(kbd->ctx, kbd->conn, kbd->device_id,
+    kbd->keymap = xkb_x11_keymap_new_from_device(kbd->ctx,
+                                                 kbd->conn, kbd->device_id,
                                                  XKB_KEYMAP_COMPILE_NO_FLAGS);
-    kbd->state = xkb_x11_state_new_from_device(kbd->keymap, kbd->conn, kbd->device_id);
+    kbd->state = xkb_x11_state_new_from_device(kbd->keymap,
+                                               kbd->conn, kbd->device_id);
     kbd->active_laypout_index = 0;
     display = QX11Info::display();
 }
@@ -56,7 +58,8 @@ int XWrapper::updateKeymap(keyboard *kbd)
     struct xkb_state *new_state;
 
     new_keymap = xkb_x11_keymap_new_from_device(kbd->ctx, kbd->conn,
-                                                kbd->device_id, (xkb_keymap_compile_flags)0);
+                                                kbd->device_id,
+                                                (xkb_keymap_compile_flags)0);
     if (!new_keymap)
         goto err_out;
 
@@ -135,7 +138,8 @@ void XWrapper::processXkbEvents(xcb_generic_event_t *gevent, keyboard *kbd)
     }
 }
 
-bool XWrapper::nativeEventFilter(const QByteArray &eventType, void *message, long *) Q_DECL_OVERRIDE
+bool XWrapper::nativeEventFilter(const QByteArray &eventType,
+                                 void *message, long *) Q_DECL_OVERRIDE
 {
 
     if (eventType == "xcb_generic_event_t") {
@@ -164,7 +168,8 @@ QString XWrapper::getSymbol(int keycode, int layoutIndex, int keyLevel) const
 {
 
     const xkb_keysym_t *arr;
-    int size = xkb_keymap_key_get_syms_by_level(kbd->keymap,keycode,layoutIndex,keyLevel,&arr);
+    int size = xkb_keymap_key_get_syms_by_level(kbd->keymap, keycode,
+                                                layoutIndex,keyLevel,&arr);
     char symbol[10];
     if (size > 0) {
         xkb_keysym_to_utf8(arr[0],symbol,10);
