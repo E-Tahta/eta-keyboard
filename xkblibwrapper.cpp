@@ -38,7 +38,8 @@ void XKBLibWrapper::setLayout(unsigned int layoutIndex)
         XkbStateRec xkbState;
         XkbGetState( display, XkbUseCoreKbd, &xkbState );
         unsigned int group = xkbState.group;
-        qDebug() << "Current group after attempting to change layout group is " << group;
+        qDebug() << "Current group after attempting to change layout group is "
+                 << group;
     } else {
         qDebug() << "Failed to change layout group to " << layoutIndex;
     }
@@ -62,24 +63,25 @@ QList<LayoutUnit> XKBLibWrapper::getLayoutsList()
 {
 
     XkbConfig xkbConfig;
-        QList<LayoutUnit> lus;
-        LayoutUnit lu;
-        if( getGroupNames( &xkbConfig) ) {
-            for(int i=0; i<xkbConfig.layouts.size(); i++) {
-                QString layout(xkbConfig.layouts[i]);
-                QString variant;
-                if( i<xkbConfig.variants.size() && ! xkbConfig.variants[i].isEmpty() ) {
-                    variant = xkbConfig.variants[i];
-                }
-                lu.layout = layout;
-                lu.variant = variant;
-                lus.append(lu);
+    QList<LayoutUnit> lus;
+    LayoutUnit lu;
+    if( getGroupNames( &xkbConfig) ) {
+        for(int i=0; i<xkbConfig.layouts.size(); i++) {
+            QString layout(xkbConfig.layouts[i]);
+            QString variant;
+            if( i<xkbConfig.variants.size() &&
+                    ! xkbConfig.variants[i].isEmpty() ) {
+                variant = xkbConfig.variants[i];
             }
+            lu.layout = layout;
+            lu.variant = variant;
+            lus.append(lu);
         }
-        else {
-            qDebug() << "Failed to get layout groups from X server";
-        }
-        return lus;
+    }
+    else {
+        qDebug() << "Failed to get layout groups from X server";
+    }
+    return lus;
 }
 
 QString LayoutUnit::toString() const
@@ -105,31 +107,35 @@ bool XKBLibWrapper::getGroupNames(XkbConfig* xkbConfig)
 
     /* no such atom! */
     if (rules_atom == None) {       /* property cannot exist */
-        qDebug() << "Failed to fetch layouts from server:" << "could not find the atom" << _XKB_RF_NAMES_PROP_ATOM;
+        qDebug() << "Failed to fetch layouts from server:" <<
+                    "could not find the atom" << _XKB_RF_NAMES_PROP_ATOM;
         return false;
     }
 
     ret = XGetWindowProperty(display,
-            DefaultRootWindow(display),
-            rules_atom, 0L, _XKB_RF_NAMES_PROP_MAXLEN,
-            False, XA_STRING, &real_prop_type, &fmt,
-            &nitems, &extra_bytes,
-            (unsigned char **) (void *) &prop_data);
+                             DefaultRootWindow(display),
+                             rules_atom, 0L, _XKB_RF_NAMES_PROP_MAXLEN,
+                             False, XA_STRING, &real_prop_type, &fmt,
+                             &nitems, &extra_bytes,
+                             (unsigned char **) (void *) &prop_data);
 
     if (ret != Success) {
-        qDebug() << "Failed to fetch layouts from server:" << "Could not get the property";
+        qDebug() << "Failed to fetch layouts from server:" <<
+                    "Could not get the property";
         return false;
     }
 
     if ((extra_bytes > 0) || (real_prop_type != XA_STRING) || (fmt != 8)) {
         if (prop_data)
             XFree(prop_data);
-        qDebug() << "Failed to fetch layouts from server:" << "Wrong property format";
+        qDebug() << "Failed to fetch layouts from server:" <<
+                    "Wrong property format";
         return false;
     }
 
     QStringList names;
-    for(char* p=prop_data; p-prop_data < (long)nitems && p != NULL; p += strlen(p)+1) {
+    for(char* p=prop_data; p-prop_data < (long)nitems && p != NULL;
+        p += strlen(p)+1) {
         names.append( p );
 
     }
@@ -140,16 +146,17 @@ bool XKBLibWrapper::getGroupNames(XkbConfig* xkbConfig)
     }
 
 
-        QStringList layouts = names[2].split(OPTIONS_SEPARATOR);
-        QStringList variants = names[3].split(OPTIONS_SEPARATOR);
+    QStringList layouts = names[2].split(OPTIONS_SEPARATOR);
+    QStringList variants = names[3].split(OPTIONS_SEPARATOR);
 
-        for(int ii=0; ii<layouts.count(); ii++) {
-            xkbConfig->layouts << (layouts[ii] != NULL ? layouts[ii] : "");
-            xkbConfig->variants << (ii < variants.count() && variants[ii] != NULL ? variants[ii] : "");
-        }
-        //qDebug() << "Fetched layout groups from X server:"
-        //        << "\tlayouts:" << xkbConfig->layouts
-        //        << "\tvariants:" << xkbConfig->variants;
+    for(int ii=0; ii<layouts.count(); ii++) {
+        xkbConfig->layouts << (layouts[ii] != NULL ? layouts[ii] : "");
+        xkbConfig->variants << (ii < variants.count()
+                                && variants[ii] != NULL ? variants[ii] : "");
+    }
+    //qDebug() << "Fetched layout groups from X server:"
+    //        << "\tlayouts:" << xkbConfig->layouts
+    //        << "\tvariants:" << xkbConfig->variants;
 
 
     XFree(prop_data);

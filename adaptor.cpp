@@ -28,8 +28,8 @@
 #include <QtCore/QVariant>
 
 
-VirtualKeyboardInterfaceAdaptor::VirtualKeyboardInterfaceAdaptor(QObject *parent)
-: QDBusAbstractAdaptor(parent)
+VirtualKeyboardInterfaceAdaptor::VirtualKeyboardInterfaceAdaptor
+(QObject *parent): QDBusAbstractAdaptor(parent)
 {
     setAutoRelaySignals(true);
 }

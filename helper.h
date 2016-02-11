@@ -40,7 +40,8 @@ public:
     explicit Helper(QObject *parent = 0);
     ~Helper();
     QString layout() const;
-    Q_INVOKABLE QString getSymbol(int keycode, int layoutIndex, int keyLevel) const;
+    Q_INVOKABLE QString getSymbol(int keycode, int layoutIndex,
+                                  int keyLevel) const;
     Q_INVOKABLE void fakeKeyPress(unsigned int code);
     Q_INVOKABLE void fakeKeyRelease(unsigned int code);
     Q_INVOKABLE int getNumberOfLayouts();
