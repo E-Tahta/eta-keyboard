@@ -1,12 +1,13 @@
 TEMPLATE = app
 
-QT += qml quick widgets dbus
+QT += qml quick widgets dbus x11extras
 
 SOURCES += main.cpp \
     helper.cpp \
     xwrapper.cpp \
     vkdbusinterface.cpp \
-    adaptor.cpp
+    adaptor.cpp \
+    xkblibwrapper.cpp
 
 RESOURCES += qml.qrc images.qrc
 
@@ -17,7 +18,8 @@ HEADERS += \
     helper.h \
     xwrapper.h \
     vkdbusinterface.h \
-    adaptor.h
+    adaptor.h \
+    xkblibwrapper.h
 LIBS += -lxcb -lxkbcommon -lxkbcommon-x11 -lX11 -lXtst -lxcb-xkb
 
 

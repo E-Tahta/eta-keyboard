@@ -17,51 +17,46 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-#ifndef HELPER_H
-#define HELPER_H
+#ifndef XKBLIBWRAPPER_H
+#define XKBLIBWRAPPER_H
+
 #include <QObject>
 #include <QDebug>
-#include "xwrapper.h"
-#include "vkdbusinterface.h"
-#include "xkblibwrapper.h"
+#include <QStringList>
+#include <QX11Info>
 
-class Helper : public QObject
-{
-    Q_OBJECT
-    Q_PROPERTY(QString layout READ layout
-               NOTIFY hideCalled
-               NOTIFY layoutChanged
-               NOTIFY showFromLeftCalled
-               NOTIFY showFromRightCalled
-               NOTIFY showFromBottomCalled
-               NOTIFY toggleCalled
-               NOTIFY toggleAutoShowCalled)
-public:
-    explicit Helper(QObject *parent = 0);
-    ~Helper();
-    QString layout() const;
-    Q_INVOKABLE QString getSymbol(int keycode, int layoutIndex, int keyLevel) const;
-    Q_INVOKABLE void fakeKeyPress(unsigned int code);
-    Q_INVOKABLE void fakeKeyRelease(unsigned int code);
-    Q_INVOKABLE int getNumberOfLayouts();
-    Q_INVOKABLE QString getLayoutName(int layoutIndex) const;
-    Q_INVOKABLE QString getCurrentLayout() const;
-    Q_INVOKABLE void setLayout(unsigned int layoutIndex);
-    Q_INVOKABLE int getCapslockStatus();
-    void layoutChangedCallback();
-private:
-    XWrapper *xw;
-    VkDbusInterface *vkdi;
-    QDBusInterface *interface;
-    XKBLibWrapper *xkblw;
-signals:
-    void hideCalled();
-    void layoutChanged();
-    void showFromLeftCalled();
-    void showFromRightCalled();
-    void showFromBottomCalled();
-    void toggleCalled();
-    void toggleAutoShowCalled();
+struct XkbConfig {
+    QString keyboardModel;
+    QStringList layouts;
+    QStringList variants;
+    QStringList options;
+    bool isValid() { return ! layouts.empty(); }
 };
 
-#endif // HELPER_H
+struct LayoutUnit {
+    QString layout;
+    QString variant;
+    QString toString() const;
+};
+
+class XKBLibWrapper : public QObject
+{
+    Q_OBJECT
+public:
+    explicit XKBLibWrapper(QObject *parent = 0);
+    QString getCurrentLayout();
+    QString getLayoutName(unsigned int layoutIndex);
+    void setLayout(unsigned int layoutIndex);
+
+private:
+    QList<LayoutUnit> getLayoutsList();
+    bool getGroupNames(XkbConfig* xkbConfig);
+    Display *display;
+
+signals:
+
+public slots:
+
+};
+
+#endif // XKBLIBWRAPPER_H
