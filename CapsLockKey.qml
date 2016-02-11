@@ -1,35 +1,19 @@
 import QtQuick 2.0
-import eta.helper 1.0
 
-Rectangle {
+// FunctionKey
 
-    id: capsKey
-
-    property string keyColor: main.keyColor
-    property string keyPressedColor: main.keyPressedColor
-    property string keyHoverColor: main.keyHoverColor
-    property string textColor: main.textColor
-    property string textPressedColor: main.textPressedColor
-    property string keySymbolLevel1
-    property int keyWidth
-    property int keyHeight: main.keyHeight
-    property int fontPointSize: 9
-
-    property bool hold: false
-    property bool entered: false
-    property bool clickedFlag: false
-
-    property int keyCode: 66
+Key {
+    id: key
 
     property string activeLedColor: "light green"
     property string passiveLedColor: main.keyColor
 
+    property bool clickedFlag: false
 
-    width: keyWidth
-    height: keyHeight
-    color: keyColor
-    radius: keyHeight/10
 
+    leVis4: true
+
+    keyCode: 66
 
     Rectangle {
         id: statusLed
@@ -39,86 +23,40 @@ Rectangle {
         border.color: main.textColor
 
         anchors {
-            top : capsKey.top
-            right: capsKey.right
+            top : key.top
+            right: key.right
             margins: statusLed.width / 2
         }
 
-        color: capsKey.clickedFlag ? capsKey.activeLedColor : capsKey.passiveLedColor
+        color: key.clickedFlag ? key.activeLedColor : key.passiveLedColor
 
     }
 
-
-
-    Text {
-        id: symbol
-        color: textColor
-        font.pointSize: fontPointSize
-        anchors {
-            centerIn: capsKey
-        }
-        text: keySymbolLevel1
-    }
-
-
-    function btnHoveredEffect(){
-        if (!capsKey.hold){
-            if (capsKey.entered){
-                capsKey.color = capsKey.keyHoverColor
-                symbol.color = capsKey.textColor
-
-            }
-
-            else {
-
-                capsKey.color = capsKey.keyColor
-                symbol.color = capsKey.textColor
-
-            }
-        }
-    }
-
-    function btnHold(){
-        capsKey.hold = true
-        capsKey.color = capsKey.keyPressedColor
-        symbol.color = capsKey.textPressedColor
-    }
-
-
-
-    MouseArea{
+    MouseArea {
         id: ma
         anchors.fill: parent
-        hoverEnabled: true
 
         onEntered: {
-            capsKey.entered = true
-            btnHoveredEffect()
+            btnHovered()
         }
 
         onExited: {
-            capsKey.entered = false
-            btnHoveredEffect()
+            btnHovered()
         }
 
         onPressed: {
+            btnPressed()
             helper.fakeKeyPress(66)
-            capsKey.color = capsKey.keyPressedColor
-            symbol.color = capsKey.textPressedColor
-
         }
         onPressAndHold: {
             btnHold()
-
         }
         onReleased: {
-            capsKey.hold = false
+            btnReleased()
             helper.fakeKeyRelease(66);
-            btnHoveredEffect()
-
         }
         onClicked: {
-
+            btnClicked()
         }
     }
 
@@ -127,7 +65,7 @@ Rectangle {
         repeat: true
         interval: 5
         onTriggered: {
-            capsKey.clickedFlag = helper.getCapslockStatus();
+            key.clickedFlag = helper.getCapslockStatus();
 
         }
     }

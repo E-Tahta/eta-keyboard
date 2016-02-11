@@ -8,9 +8,11 @@ ApplicationWindow {
     id: settings
 
 
+
     property bool settingsVisible: main.settingsVisible
     property int settingsWidth: main.width / 8
     property int settingsHeight: main.height / 6
+    property string keyColor
 
     flags: Qt.X11BypassWindowManagerHint
 
@@ -25,40 +27,52 @@ ApplicationWindow {
     y: main.y + main.height - settings.height
 
 
-
-
-
-
-
-
     Helper{
         id: helperId
     }
 
     ListModel {
-        id:comboModel
+        id:languageModel
+    }
 
+    ListModel {
+        id: colorModel
+        ListElement {text:"green"; tColor:"white";hColor:"light green"}
+        ListElement{text:"grey";tColor:"black";hColor:"light grey"}
 
     }
 
-    ComboBox{
+    /*ComboBox{
         id:languages
         editable: false
-        model: comboModel
-        height: settings.height
+        model: languageModel
         width: settings.width
-
-
-
 
 
         onCurrentIndexChanged: {
             main.languageLayoutIndex = currentIndex;
-            helperId.setLayout(comboModel.get(currentIndex).text);
+            helperId.setLayout(languageModel.get(currentIndex).text);
+
+        }
+    }*/
+
+
+    ComboBox{
+        id:colors
+        editable: false
+        model: colorModel
+        width: settings.width
+
+
+
+        onCurrentIndexChanged: {
+            main.keyColor = colorModel.get(currentIndex).text;
+            main.activeTextColor = colorModel.get(currentIndex).tColor;
+            main.keyHoverColor = colorModel.get(currentIndex).hColor;
+            main.updateTheme = !main.updateTheme
 
         }
     }
-
 
 
 
@@ -85,12 +99,6 @@ ApplicationWindow {
         }
 
     }
-
-
-
-
-
-
 
     ParallelAnimation {
         id: hideSettings
@@ -123,17 +131,13 @@ ApplicationWindow {
     }
 
 
-
-
     Component.onCompleted: {
 
-
-
-
-        //console.log("Number of layouts = "+helper.getNumberOfLayouts());
         for(var i = 0; i< helper.getNumberOfLayouts();i++)
         {
-            comboModel.append({text:helper.getLayoutName(i)});
+            languageModel.append({text:helper.getLayoutName(i)});
         }
+
+
     }
 }

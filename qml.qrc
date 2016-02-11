@@ -2,19 +2,30 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>AlphaKey.qml</file>
-        <file>SpecialKey.qml</file>
-        <file>NumericKey.qml</file>
-        <file>FunctionKey.qml</file>
-        <file>EnterKey.qml</file>
+        <file>SpecialKeyOld.qml</file>
+        <file>NumericKeyOld.qml</file>
+        <file>FunctionKeyOld.qml</file>
+        <file>EnterKeyOld.qml</file>
         <file>SettingsKey.qml</file>
-        <file>MetaKey.qml</file>
-        <file>ArrowKey.qml</file>
-        <file>StickyKey.qml</file>
+        <file>MetaKeyOld.qml</file>
+        <file>ArrowKeyOld.qml</file>
+        <file>StickyKeyOld.qml</file>
         <file>Test.qml</file>
         <file>TabletLayout.qml</file>
         <file>FullLayout.qml</file>
-        <file>AlphaNumericKey.qml</file>
-        <file>CapsLockKey.qml</file>
+        <file>AlphaNumericKeyOld.qml</file>
+        <file>CapsLockKeyOld.qml</file>
         <file>Settings.qml</file>
+        <file>Key.qml</file>
+        <file>FunctionKey.qml</file>
+        <file>NumericKey.qml</file>
+        <file>AlphaNumericKey.qml</file>
+        <file>SpecialKey.qml</file>
+        <file>StickyKey.qml</file>
+        <file>ArrowKey.qml</file>
+        <file>MetaKey.qml</file>
+        <file>CapsLockKey.qml</file>
+        <file>EnterKeyHead.qml</file>
+        <file>EnterKeyFoot.qml</file>
     </qresource>
 </RCC>

@@ -14,7 +14,7 @@ ApplicationWindow {
     flags:Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowDoesNotAcceptFocus
 
 
-    property string keyColor: "#585858"
+    property string keyColor: settings.keyColor//"#585858"
     property string keyPressedColor: "#ffffff"
     property string keyHoverColor: "#848484"
     property string textColor: "#dddddd"
@@ -34,23 +34,15 @@ ApplicationWindow {
     property bool releaseAll: false
 
 
-    property int screenWidth: Screen.width
-    property int screenHeight: Screen.height
-    property int m_height
-
     property bool settingsVisible : false
 
-
-
-
+    property bool updateTheme: false
 
     Settings{
 
         id: settings
 
-
     }
-
 
 
     ListModel {
@@ -66,6 +58,7 @@ ApplicationWindow {
 
     function stickyKeyPressed(keyCode){
 
+        var press = true
 
         if (main.stickyNum<3){
             main.stickyNum++
@@ -79,6 +72,13 @@ ApplicationWindow {
                 break;
             }
 
+
+            for (var i=0; i<stickyModel.count; i++)
+                if(stickyModel.get(i).keyCode == keyCode)
+                    press = false
+
+
+            if (press)
             stickyModel.append({keyCode:keyCode})
 
         }
@@ -131,6 +131,7 @@ ApplicationWindow {
         else {
             for (var i=0; i<stickyModel.count; i++){
                 helper.fakeKeyPress(stickyModel.get(i).keyCode)
+                console.log(stickyModel.get(i).keyCode+" in")
             }
 
             helper.fakeKeyPress(keyCode)
@@ -148,9 +149,15 @@ ApplicationWindow {
 
             for (var i=0; i<stickyModel.count; i++){
                 helper.fakeKeyRelease(stickyModel.get(i).keyCode)
+                console.log(stickyModel.get(i).keyCode+" out")
             }
 
             main.releaseAll = ! main.releaseAll;
+
+            for (var i=0; i<stickyModel.count; i++){
+                helper.fakeKeyRelease(stickyModel.get(i).keyCode)
+                console.log(stickyModel.get(i).keyCode+" if you see me there is a problem")
+            }
         }
 
 
@@ -172,10 +179,10 @@ ApplicationWindow {
 
 
     Component.onCompleted: {
-        main.dockSize = Screen.height / 30  //check if tablet or full then give different
-        main.keyHeight = Screen.height / 16
-        main.width = main.keyHeight * 16.2 + 2
-        main.height = main.keyHeight * 6 + main.dockSize + main.columnSpacing
+        main.keyHeight = Screen.height / 18
+        main.dockSize = Screen.height / 30
+        main.width = main.keyHeight * 15 + 15 * main.rowSpacing
+        main.height = main.keyHeight * 11 / 2 + main.dockSize + 7 * main.columnSpacing
     }
 
 }

@@ -8,9 +8,6 @@ Item{
 
     property bool releaseAll : main.releaseAll
 
-
-
-
     onReleaseAllChanged: releaseAllSticky()
 
 
@@ -24,6 +21,11 @@ Item{
         keyAltGr.releaseBtn()
 
         main.keyLevel = 0
+        main.stickyNum = 0
+
+        for (var i=0; i<stickyModel.count; i++){
+            stickyModel.remove(i)
+        }
     }
 
 
@@ -32,11 +34,6 @@ Item{
 
 
     }
-
-
-
-
-
 
 
     Column{
@@ -67,8 +64,6 @@ Item{
                     onClicked: Qt.quit()
                 }
             }
-
-
 
 
             MouseArea{
@@ -133,7 +128,7 @@ Item{
             NumericKey{id: key0; keyCode: 19}
             NumericKey{id: keyStar; keyCode: 20}
             NumericKey{id: keyMinus; keyCode: 21}
-            SpecialKey{id: keyBackspace; keySymbolLevel1: "← Backspace"; keyWidth: main.keyWidth * 21/10; keyCode: 22}
+            SpecialKey{id: keyBackspace; keyText: "← Backspace"; keyWidth: main.keyWidth * 21/10; keyCode: 22}
         }
 
 
@@ -141,7 +136,7 @@ Item{
             id: row3
             spacing: main.rowSpacing
 
-            SpecialKey{id:keyTab; keySymbolLevel1: "Tab ↔"; keyWidth: main.keyWidth* 3/2; keyCode: 23}
+            SpecialKey{id:keyTab; keyText: "Tab ↔"; keyWidth: main.keyWidth* 3/2; keyCode: 23}
             AlphaNumericKey{id: keyQ; keyCode: 24; leVis2: true}
             AlphaNumericKey{id: keyW; keyCode: 25}
             AlphaNumericKey{id: keyE; keyCode: 26}
@@ -160,7 +155,7 @@ Item{
             id: row4
             spacing: main.rowSpacing
 
-            CapsLockKey{id:keyCapsLock; keySymbolLevel1: "CapsLock"; keyWidth: main.keyWidth * 9 / 5; keyCode: 66}
+            CapsLockKey{id:keyCapsLock; keyText: "CapsLock"; keyWidth: main.keyWidth * 9 / 5; keyCode: 66}
             AlphaNumericKey{id: keyA; keyCode: 38}
             AlphaNumericKey{id: keyS; keyCode: 39}
             AlphaNumericKey{id: keyD; keyCode: 40}
@@ -172,7 +167,7 @@ Item{
             AlphaNumericKey{id: keyL; keyCode: 46}
             AlphaNumericKey{id: keySS; keyCode: 47}
             AlphaNumericKey{id: keyII; keyCode: 48}
-            AlphaNumericKey{id: keyComma;keyCode: 51 }
+            AlphaNumericKey{id: keyComma;keyCode: 51; z:+1 }
 
 
         }
@@ -180,7 +175,7 @@ Item{
             id: row5
             spacing: main.rowSpacing
 
-            StickyKey{id:keyShiftL; keySymbolLevel1: "Shift"; keyWidth: main.keyWidth; keyCode: 50}
+            StickyKey{id:keyShiftL; keyText: "Shift"; keyWidth: main.keyWidth; keyCode: 50}
             AlphaNumericKey{id: keyCompare; keyCode: 94 }
             AlphaNumericKey{id: keyZ; keyCode: 52}
             AlphaNumericKey{id: keyX; keyCode: 53}
@@ -192,21 +187,22 @@ Item{
             AlphaNumericKey{id: keyOO; keyCode: 59}
             AlphaNumericKey{id: keyCC; keyCode: 60}
             AlphaNumericKey{id: keyDot; keyCode: 61}
+            //TestButton{id: testButton}
 
         }
         Row {
             id: row6
             spacing: main.rowSpacing
             SettingsKey{id: keySettings}
-            StickyKey{id: keyCtrlL; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;keyCode: 37}
+            StickyKey{id: keyCtrlL; keyText: "Ctrl"; keyWidth: main.keyWidth;keyCode: 37}
             MetaKey{id: keyMeta; keyCode: 133}
-            StickyKey{id: keyAlt; keySymbolLevel1: "Alt"; keyWidth: main.keyWidth;keyCode: 64}
+            StickyKey{id: keyAlt; keyText: "Alt"; keyWidth: main.keyWidth;keyCode: 64}
             AlphaNumericKey{id: keySpace; keyWidth: main.keyWidth * 6 + 5 * main.rowSpacing; keyCode: 65}
-            StickyKey{id: keyAltGr; keySymbolLevel1: "Alt Gr"; keyWidth: main.keyWidth; keyCode: 108}
-            StickyKey{id: keyCtrlR; keySymbolLevel1: "Ctrl"; keyWidth: main.keyWidth;keyCode: 105}
-            ArrowKey{id: keyArrowL; keySymbolLevel1: "◄"; keyCode: 113}
-            ArrowKey{id: keyArrowB; keySymbolLevel1: "▼"; keyCode: 116}
-            ArrowKey{id: keyArrowR; keySymbolLevel1: "►"; keyCode: 114}
+            StickyKey{id: keyAltGr; keyText: "Alt Gr"; keyWidth: main.keyWidth; keyCode: 108}
+            StickyKey{id: keyCtrlR; keyText: "Ctrl"; keyWidth: main.keyWidth;keyCode: 105}
+            ArrowKey{id: keyArrowL; keyText: "◄"; keyCode: 113}
+            ArrowKey{id: keyArrowB; keyText: "▼"; keyCode: 116}
+            ArrowKey{id: keyArrowR; keyText: "►"; keyCode: 114}
         }
 
 
@@ -214,17 +210,20 @@ Item{
 
 
 
-    EnterKey{
-        id: keyEnter
+    EnterKeyHead{
+        id: keyEnterHead
         x: keyUU.x + main.keyWidth + main.rowSpacing
         y: row3.y
-        keyCode: 36
+        z: -1
+
     }
+
+
     ArrowKey{
         id: keyArrowU
         x: keyDot.x + main.keyWidth * 2 + main.rowSpacing * 2
         y: row5.y
-        keySymbolLevel1: "▲"
+        keyText: "▲"
         keyCode: 111
     }
 
@@ -233,6 +232,5 @@ Item{
 
 
     }
-
 
 }
