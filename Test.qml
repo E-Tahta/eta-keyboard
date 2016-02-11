@@ -1,3 +1,22 @@
+/*****************************************************************************
+ *   Copyright (C) 2016 by Yunusemre Senturk                                 *
+ *   <yunusemre.senturk@pardus.org.tr>                                       *
+ *                                                                           *
+ *   This program is free software; you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by    *
+ *   the Free Software Foundation; either version 2 of the License, or       *
+ *   (at your option) any later version.                                     *
+ *                                                                           *
+ *   This program is distributed in the hope that it will be useful,         *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+ *   GNU General Public License for more details.                            *
+ *                                                                           *
+ *   You should have received a copy of the GNU General Public License       *
+ *   along with this program; if not, write to the                           *
+ *   Free Software Foundation, Inc.,                                         *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
+ *****************************************************************************/
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import eta.helper 1.0
@@ -8,10 +27,10 @@ ApplicationWindow {
     id: test
     visible: true
     x:screenWidth/2 - test.width/2
-    y:screenHeight
+    y:screenHeight/2
     width: 400
     height: m_height
-    title: qsTr("qmlkeyboardtest")
+    title: qsTr("testQml")
     color:"#010101"
     flags: Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowDoesNotAcceptFocus | Qt.X11BypassWindowManagerHint
 
@@ -70,8 +89,7 @@ ApplicationWindow {
 
     Helper {
         id:helper
-        onLayoutChanged: {
-            //console.log("signal from cpp");
+        onLayoutChanged: {            
             test.currentLayoutName = helper.getCurrentLayout()
             for(var i = 0; i< helper.getNumberOfLayouts();i++)
             {
@@ -80,7 +98,7 @@ ApplicationWindow {
                     languages.update()
                 }
             }
-            //console.log(helper.getCurrentLayout());
+            console.log(helper.getCurrentLayout());
         }
         onShowFromBottomCalled: {
             console.log("showFroomBottomCalled from dbus");
@@ -194,16 +212,40 @@ ApplicationWindow {
 
             Button {
                 id:alphaKey
-                property int keycode : 35
+                property int keycode : 34
                 property int level : test.keyLevel
                 text : helper.getSymbol(alphaKey.keycode,test.layoutIndex,alphaKey.level)
                 onClicked: {
-
                     fakeKey(alphaKey.keycode)
-
                 }
             }
 
+            Rectangle {
+                id:newKey
+                property int keycode : 35
+                property int level: test.keyLevel
+                height: alphaKey.height
+                width: alphaKey.width
+                color : ma.containsMouse ? "light green" : "green"
+                Text{
+                    anchors.centerIn: parent
+                    text: helper.getSymbol(newKey.keycode,test.layoutIndex,newKey.level)
+                }
+                MouseArea {
+                    id:ma
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onPressed: {
+                        newKey.color= "white";
+                        helper.fakeKeyPress(newKey.keycode);
+                    }
+                    onReleased: {
+                        newKey.color= ma.containsMouse ? "light green" : "green";
+                        helper.fakeKeyRelease(newKey.keycode);
+                    }
+                    onHoveredChanged: newKey.color= ma.containsMouse ? "light green" : "green"
+                }
+            }
         }
         Row {
             id:row2
@@ -213,7 +255,7 @@ ApplicationWindow {
                 property int keycode : 66
                 text : "Caps_Lock"
                 checked: helper.getCapslockStatus()
-               onClicked: {
+                onClicked: {
                     helper.fakeKeyPress(caps.keycode);
                     helper.fakeKeyRelease(caps.keycode);
 
@@ -262,7 +304,7 @@ ApplicationWindow {
                 model: comboModel
                 onCurrentIndexChanged: {
                     test.layoutIndex = currentIndex;
-                    helper.setLayout(comboModel.get(currentIndex).text);
+                    helper.setLayout(currentIndex);
                     test.currentLayoutName = comboModel.get(currentIndex).text;
                 }
 
@@ -279,11 +321,16 @@ ApplicationWindow {
         }
     }
     Component.onCompleted: {
-        //console.log("Number of layouts = "+helper.getNumberOfLayouts());
+        console.log("Number of layouts = "+helper.getNumberOfLayouts());
         for(var i = 0; i< helper.getNumberOfLayouts();i++)
         {
             comboModel.append({text:helper.getLayoutName(i)});
+            if(helper.getLayoutName(i) == helper.getCurrentLayout()) {
+                test.layoutIndex = i;
+            }
         }
+        test.currentLayoutName = helper.getCurrentLayout();
+        languages.currentIndex = test.layoutIndex;
     }
 
 }
