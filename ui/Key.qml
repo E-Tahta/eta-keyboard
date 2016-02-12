@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.3
 
 Rectangle {
     id: key
@@ -148,7 +148,7 @@ Rectangle {
     MouseArea{
         id: ma
         anchors.fill: parent
-        hoverEnabled: true
+        hoverEnabled: main.keyHover
 
         onEntered: {
            btnHovered()

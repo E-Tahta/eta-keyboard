@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.3
 
 // EnterKeyHead
 
@@ -27,7 +27,7 @@ Item {
 
 
 
-    width: keyWidth * 8 / 5
+    width: keyWidth * 3 / 2
     height: keyHeight * 2 + main.spacing
 
 
@@ -84,7 +84,7 @@ Item {
         color: ma.containsMouse ? key.keyHoverColor : key.keyColor
         radius: key.keyRadius
         height: key.keyHeight
-        width: key.width
+        width: key.width + main.spacing
         z: 10
         Text {
             id: headText
@@ -100,7 +100,7 @@ Item {
         MouseArea{
             id: ma
             anchors.fill: parent
-            hoverEnabled: true
+            hoverEnabled: main.keyHover
 
             onEntered: {
                 key.entered = true
@@ -124,7 +124,7 @@ Item {
                 btnReleased()
             }
             onClicked: {
-                key.btnClicked()
+                btnClicked()
             }
         }
 
@@ -133,7 +133,7 @@ Item {
         id: foot
         color: ma1.containsMouse ? key.keyHoverColor : key.keyColor
         radius: key.keyRadius
-        width: key.keyWidth * 13 / 10
+        width: key.keyWidth * 5 / 4 + main.spacing
         height: key.height
 
 
@@ -145,9 +145,9 @@ Item {
 
 
         MouseArea{
-            id: ma2
+            id: ma1
             anchors.fill: parent
-            hoverEnabled: true
+            hoverEnabled: main.keyHover
 
             onEntered: {
                 key.entered = true
@@ -171,7 +171,7 @@ Item {
                 btnReleased()
             }
             onClicked: {
-                key.btnClicked()
+                btnClicked()
             }
         }
 

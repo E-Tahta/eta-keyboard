@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
 import eta.helper 1.0
@@ -7,7 +7,7 @@ Item{
     id: fullLayout
 
     property bool releaseAll : main.releaseAll
-
+    property bool updateTheme: main.updateTheme
     onReleaseAllChanged: releaseAllSticky()
 
 
@@ -21,12 +21,12 @@ Item{
         keyAltGr.stickyReleased()
 
         main.keyLevel = 0
-        main.stickyNum = 0
 
         for (var i=0; i<stickyModel.count; i++){
             stickyModel.remove(i)
         }
     }
+
 
 
     Helper {
@@ -51,55 +51,6 @@ Item{
             }
 
 
-            Rectangle {
-                id: dock
-                height: main.dockSize
-                width: main.width
-                color: main.color
-
-
-
-
-                Image {
-                    id: closeBtnImage
-                    source: "Images/window-close.png"
-
-                    anchors.right: dock.right
-                    anchors.top: dock.top
-                    anchors.bottom: dock.bottom
-                    height:main.dockSize
-                    width: closeBtnImage.height
-                    MouseArea{
-                        anchors.fill: closeBtnImage
-                        onClicked: Qt.quit()
-                    }
-                }
-
-
-                MouseArea{
-                    anchors{
-                        top: dock.top
-                        left: dock.left
-                        bottom: dock.bottom
-                        right:closeBtnImage.left
-                    }
-                    property variant cpos: "1,1"
-                    onPressed: {
-                        cpos = Qt.point(mouse.x,mouse.y);
-                       // main.opacity = 0.3
-                        //settings.opacity = 0.3
-                    }
-                    onPositionChanged: {
-                        var delta = Qt.point(mouse.x - cpos.x, mouse.y - cpos.y);
-                        main.x += delta.x;
-                        main.y += delta.y;
-                    }
-                    onReleased: {
-                       // main.opacity = 1
-                        //settings.opacity = settingsVisible ? 0 : 1
-                    }
-                }
-            }
 
             Row {
                 id: row1
@@ -144,7 +95,7 @@ Item{
                 NumericKey{id: key0; keyCode: 19}
                 NumericKey{id: keyStar; keyCode: 20}
                 NumericKey{id: keyMinus; keyCode: 21}
-                SpecialKey{id: keyBackspace; keyText: "← Backspace"; keyWidth: main.keyWidth * 21/10; keyCode: 22}
+                SpecialKey{id: keyBackspace; keyText: "← Backspace"; keyWidth: main.keyWidth * 2 + main.spacing ; keyCode: 22}
             }
 
 
@@ -171,7 +122,7 @@ Item{
                 id: row4
                 spacing: main.spacing
 
-                CapsLockKey{id:keyCapsLock; keyText: "CapsLock"; keyWidth: main.keyWidth * 9 / 5; keyCode: 66}
+                CapsLockKey{id:keyCapsLock; keyText: "CapsLock"; keyWidth: main.keyWidth * 7 / 4; keyCode: 66}
                 AlphaNumericKey{id: keyA; keyCode: 38}
                 AlphaNumericKey{id: keyS; keyCode: 39}
                 AlphaNumericKey{id: keyD; keyCode: 40}
@@ -183,7 +134,7 @@ Item{
                 AlphaNumericKey{id: keyL; keyCode: 46}
                 AlphaNumericKey{id: keySS; keyCode: 47}
                 AlphaNumericKey{id: keyII; keyCode: 48}
-                AlphaNumericKey{id: keyComma;keyCode: 51; z:+1 }
+                AlphaNumericKey{id: keyComma;keyCode: 51}
 
 
             }
@@ -226,7 +177,7 @@ Item{
 
 
         EnterKey{
-            id: keyEnterHead
+            id: keyEnter
             x: keyUU.x + main.keyWidth + main.spacing + main.spacing
             y: row3.y + main.spacing
             z: -1
@@ -244,12 +195,18 @@ Item{
 
     }
 
-
-
-
-    Component.onCompleted: {
-
-
+    onUpdateThemeChanged: {
+        passwordToggle.color = pToggleMa.containsMouse ? main.keyHoverColor : main.keyColor
+        if (main.password){
+            passwordToggle.color = main.keyPressedColor
+            pToggleText.color = main.textPressedColor
+        }
+        else{
+            passwordToggle.color = pToggleMa.containsMouse ? main.keyHoverColor : main.keyColor
+            pToggleText.color = main.textColor
+        }
     }
+
+
 
 }
