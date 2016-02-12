@@ -20,15 +20,17 @@ Key {
 
         onPressed: {
             btnPressed()
+            main.nonStickyPressed(key.keyCode)
         }
         onPressAndHold: {
             btnHold()
         }
         onReleased: {
             btnReleased()
+            main.nonStickyReleased(key.keyCode)
         }
         onClicked: {
-            key.btnClicked()
+            btnClicked()
         }
     }
 }

@@ -16,7 +16,7 @@ Item{
 
     Column{
         id: col1
-        spacing: main.columnSpacing
+        spacing: main.spacing
 
 
         Rectangle {

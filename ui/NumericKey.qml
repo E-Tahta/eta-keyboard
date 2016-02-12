@@ -1,10 +1,12 @@
 import QtQuick 2.0
 
-// SpecialKey
+// NumericKey
 
 Key {
     id: key
-    leVis4: true
+    leVis0: true
+    leVis1: true
+    leVis2: true
 
     MouseArea {
         id: ma
@@ -20,15 +22,17 @@ Key {
 
         onPressed: {
             btnPressed()
+            main.nonStickyPressed(key.keyCode)
         }
         onPressAndHold: {
             btnHold()
         }
         onReleased: {
             btnReleased()
+            main.nonStickyReleased(key.keyCode)
         }
         onClicked: {
-            key.btnClicked()
+            btnClicked()
         }
     }
 }

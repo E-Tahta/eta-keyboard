@@ -6,15 +6,14 @@ import eta.helper 1.0
 
 ApplicationWindow {
     id: main
-    visible: true
+    visible: false
     title: qsTr("ETA Virtual Keyboard")
     color: "#010101"
 
+    flags:Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowDoesNotAcceptFocus | Qt.X11BypassWindowManagerHint
 
-    flags:Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowDoesNotAcceptFocus
 
-
-    property string keyColor: settings.keyColor//"#585858"
+    property string keyColor: "#585858" //settings.keyColor
     property string keyPressedColor: "#ffffff"
     property string keyHoverColor: "#848484"
     property string textColor: "#dddddd"
@@ -22,8 +21,7 @@ ApplicationWindow {
     property string textPressedColor: "#5e5a5a"
     property int keyHeight
     property int keyWidth: keyHeight
-    property int rowSpacing: keyHeight / 10
-    property int columnSpacing: rowSpacing
+    property int spacing: keyHeight / 12
 
     property int dockSize
 
@@ -181,8 +179,13 @@ ApplicationWindow {
     Component.onCompleted: {
         main.keyHeight = Screen.height / 18
         main.dockSize = Screen.height / 30
-        main.width = main.keyHeight * 15 + 15 * main.rowSpacing
-        main.height = main.keyHeight * 11 / 2 + main.dockSize + 7 * main.columnSpacing
+        main.width = main.keyHeight * 15 + main.spacing * 16
+        main.height = main.keyHeight * 11 / 2 + main.dockSize + main.spacing * 8
+
+        main.x = Screen.width / 2 - main.width / 2
+        main.y = Screen.height - main.height
+
+        main.visible = true
     }
 
 }

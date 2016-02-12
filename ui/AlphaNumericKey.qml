@@ -1,12 +1,11 @@
 import QtQuick 2.0
 
-// FunctionKey
+// AlphaNumericKey
 
 Key {
     id: key
-    leVis4: true
-    keyHeight: main.keyHeight / 2
-    keyWidth: main.keyWidth * 41 / 50
+    leVis0: true
+    leVis1: true
 
     MouseArea {
         id: ma
@@ -22,12 +21,14 @@ Key {
 
         onPressed: {
             btnPressed()
+            main.nonStickyPressed(key.keyCode)
         }
         onPressAndHold: {
             btnHold()
         }
         onReleased: {
             btnReleased()
+            main.nonStickyReleased(key.keyCode)
         }
         onClicked: {
             btnClicked()

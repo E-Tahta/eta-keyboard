@@ -29,6 +29,7 @@ Rectangle {
     property double passiveOpacity: 0.2
 
     property bool hold: false
+    property bool lock: false
     property bool updateTheme: main.updateTheme
 
 
@@ -53,13 +54,14 @@ Rectangle {
     }
 
     function btnHovered(){
-
-        key.color = ma.containsMouse ? key.keyHoverColor : key.keyColor
-        lev0.color = key.keyLevel == 0 ? key.activeTextColor : key.textColor
-        lev1.color = key.keyLevel == 1 ? key.activeTextColor : key.textColor
-        lev2.color = key.keyLevel == 2 ? key.activeTextColor : key.textColor
-        lev3.color = key.keyLevel == 3 ? key.activeTextColor : key.textColor
-        lev4.color = key.textColor;
+        if (!key.lock){
+            key.color = ma.containsMouse ? key.keyHoverColor : key.keyColor
+            lev0.color = key.keyLevel == 0 ? key.activeTextColor : key.textColor
+            lev1.color = key.keyLevel == 1 ? key.activeTextColor : key.textColor
+            lev2.color = key.keyLevel == 2 ? key.activeTextColor : key.textColor
+            lev3.color = key.keyLevel == 3 ? key.activeTextColor : key.textColor
+            lev4.color = key.textColor;
+        }
     }
 
 
@@ -149,7 +151,7 @@ Rectangle {
         hoverEnabled: true
 
         onEntered: {
-            btnHovered()
+           btnHovered()
         }
 
         onExited: {

@@ -1,17 +1,10 @@
 import QtQuick 2.0
 
-// MetaKey
+// SpecialKey
 
 Key {
     id: key
-
-    Image {
-        id: img
-        width: parent.width * 2 / 3
-        height: img.width
-        anchors.centerIn: parent
-        source: "Images/pardus.png"
-    }
+    leVis4: true
 
     MouseArea {
         id: ma
@@ -25,18 +18,19 @@ Key {
             btnHovered()
         }
 
-
         onPressed: {
             btnPressed()
+            main.nonStickyPressed(key.keyCode)
         }
         onPressAndHold: {
             btnHold()
         }
         onReleased: {
             btnReleased()
+            main.nonStickyReleased(key.keyCode)
         }
         onClicked: {
-            key.btnClicked()
+            btnClicked()
         }
     }
 }
