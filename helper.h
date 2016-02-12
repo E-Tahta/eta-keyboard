@@ -47,6 +47,7 @@ public:
     Q_INVOKABLE int getNumberOfLayouts();
     Q_INVOKABLE QString getLayoutName(int layoutIndex) const;
     Q_INVOKABLE QString getCurrentLayout() const;
+    Q_INVOKABLE int getCurrentLayoutIndex();
     Q_INVOKABLE void setLayout(unsigned int layoutIndex);
     Q_INVOKABLE int getCapslockStatus();
     void layoutChangedCallback();

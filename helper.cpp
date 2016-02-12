@@ -52,9 +52,13 @@ void Helper::layoutChangedCallback()
 }
 
 void Helper::setLayout(unsigned int layoutIndex)
-{
-    //interface->call("setLayout",layout);
+{    
     xkblw->setLayout(layoutIndex);
+}
+
+int Helper::getCurrentLayoutIndex()
+{
+    return xkblw->getCurrentLayoutIndex();
 }
 
 QString Helper::getLayoutName(int layoutIndex) const
