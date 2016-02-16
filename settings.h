@@ -17,55 +17,39 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-#ifndef HELPER_H
-#define HELPER_H
-#include <QObject>
-#include <QDebug>
-#include "xwrapper.h"
-#include "vkdbusinterface.h"
-#include "xkblibwrapper.h"
 
-class Helper : public QObject
+#ifndef SETTINGS_H
+#define SETTINGS_H
+
+#include <QDir>
+#include <QObject>
+#include <QSettings>
+#include <QFileInfo>
+
+class Settings : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString layout READ layout
-               NOTIFY hideCalled
-               NOTIFY layoutChanged
-               NOTIFY showFromLeftCalled
-               NOTIFY showFromRightCalled
-               NOTIFY showFromBottomCalled
-               NOTIFY toggleCalled
-               NOTIFY toggleAutoShowCalled)
 public:
-    explicit Helper(QObject *parent = 0);
-    ~Helper();
-    QString layout() const;
-    Q_INVOKABLE QString getSymbol(int keycode, int layoutIndex,
-                                  int keyLevel) const;
-    Q_INVOKABLE void fakeKeyPress(unsigned int code);
-    Q_INVOKABLE void fakeKeyRelease(unsigned int code);
-    Q_INVOKABLE int getNumberOfLayouts();
-    Q_INVOKABLE QString getLayoutName(int layoutIndex) const;
-    Q_INVOKABLE QString getCurrentLayout() const;
-    Q_INVOKABLE int getCurrentLayoutIndex();
-    Q_INVOKABLE void setLayout(unsigned int layoutIndex);
-    Q_INVOKABLE int getCapslockStatus();
-
-
-    void layoutChangedCallback();
+    explicit Settings(QObject *parent = 0);
+    void setSettings(QString &color, QString &layoutType, double scale,
+                     unsigned int languageLayoutIndex, bool autoShow);
+    QString getColor() const;
+    QString getLayoutType() const;
+    double getScale();
+    unsigned int getLanguageLayoutIndex();
+    bool getAutoShow();
+    void saveSettings();
 private:
-    XWrapper *xw;
-    VkDbusInterface *vkdi;
-    QDBusInterface *interface;
-    XKBLibWrapper *xkblw;
-signals:
-    void hideCalled();
-    void layoutChanged();
-    void showFromLeftCalled();
-    void showFromRightCalled();
-    void showFromBottomCalled();
-    void toggleCalled();
-    void toggleAutoShowCalled();
+    QString m_color;
+    QString m_layoutType;
+    double m_scale;
+    unsigned int m_languageLayoutIndex;
+    bool m_autoShow;
+    QString configpath;
+    QSettings *preferences;
+
+public slots:
+
 };
 
-#endif // HELPER_H
+#endif // SETTINGS_H

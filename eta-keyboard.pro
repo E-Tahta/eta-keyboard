@@ -7,7 +7,8 @@ SOURCES += main.cpp \
     xwrapper.cpp \
     vkdbusinterface.cpp \
     adaptor.cpp \
-    xkblibwrapper.cpp
+    xkblibwrapper.cpp \
+    settings.cpp
 
 RESOURCES += qml.qrc images.qrc
 
@@ -19,7 +20,8 @@ HEADERS += \
     xwrapper.h \
     vkdbusinterface.h \
     adaptor.h \
-    xkblibwrapper.h
+    xkblibwrapper.h \
+    settings.h
 LIBS += -lxcb -lxkbcommon -lxkbcommon-x11 -lX11 -lXtst -lxcb-xkb
 
 
