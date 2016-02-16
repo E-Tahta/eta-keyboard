@@ -47,16 +47,11 @@ public:
     QString getCurrentLayout();
     QString getLayoutName(unsigned int layoutIndex);
     void setLayout(unsigned int layoutIndex);
-
+    int getCurrentLayoutIndex();
 private:
     QList<LayoutUnit> getLayoutsList();
     bool getGroupNames(XkbConfig* xkbConfig);
     Display *display;
-
-signals:
-
-public slots:
-
 };
 
 #endif // XKBLIBWRAPPER_H

@@ -45,6 +45,13 @@ void XKBLibWrapper::setLayout(unsigned int layoutIndex)
     }
 }
 
+int XKBLibWrapper::getCurrentLayoutIndex()
+{
+    XkbStateRec xkbState;
+    XkbGetState( display, XkbUseCoreKbd, &xkbState );
+    return xkbState.group;
+}
+
 QString XKBLibWrapper::getCurrentLayout()
 {
     XkbStateRec xkbState;
