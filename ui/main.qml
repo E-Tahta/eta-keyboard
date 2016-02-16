@@ -1,3 +1,22 @@
+/*****************************************************************************
+ *   Copyright (C) 2016 by Hikmet Bas                                        *
+ *   <hikmet.bask@pardus.org.tr>                                             *
+ *                                                                           *
+ *   This program is free software; you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by    *
+ *   the Free Software Foundation; either version 2 of the License, or       *
+ *   (at your option) any later version.                                     *
+ *                                                                           *
+ *   This program is distributed in the hope that it will be useful,         *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+ *   GNU General Public License for more details.                            *
+ *                                                                           *
+ *   You should have received a copy of the GNU General Public License       *
+ *   along with this program; if not, write to the                           *
+ *   Free Software Foundation, Inc.,                                         *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
+ *****************************************************************************/
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
@@ -32,6 +51,7 @@ ApplicationWindow {
     property bool updateTheme: false
     property bool keyHover: true
     property bool password: false
+    property string storedMirror
 
     ListModel {
         id:stickyModel
@@ -96,9 +116,24 @@ ApplicationWindow {
     function checkAlt(){
         return stickyModel.count === 1 && stickyModel.get(0).keyCode === 64;
     }
+    function checkShiftAltgr(){
+        if (stickyModel.count == 0) return true
+        else if (stickyModel.count == 1)
+            return stickyModel.get(0).keyCode === 50 || stickyModel.get(0).keyCode === 108
+        else if (stickyModel.count == 2){
+            var cnt = 0
+            if(stickyModel.get(0).keyCode === 50 || stickyModel.get(0).keyCode === 108) cnt ++
+            if(stickyModel.get(1).keyCode === 50 || stickyModel.get(1).keyCode === 108) cnt ++
+            if (cnt == 2) return true
+            else return false
+
+        }
+        return false
+
+    }
 
 
-    function nonStickyPressed(keyCode){
+    function nonStickyPressed(keyCode,mirror){
 
         if (checkAlt()){
             helper.fakeKeyPress(64)
@@ -115,6 +150,46 @@ ApplicationWindow {
             }
 
             helper.fakeKeyPress(keyCode)
+        }
+
+        if (mirror && checkShiftAltgr()){
+            main.storedMirror += helper.getSymbol(keyCode,main.languageLayoutIndex,main.keyLevel)
+            if (main.password)
+                 mirrorText.text +="*"
+            else
+                mirrorText.text += helper.getSymbol(keyCode,main.languageLayoutIndex,main.keyLevel)
+        }
+
+
+        switch (keyCode){
+        case 65:
+            mirrorText.text = ""
+            main.storedMirror = ""
+            break;
+        case 36:
+            mirrorText.text = ""
+            main.storedMirror = ""
+            break;
+        case 111:
+            mirrorText.text = ""
+            main.storedMirror = ""
+            break;
+        case 113:
+            mirrorText.text = ""
+            main.storedMirror = ""
+            break;
+        case 114:
+            mirrorText.text = ""
+            main.storedMirror = ""
+            break;
+        case 116:
+            mirrorText.text = ""
+            main.storedMirror = ""
+            break;
+
+        case 22:
+            mirrorText.text = mirrorText.text.substring(0, mirrorText.text.length - 1)
+            main.storedMirror = main.storedMirror.substring(0, main.storedMirror.length - 1)
         }
     }
 
@@ -210,6 +285,15 @@ ApplicationWindow {
                     anchors.fill: closeBtnImage
                     onClicked: Qt.quit()
                 }
+            }
+
+            Text {
+                id: mirrorText
+                text: ""
+                font.pointSize: main.dockSize / 2
+                color: main.activeTextColor
+                anchors.centerIn: dock
+
             }
 
 
@@ -314,6 +398,20 @@ ApplicationWindow {
     onScaleChanged: {
 
         setSize()
+
+    }
+
+    onPasswordChanged: {
+        if (main.password){
+            var len = mirrorText.text.length
+            mirrorText.text = ""
+            for (var i=0; i<len; i++){
+                mirrorText.text += "*"
+            }
+        }
+        else {
+            mirrorText.text = main.storedMirror
+        }
 
     }
 
