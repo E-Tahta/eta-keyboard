@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.3
 import eta.helper 1.0
 
 Rectangle {
@@ -49,7 +49,6 @@ Rectangle {
     }
 
 
-
     Text {
         id: symbol
         color: textColor
@@ -83,7 +82,6 @@ Rectangle {
         capsKey.color = capsKey.keyPressedColor
         symbol.color = capsKey.textPressedColor
     }
-
 
 
     MouseArea{

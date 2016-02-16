@@ -1,21 +1,18 @@
-import QtQuick 2.0
+import QtQuick 2.3
 
 Rectangle {
 
-    id: metKey
+    id: sticKey
 
     property string keyColor: main.keyColor
     property string keyPressedColor: main.keyPressedColor
     property string keyHoverColor: main.keyHoverColor
     property string textColor: main.textColor
     property string textPressedColor: main.textPressedColor
-    property int keyWidth: main.keyWidth
+    property string keySymbolLevel1
+    property int keyWidth
     property int keyHeight: main.keyHeight
-
-    width: keyWidth
-    height: keyHeight
-    color: keyColor
-    radius: keyHeight/10
+    property int fontPointSize: 9
 
     property bool hold: false
     property bool entered: false
@@ -23,13 +20,24 @@ Rectangle {
 
     property int keyCode: 24
 
-    Image {
-        id: img
-        width: parent.width * 2 / 3
-        height: img.width
-        anchors.centerIn: parent
-        source: "Images/pardus.png"
+
+    width: keyWidth
+    height: keyHeight
+    color: keyColor
+    radius: keyHeight/10
+
+
+
+    Text {
+        id: symbol
+        color: textColor
+        font.pointSize: fontPointSize
+        anchors {
+            centerIn: sticKey
+        }
+        text: keySymbolLevel1
     }
+
 
 
     function btnClicked(){
@@ -37,36 +45,40 @@ Rectangle {
 
     function releaseBtn(){
 
-        metKey.clickedFlag = false
+        if (sticKey.clickedFlag){
+            btnPressed()
+            btnReleased()
+        }
 
     }
 
 
     function btnPressed(){
-        metKey.clickedFlag = !metKey.clickedFlag
-        if (metKey.clickedFlag)
+        sticKey.clickedFlag = !sticKey.clickedFlag
+        if (sticKey.clickedFlag)
         main.stickyKeyPressed(keyCode)
 
 
     }
 
     function btnReleased(){
-        metKey.hold = false
-        if (!metKey.clickedFlag)
+        sticKey.hold = false
+        if (!sticKey.clickedFlag)
         main.stickyKeyReleased(keyCode)
     }
 
 
     function btnHovered(){
-        if (!metKey.hold && !metKey.clickedFlag){
-            if (metKey.entered){
-                metKey.color = metKey.keyHoverColor
-
+        if (!sticKey.hold && !sticKey.clickedFlag){
+            if (sticKey.entered){
+                sticKey.color = sticKey.keyHoverColor
+                symbol.color = sticKey.textColor
             }
 
             else {
 
-                metKey.color = metKey.keyColor
+                sticKey.color = sticKey.keyColor
+                symbol.color = sticKey.textColor
 
             }
         }
@@ -74,7 +86,7 @@ Rectangle {
 
     function btnHold(){
 
-        metKey.hold = true
+        sticKey.hold = true
     }
 
 
@@ -86,12 +98,12 @@ Rectangle {
         hoverEnabled: true
 
         onEntered: {
-            metKey.entered = true
+            sticKey.entered = true
             btnHovered()
         }
 
         onExited: {
-            metKey.entered = false
+            sticKey.entered = false
             btnHovered()
         }
 
@@ -107,14 +119,14 @@ Rectangle {
             btnReleased()
         }
         onClicked: {
-            metKey.btnClicked()
+            sticKey.btnClicked()
         }
     }
 
     onClickedFlagChanged: {
         if (clickedFlag){
-            metKey.color = metKey.keyPressedColor
-
+            sticKey.color = sticKey.keyPressedColor
+            symbol.color = sticKey.textPressedColor
         }
         else {
             btnHovered()

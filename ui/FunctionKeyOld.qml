@@ -1,88 +1,82 @@
-import QtQuick 2.0
+import QtQuick 2.3
 
 Rectangle {
-
-    id: specKey
+    id: funcKey
 
     property string keyColor: main.keyColor
     property string keyPressedColor: main.keyPressedColor
     property string keyHoverColor: main.keyHoverColor
     property string textColor: main.textColor
+    property string activeTextColor: main.activeTextColor
     property string textPressedColor: main.textPressedColor
-    property string keySymbolLevel1
-    property int keyWidth
-    property int keyHeight: main.keyHeight
-    property int fontPointSize: 10
+    property double keyWidth: main.keyWidth * 41/50
+    property int keyHeight: main.keyHeight/2
+    property int keyCode: 24
+    property int fontPointSize: 8
+
     property bool hold: false
     property bool entered: false
 
-    property int keyCode: 24
+    property int keyLevel: main.keyLevel
+    property string keyText
 
 
     width: keyWidth
     height: keyHeight
     color: keyColor
-    radius: keyHeight/10
+    radius: keyHeight/5
+
 
 
     Text {
-        id: symbol
-        color: textColor
+        id: lev0
+        color: activeTextColor
         font.pointSize: fontPointSize
         anchors {
-            centerIn: specKey
+            centerIn: parent
         }
-        text: keySymbolLevel1
+        text:funcKey.keyText
+
     }
 
 
-    signal clickedSpecial(string btnCode)
-
     function btnClicked(){
-
-
-
-
     }
 
     function btnPressed(){
-        specKey.color = specKey.keyPressedColor
-        symbol.color = specKey.textPressedColor
+        funcKey.color = funcKey.keyPressedColor
+        lev0.color = funcKey.textPressedColor
 
-          main.nonStickyPressed(specKey.keyCode)
+        main.nonStickyPressed(funcKey.keyCode)
     }
 
     function btnHovered(){
-        if (!specKey.hold){
-            if (specKey.entered){
-                specKey.color = specKey.keyHoverColor
-                symbol.color = specKey.textColor
+        if (!funcKey.hold){
+            if (funcKey.entered){
+                funcKey.color = funcKey.keyHoverColor
+                lev0.color = funcKey.textColor
+
             }
 
             else {
-
-                specKey.color = specKey.keyColor
-                symbol.color = specKey.textColor
+                funcKey.color = funcKey.keyColor
+                lev0.color = funcKey.textColor
 
             }
         }
     }
 
     function btnHold(){
-        specKey.hold = true
-
-        specKey.color = specKey.keyPressedColor
-        symbol.color = specKey.textPressedColor
+        funcKey.hold = true
     }
 
     function btnReleased(){
-        specKey.hold = false
+        funcKey.hold = false
         btnHovered()
 
-         main.nonStickyReleased(specKey.keyCode)
+        main.nonStickyReleased(funcKey.keyCode)
+
     }
-
-
 
 
     MouseArea{
@@ -91,12 +85,12 @@ Rectangle {
         hoverEnabled: true
 
         onEntered: {
-            specKey.entered = true
+            funcKey.entered = true
             btnHovered()
         }
 
         onExited: {
-            specKey.entered = false
+            funcKey.entered = false
             btnHovered()
         }
 
@@ -112,7 +106,7 @@ Rectangle {
             btnReleased()
         }
         onClicked: {
-            specKey.btnClicked()
+            funcKey.btnClicked()
         }
     }
 

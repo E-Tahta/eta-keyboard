@@ -1,8 +1,8 @@
-import QtQuick 2.0
+import QtQuick 2.3
 
 Rectangle {
 
-    id: sticKey
+    id: specKey
 
     property string keyColor: main.keyColor
     property string keyPressedColor: main.keyPressedColor
@@ -12,11 +12,9 @@ Rectangle {
     property string keySymbolLevel1
     property int keyWidth
     property int keyHeight: main.keyHeight
-    property int fontPointSize: 9
-
+    property int fontPointSize: 10
     property bool hold: false
     property bool entered: false
-    property bool clickedFlag: false
 
     property int keyCode: 24
 
@@ -27,66 +25,61 @@ Rectangle {
     radius: keyHeight/10
 
 
-
     Text {
         id: symbol
         color: textColor
         font.pointSize: fontPointSize
         anchors {
-            centerIn: sticKey
+            centerIn: specKey
         }
         text: keySymbolLevel1
     }
 
 
+    signal clickedSpecial(string btnCode)
 
     function btnClicked(){
-    }
 
-    function releaseBtn(){
 
-        if (sticKey.clickedFlag){
-            btnPressed()
-            btnReleased()
-        }
+
 
     }
-
 
     function btnPressed(){
-        sticKey.clickedFlag = !sticKey.clickedFlag
-        if (sticKey.clickedFlag)
-        main.stickyKeyPressed(keyCode)
+        specKey.color = specKey.keyPressedColor
+        symbol.color = specKey.textPressedColor
 
-
+          main.nonStickyPressed(specKey.keyCode)
     }
-
-    function btnReleased(){
-        sticKey.hold = false
-        if (!sticKey.clickedFlag)
-        main.stickyKeyReleased(keyCode)
-    }
-
 
     function btnHovered(){
-        if (!sticKey.hold && !sticKey.clickedFlag){
-            if (sticKey.entered){
-                sticKey.color = sticKey.keyHoverColor
-                symbol.color = sticKey.textColor
+        if (!specKey.hold){
+            if (specKey.entered){
+                specKey.color = specKey.keyHoverColor
+                symbol.color = specKey.textColor
             }
 
             else {
 
-                sticKey.color = sticKey.keyColor
-                symbol.color = sticKey.textColor
+                specKey.color = specKey.keyColor
+                symbol.color = specKey.textColor
 
             }
         }
     }
 
     function btnHold(){
+        specKey.hold = true
 
-        sticKey.hold = true
+        specKey.color = specKey.keyPressedColor
+        symbol.color = specKey.textPressedColor
+    }
+
+    function btnReleased(){
+        specKey.hold = false
+        btnHovered()
+
+         main.nonStickyReleased(specKey.keyCode)
     }
 
 
@@ -98,12 +91,12 @@ Rectangle {
         hoverEnabled: true
 
         onEntered: {
-            sticKey.entered = true
+            specKey.entered = true
             btnHovered()
         }
 
         onExited: {
-            sticKey.entered = false
+            specKey.entered = false
             btnHovered()
         }
 
@@ -119,17 +112,7 @@ Rectangle {
             btnReleased()
         }
         onClicked: {
-            sticKey.btnClicked()
-        }
-    }
-
-    onClickedFlagChanged: {
-        if (clickedFlag){
-            sticKey.color = sticKey.keyPressedColor
-            symbol.color = sticKey.textPressedColor
-        }
-        else {
-            btnHovered()
+            specKey.btnClicked()
         }
     }
 

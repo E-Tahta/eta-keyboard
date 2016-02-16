@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.3
 
 Rectangle {
 
@@ -28,7 +28,6 @@ Rectangle {
     property bool leVis0: true
     property bool leVis1: true
     property bool leVis2: true
-
 
 
     width: keyWidth

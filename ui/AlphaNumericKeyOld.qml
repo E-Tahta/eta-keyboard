@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.3
 
 Rectangle {
     id: alpNumKey
@@ -27,15 +27,10 @@ Rectangle {
     property double passiveOpacity: 0.2
 
 
-
-
-
     width: keyWidth
     height: keyHeight
     color: keyColor
     radius: keyHeight/10
-
-
 
 
     onKeyLevelChanged: {
@@ -163,8 +158,14 @@ Rectangle {
 
         main.nonStickyReleased(alpNumKey.keyCode)
 
+    }
 
 
+    TouchPoint{
+        id: tp
+        onPressedChanged: {
+
+        }
     }
 
 
