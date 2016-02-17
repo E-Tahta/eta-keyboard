@@ -19,11 +19,15 @@
  *****************************************************************************/
 #ifndef HELPER_H
 #define HELPER_H
+
 #include <QObject>
-#include <QDebug>
-#include "xwrapper.h"
-#include "vkdbusinterface.h"
-#include "xkblibwrapper.h"
+#include <QString>
+
+class XWrapper;
+class VkDbusInterface;
+class QDBusInterface;
+class XKBLibWrapper;
+class Settings;
 
 class Helper : public QObject
 {
@@ -51,13 +55,21 @@ public:
     Q_INVOKABLE void setLayout(unsigned int layoutIndex);
     Q_INVOKABLE int getCapslockStatus();
 
-
-    void layoutChangedCallback();
+    Q_INVOKABLE void setSettings(QString &color, QString &layoutType, double scale,
+                     unsigned int languageLayoutIndex, bool autoShow);
+    Q_INVOKABLE QString getColor() const;
+    Q_INVOKABLE QString getLayoutType() const;
+    Q_INVOKABLE double getScale();
+    Q_INVOKABLE unsigned int getLanguageLayoutIndex();
+    Q_INVOKABLE bool getAutoShow();
+    Q_INVOKABLE void saveSettings();
+    Q_INVOKABLE void layoutChangedCallback();
 private:
     XWrapper *xw;
     VkDbusInterface *vkdi;
     QDBusInterface *interface;
     XKBLibWrapper *xkblw;
+    Settings *s;
 signals:
     void hideCalled();
     void layoutChanged();

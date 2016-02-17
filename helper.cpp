@@ -19,7 +19,12 @@
  *****************************************************************************/
 #include "adaptor.h"
 #include "helper.h"
+#include "xwrapper.h"
+#include "vkdbusinterface.h"
+#include "xkblibwrapper.h"
+#include "settings.h"
 #include <QAbstractEventDispatcher>
+#include <QDebug>
 
 Helper::Helper(QObject *parent):
     QObject (parent)
@@ -30,7 +35,7 @@ Helper::Helper(QObject *parent):
     QAbstractEventDispatcher::instance()->installNativeEventFilter(xw);
     vkdi = new VkDbusInterface(this);
     xkblw = new XKBLibWrapper(this);
-
+    s = new Settings(this);
 
     connect(vkdi,SIGNAL(hide()),this,SIGNAL(hideCalled()));
     connect(vkdi,SIGNAL(showFromLeft()),this,SIGNAL(showFromLeftCalled()));
@@ -43,7 +48,43 @@ Helper::Helper(QObject *parent):
 
 Helper::~Helper()
 {
- delete xw;
+    delete xw;
+}
+
+void Helper::setSettings(QString &color, QString &layoutType, double scale,
+                           unsigned int languageLayoutIndex, bool autoShow)
+{
+    s->setSettings(color,layoutType,scale,languageLayoutIndex,autoShow);
+}
+
+QString Helper::getColor() const
+{
+    return s->getColor();
+}
+
+QString Helper::getLayoutType() const
+{
+    return s->getLayoutType();
+}
+
+double Helper::getScale()
+{
+    return s->getScale();
+}
+
+unsigned int Helper::getLanguageLayoutIndex()
+{
+    return s->getLanguageLayoutIndex();
+}
+
+bool Helper::getAutoShow()
+{
+    return s->getAutoShow();
+}
+
+void Helper::saveSettings()
+{
+    s->saveSettings();
 }
 
 void Helper::layoutChangedCallback()

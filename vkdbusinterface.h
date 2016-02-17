@@ -21,7 +21,6 @@
 #define VKDBUSINTERFACE_H
 
 #include <QObject>
-#include <QDBusConnection>
 
 class VkDbusInterface : public QObject
 {

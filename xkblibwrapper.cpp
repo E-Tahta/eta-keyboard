@@ -17,7 +17,10 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
+
 #include "xkblibwrapper.h"
+
+#include <QX11Info>
 
 #include <X11/X.h>
 #include <X11/Xlib.h>

@@ -21,10 +21,11 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <QDir>
+
 #include <QObject>
-#include <QSettings>
-#include <QFileInfo>
+#include <QString>
+
+class QSettings;
 
 class Settings : public QObject
 {

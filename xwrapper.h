@@ -22,11 +22,12 @@
 
 #include <QAbstractNativeEventFilter>
 #include <QDebug>
-#include <xkbcommon/xkbcommon-x11.h>
-#include <X11/Xlib.h>
-#include <X11/XKBlib.h>
-#include <X11/extensions/XTest.h>
-#include <QX11Info>
+#include <xcb/xcb.h>
+typedef struct xcb_connection_t xcb_connection_t;
+struct xkb_context;
+struct xkb_keymap;
+struct xkb_state;
+typedef struct _XDisplay Display;
 
 class Helper;
 

@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QStringList>
-#include <QX11Info>
+typedef struct _XDisplay Display;
 
 struct XkbConfig {
     QString keyboardModel;
