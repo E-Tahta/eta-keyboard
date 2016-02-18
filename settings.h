@@ -17,49 +17,41 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-#ifndef XWRAPPER_H
-#define XWRAPPER_H
 
-#include <QAbstractNativeEventFilter>
-#include <QDebug>
-#include <xcb/xcb.h>
-typedef struct xcb_connection_t xcb_connection_t;
-struct xkb_context;
-struct xkb_keymap;
-struct xkb_state;
-typedef struct _XDisplay Display;
-
-class Helper;
-
-struct keyboard {
-    xcb_connection_t *conn;
-    struct xkb_context *ctx;
-    struct xkb_keymap *keymap;
-    struct xkb_state *state;
-    int32_t device_id;
-    unsigned int active_laypout_index;
-};
+#ifndef SETTINGS_H
+#define SETTINGS_H
 
 
-class XWrapper : public QAbstractNativeEventFilter
+#include <QObject>
+#include <QString>
+
+class QSettings;
+
+class Settings : public QObject
 {
+    Q_OBJECT
 public:
-    XWrapper();
-    ~XWrapper();
-    QString getSymbol(int keycode, int layoutIndex, int keyLevel) const;
-    void fakeKeyPress(unsigned int code);
-    void fakeKeyRelease(unsigned int code);
-    int getNumberOfLayouts();
-    int getCapslockStatus();
-    virtual bool nativeEventFilter(const QByteArray &eventType,
-                                   void *message, long * );
-    void setHelper(Helper *h);
+    explicit Settings(QObject *parent = 0);
+    void setSettings(const QString& color, const QString& layoutType,
+                     double scale,
+                     unsigned int languageLayoutIndex, bool autoShow);
+    QString getColor() const;
+    QString getLayoutType() const;
+    double getScale();
+    unsigned int getLanguageLayoutIndex();
+    bool getAutoShow();
+    void saveSettings();
 private:
-    int updateKeymap(struct keyboard *kbd);
-    void processXkbEvents(xcb_generic_event_t *gevent, struct keyboard *kbd);
-    keyboard *kbd;
-    Display *display;
-    Helper *helper;
+    QString m_color;
+    QString m_layoutType;
+    double m_scale;
+    unsigned int m_languageLayoutIndex;
+    bool m_autoShow;
+    QString configpath;
+    QSettings *preferences;
+
+public slots:
+
 };
 
-#endif // XWRAPPER_H
+#endif // SETTINGS_H

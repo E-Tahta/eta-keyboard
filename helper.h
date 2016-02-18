@@ -19,11 +19,17 @@
  *****************************************************************************/
 #ifndef HELPER_H
 #define HELPER_H
+
 #include <QObject>
-#include <QDebug>
-#include "xwrapper.h"
-#include "vkdbusinterface.h"
-#include "xkblibwrapper.h"
+#include <QString>
+#include "etalocalserver.h"
+
+class XWrapper;
+class VkDbusInterface;
+class QDBusInterface;
+class XKBLibWrapper;
+class Settings;
+class LocalServerInterface;
 
 class Helper : public QObject
 {
@@ -50,12 +56,29 @@ public:
     Q_INVOKABLE int getCurrentLayoutIndex();
     Q_INVOKABLE void setLayout(unsigned int layoutIndex);
     Q_INVOKABLE int getCapslockStatus();
-    void layoutChangedCallback();
+
+    Q_INVOKABLE void setSettings(const QString& color,
+                                 const QString& layoutType,
+                                 double scale,
+                                 unsigned int languageLayoutIndex,
+                                 bool autoShow);
+    Q_INVOKABLE QString getColor() const;
+    Q_INVOKABLE QString getLayoutType() const;
+    Q_INVOKABLE double getScale();
+    Q_INVOKABLE unsigned int getLanguageLayoutIndex();
+    Q_INVOKABLE bool getAutoShow();
+    Q_INVOKABLE void saveSettings();
+    Q_INVOKABLE void layoutChangedCallback();
 private:
     XWrapper *xw;
     VkDbusInterface *vkdi;
     QDBusInterface *interface;
     XKBLibWrapper *xkblw;
+    Settings *s;
+    LocalServerInterface *lsi;
+private slots:
+    void hideSlot();
+    void showSlot();
 signals:
     void hideCalled();
     void layoutChanged();
@@ -63,7 +86,7 @@ signals:
     void showFromRightCalled();
     void showFromBottomCalled();
     void toggleCalled();
-    void toggleAutoShowCalled();
+    void toggleAutoShowCalled();    
 };
 
 #endif // HELPER_H

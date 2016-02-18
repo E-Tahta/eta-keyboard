@@ -19,7 +19,15 @@
  *****************************************************************************/
 #include "adaptor.h"
 #include "helper.h"
+#include "xwrapper.h"
+#include "vkdbusinterface.h"
+#include "xkblibwrapper.h"
+#include "settings.h"
+#include "localserverinterface.h"
 #include <QAbstractEventDispatcher>
+#include <QFileInfo>
+#include <QTimer>
+#include <QDebug>
 
 Helper::Helper(QObject *parent):
     QObject (parent)
@@ -30,7 +38,11 @@ Helper::Helper(QObject *parent):
     QAbstractEventDispatcher::instance()->installNativeEventFilter(xw);
     vkdi = new VkDbusInterface(this);
     xkblw = new XKBLibWrapper(this);
+    s = new Settings(this);
+    lsi = new LocalServerInterface(this);
 
+    connect(lsi,SIGNAL(hideSignal()),this,SLOT(hideSlot()));
+    connect(lsi,SIGNAL(showSignal()),this,SLOT(showSlot()));
 
     connect(vkdi,SIGNAL(hide()),this,SIGNAL(hideCalled()));
     connect(vkdi,SIGNAL(showFromLeft()),this,SIGNAL(showFromLeftCalled()));
@@ -43,7 +55,60 @@ Helper::Helper(QObject *parent):
 
 Helper::~Helper()
 {
- delete xw;
+    delete xw;
+}
+
+void Helper::hideSlot()
+{
+    if(s->getAutoShow()) {
+        emit hideCalled();
+    }
+}
+
+void Helper::showSlot()
+{
+    if(s->getAutoShow()) {
+        emit showFromBottomCalled();
+    }
+}
+
+void Helper::setSettings(const QString& color,
+                         const QString& layoutType,
+                         double scale,
+                         unsigned int languageLayoutIndex,
+                         bool autoShow)
+{
+    s->setSettings(color, layoutType, scale, languageLayoutIndex, autoShow);
+}
+
+QString Helper::getColor() const
+{
+    return s->getColor();
+}
+
+QString Helper::getLayoutType() const
+{
+    return s->getLayoutType();
+}
+
+double Helper::getScale()
+{
+    return s->getScale();
+}
+
+unsigned int Helper::getLanguageLayoutIndex()
+{
+    return s->getLanguageLayoutIndex();
+}
+
+bool Helper::getAutoShow()
+{
+    return s->getAutoShow();
+}
+
+void Helper::saveSettings()
+{
+    s->saveSettings();
 }
 
 void Helper::layoutChangedCallback()
@@ -92,7 +157,7 @@ QString Helper::getSymbol(int keycode, int layoutIndex, int keyLevel) const
 
 void Helper::fakeKeyPress( unsigned int code)
 {
-   xw->fakeKeyPress(code);
+    xw->fakeKeyPress(code);
 }
 
 void Helper::fakeKeyRelease(unsigned int code)
