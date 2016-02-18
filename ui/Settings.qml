@@ -46,8 +46,29 @@ ApplicationWindow {
     y: main.y + main.height - settings.height
 
 
+
+    function changeLanguageLayout(button){
+
+        if (button){
+            settings.languageIndex++
+            if (languageIndex>helper.getNumberOfLayouts())
+                settings.languageIndex = 0
+        }
+        else
+            settings.languageIndex = helper.getCurrentLayoutIndex()
+
+        console.log(settings.languageIndex)
+        main.languageLayoutIndex = settings.languageIndex
+        helperId.setLayout(settings.languageIndex)
+        languageKey.keyText = languageModel.get(settings.languageIndex).text
+    }
+
+
     Helper{
         id: helperId
+        onLayoutChanged: {
+            changeLanguageLayout(false)
+        }
     }
 
     ListModel {
@@ -108,21 +129,8 @@ ApplicationWindow {
                         onPressed: {
                             languageKey.btnPressed()
 
-                            settings.languageIndex++
-                            if (settings.languageIndex<languageModel.count){
-                                main.languageLayoutIndex = settings.languageIndex
-                                helperId.setLayout(languageModel.get(settings.languageIndex).text)
-                                languageKey.keyText = languageModel.get(settings.languageIndex).text
+                            changeLanguageLayout(true)
 
-
-                            }
-                            else {
-                                settings.languageIndex = 0
-                                main.languageLayoutIndex = settings.languageIndex
-                                helperId.setLayout(languageModel.get(settings.languageIndex).text)
-                                languageKey.keyText = languageModel.get(settings.languageIndex).text
-
-                            }
 
                         }
                         onPressAndHold: {
@@ -373,11 +381,14 @@ ApplicationWindow {
     Component.onCompleted: {
 
         for(var i = 0; i< helper.getNumberOfLayouts();i++)
-        {
-            languageModel.append({text:helper.getLayoutName(i)});
+            languageModel.append({text:helper.getLayoutName(i)})
+
+        for (var j=0; j<languageModel.count; j++){
+            console.log(languageModel.get(j).text)
         }
 
-        languageKey.keyText = languageModel.get(0).text
+        changeLanguageLayout(false)
+
         colorKey.keyText = colorModel.get(0).text
         layoutKey.keyText = main.layout
         hideSettings.start()
