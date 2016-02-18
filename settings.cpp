@@ -21,9 +21,11 @@
 #include <QFileInfo>
 #include "settings.h"
 #include <QSettings>
+#include <QVariant>
+#include <QDebug>
 
 Settings::Settings(QObject *parent) :
-    QObject(parent)
+    QObject(parent), m_autoShow(true)
 {
     configpath = QDir::homePath() + "/.config/eta/virtualkeyboard/config.ini";
 
@@ -42,7 +44,8 @@ Settings::Settings(QObject *parent) :
     }
 }
 
-void Settings::setSettings(QString &color, QString &layoutType, double scale,
+void Settings::setSettings(const QString& color, const QString& layoutType,
+                           double scale,
                            unsigned int languageLayoutIndex, bool autoShow)
 {
     this->m_color = color;

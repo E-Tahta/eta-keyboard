@@ -22,12 +22,14 @@
 
 #include <QObject>
 #include <QString>
+#include "etalocalserver.h"
 
 class XWrapper;
 class VkDbusInterface;
 class QDBusInterface;
 class XKBLibWrapper;
 class Settings;
+class LocalServerInterface;
 
 class Helper : public QObject
 {
@@ -55,8 +57,11 @@ public:
     Q_INVOKABLE void setLayout(unsigned int layoutIndex);
     Q_INVOKABLE int getCapslockStatus();
 
-    Q_INVOKABLE void setSettings(QString &color, QString &layoutType, double scale,
-                     unsigned int languageLayoutIndex, bool autoShow);
+    Q_INVOKABLE void setSettings(const QString& color,
+                                 const QString& layoutType,
+                                 double scale,
+                                 unsigned int languageLayoutIndex,
+                                 bool autoShow);
     Q_INVOKABLE QString getColor() const;
     Q_INVOKABLE QString getLayoutType() const;
     Q_INVOKABLE double getScale();
@@ -70,6 +75,10 @@ private:
     QDBusInterface *interface;
     XKBLibWrapper *xkblw;
     Settings *s;
+    LocalServerInterface *lsi;
+private slots:
+    void hideSlot();
+    void showSlot();
 signals:
     void hideCalled();
     void layoutChanged();
@@ -77,7 +86,7 @@ signals:
     void showFromRightCalled();
     void showFromBottomCalled();
     void toggleCalled();
-    void toggleAutoShowCalled();
+    void toggleAutoShowCalled();    
 };
 
 #endif // HELPER_H

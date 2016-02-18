@@ -23,7 +23,10 @@
 #include "vkdbusinterface.h"
 #include "xkblibwrapper.h"
 #include "settings.h"
+#include "localserverinterface.h"
 #include <QAbstractEventDispatcher>
+#include <QFileInfo>
+#include <QTimer>
 #include <QDebug>
 
 Helper::Helper(QObject *parent):
@@ -36,6 +39,10 @@ Helper::Helper(QObject *parent):
     vkdi = new VkDbusInterface(this);
     xkblw = new XKBLibWrapper(this);
     s = new Settings(this);
+    lsi = new LocalServerInterface(this);
+
+    connect(lsi,SIGNAL(hideSignal()),this,SLOT(hideSlot()));
+    connect(lsi,SIGNAL(showSignal()),this,SLOT(showSlot()));
 
     connect(vkdi,SIGNAL(hide()),this,SIGNAL(hideCalled()));
     connect(vkdi,SIGNAL(showFromLeft()),this,SIGNAL(showFromLeftCalled()));
@@ -51,10 +58,27 @@ Helper::~Helper()
     delete xw;
 }
 
-void Helper::setSettings(QString &color, QString &layoutType, double scale,
-                           unsigned int languageLayoutIndex, bool autoShow)
+void Helper::hideSlot()
 {
-    s->setSettings(color,layoutType,scale,languageLayoutIndex,autoShow);
+    if(s->getAutoShow()) {
+        emit hideCalled();
+    }
+}
+
+void Helper::showSlot()
+{
+    if(s->getAutoShow()) {
+        emit showFromBottomCalled();
+    }
+}
+
+void Helper::setSettings(const QString& color,
+                         const QString& layoutType,
+                         double scale,
+                         unsigned int languageLayoutIndex,
+                         bool autoShow)
+{
+    s->setSettings(color, layoutType, scale, languageLayoutIndex, autoShow);
 }
 
 QString Helper::getColor() const
@@ -133,7 +157,7 @@ QString Helper::getSymbol(int keycode, int layoutIndex, int keyLevel) const
 
 void Helper::fakeKeyPress( unsigned int code)
 {
-   xw->fakeKeyPress(code);
+    xw->fakeKeyPress(code);
 }
 
 void Helper::fakeKeyRelease(unsigned int code)

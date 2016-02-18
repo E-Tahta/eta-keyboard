@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick widgets dbus x11extras
+QT += qml quick widgets dbus x11extras network
 
 SOURCES += main.cpp \
     helper.cpp \
@@ -8,7 +8,9 @@ SOURCES += main.cpp \
     vkdbusinterface.cpp \
     adaptor.cpp \
     xkblibwrapper.cpp \
-    settings.cpp
+    settings.cpp \
+    etalocalserver.cpp \
+    localserverinterface.cpp
 
 RESOURCES += qml.qrc images.qrc
 
@@ -21,7 +23,9 @@ HEADERS += \
     vkdbusinterface.h \
     adaptor.h \
     xkblibwrapper.h \
-    settings.h
+    settings.h \
+    etalocalserver.h \
+    localserverinterface.h
 LIBS += -lxcb -lxkbcommon -lxkbcommon-x11 -lX11 -lXtst -lxcb-xkb
 
 

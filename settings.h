@@ -32,7 +32,8 @@ class Settings : public QObject
     Q_OBJECT
 public:
     explicit Settings(QObject *parent = 0);
-    void setSettings(QString &color, QString &layoutType, double scale,
+    void setSettings(const QString& color, const QString& layoutType,
+                     double scale,
                      unsigned int languageLayoutIndex, bool autoShow);
     QString getColor() const;
     QString getLayoutType() const;

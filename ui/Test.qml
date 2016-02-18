@@ -1,3 +1,22 @@
+/*****************************************************************************
+ *   Copyright (C) 2016 by Yunusemre Senturk                                 *
+ *   <yunusemre.senturk@pardus.org.tr>                                       *
+ *                                                                           *
+ *   This program is free software; you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by    *
+ *   the Free Software Foundation; either version 2 of the License, or       *
+ *   (at your option) any later version.                                     *
+ *                                                                           *
+ *   This program is distributed in the hope that it will be useful,         *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+ *   GNU General Public License for more details.                            *
+ *                                                                           *
+ *   You should have received a copy of the GNU General Public License       *
+ *   along with this program; if not, write to the                           *
+ *   Free Software Foundation, Inc.,                                         *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
+ *****************************************************************************/
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import eta.helper 1.0
@@ -13,7 +32,11 @@ ApplicationWindow {
     height: m_height
     title: qsTr("testQml")
     color:"#010101"
-    flags: Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowDoesNotAcceptFocus | Qt.X11BypassWindowManagerHint
+    flags: Qt.WindowStaysOnTopHint |
+           Qt.FramelessWindowHint |
+           Qt.WindowSystemMenuHint |
+           Qt.WindowDoesNotAcceptFocus |
+           Qt.X11BypassWindowManagerHint
 
     property int screenWidth: Screen.width
     property int screenHeight: Screen.height
@@ -65,13 +88,15 @@ ApplicationWindow {
             easing.type: Easing.Linear
 
         }
+        onStopped: {
+            test.height = test.height - m_height
+        }
     }
 
 
     Helper {
         id:helper
         onLayoutChanged: {
-            console.log("signal from cpp");
             test.currentLayoutName = helper.getCurrentLayout()
             for(var i = 0; i< helper.getNumberOfLayouts();i++)
             {
@@ -82,13 +107,14 @@ ApplicationWindow {
             }
         }
         onShowFromBottomCalled: {
-            console.log("showFroomBottomCalled from dbus");
+            console.log("Show from bottom called");
             showFromBottom.start();
         }
         onShowFromLeftCalled: {
             console.log("showFromLeftCalled from dbus");
         }
         onHideCalled: {
+            console.log("Hide called");
             hide.start();
         }
 
@@ -146,7 +172,8 @@ ApplicationWindow {
                         cpos = Qt.point(mouse.x,mouse.y);
                     }
                     onPositionChanged: {
-                        var delta = Qt.point(mouse.x - cpos.x, mouse.y - cpos.y);
+                        var delta = Qt.point(mouse.x - cpos.x,
+                                             mouse.y - cpos.y);
                         test.x += delta.x;
                         test.y += delta.y;
                     }
@@ -185,7 +212,8 @@ ApplicationWindow {
                 id:numericKey
                 property int keycode : 13
                 property int level : test.keyLevel
-                text :helper.getSymbol(numericKey.keycode,test.layoutIndex,numericKey.level)
+                text :helper.getSymbol(numericKey.keycode,
+                                       test.layoutIndex, numericKey.level)
                 onClicked: {
                     fakeKey(numericKey.keycode)
                 }
@@ -195,7 +223,8 @@ ApplicationWindow {
                 id:alphaKey
                 property int keycode : 34
                 property int level : test.keyLevel
-                text : helper.getSymbol(alphaKey.keycode,test.layoutIndex,alphaKey.level)
+                text : helper.getSymbol(alphaKey.keycode,
+                                        test.layoutIndex, alphaKey.level)
                 onClicked: {
                     fakeKey(alphaKey.keycode)
                 }
@@ -210,7 +239,8 @@ ApplicationWindow {
                 color : ma.containsMouse ? "light green" : "green"
                 Text{
                     anchors.centerIn: parent
-                    text: helper.getSymbol(newKey.keycode,test.layoutIndex,newKey.level)
+                    text: helper.getSymbol(newKey.keycode,
+                                           test.layoutIndex, newKey.level)
                 }
                 MouseArea {
                     id:ma
@@ -221,10 +251,21 @@ ApplicationWindow {
                         helper.fakeKeyPress(newKey.keycode);
                     }
                     onReleased: {
-                        newKey.color= ma.containsMouse ? "light green" : "green";
+                        newKey.color= ma.containsMouse ?
+                                    "light green" : "green";
                         helper.fakeKeyRelease(newKey.keycode);
                     }
-                    onHoveredChanged: newKey.color= ma.containsMouse ? "light green" : "green"
+                    onHoveredChanged: {
+                        newKey.color= ma.containsMouse ? "light green" : "green"
+                    }
+                }
+            }
+            Button {
+                id:ss
+                text:"Set"
+                onClicked: {
+                    helper.setSettings(test.keyColor,"full",1.0,1,1);
+                    helper.saveSettings();
                 }
             }
         }
@@ -269,7 +310,8 @@ ApplicationWindow {
                 width: row2.width
                 property int keycode : 65
                 property int level : test.keyLevel
-                text :helper.getSymbol(space.keycode,test.layoutIndex,space.level)
+                text :helper.getSymbol(space.keycode,
+                                       test.layoutIndex, space.level)
                 onClicked: {
                     fakeKey(space.keycode)
                 }
@@ -285,9 +327,10 @@ ApplicationWindow {
                 model: comboModel
                 onCurrentIndexChanged: {
                     if(count > 1) {
-                    test.layoutIndex = currentIndex;
-                    helper.setLayout(test.layoutIndex);
-                    test.currentLayoutName = comboModel.get(currentIndex).text;
+                        test.layoutIndex = currentIndex;
+                        helper.setLayout(test.layoutIndex);
+                        test.currentLayoutName =
+                                comboModel.get(currentIndex).text;
                     }
                 }
 
@@ -303,8 +346,7 @@ ApplicationWindow {
             caps.checked = helper.getCapslockStatus();
         }
     }
-    Component.onCompleted: {
-        console.log("Number of layouts = "+helper.getNumberOfLayouts());
+    Component.onCompleted: {        
         for(var i = 0; i< helper.getNumberOfLayouts();i++)
         {
             comboModel.append({text:helper.getLayoutName(i)});
@@ -314,11 +356,9 @@ ApplicationWindow {
         }
         test.currentLayoutName = helper.getCurrentLayout();
         test.layoutIndex = helper.getCurrentLayoutIndex();
-        languages.currentIndex = test.layoutIndex;
-        console.log("Test layout index = " + test.layoutIndex);
-    }
-    Component.onDestruction: {
+        languages.currentIndex = test.layoutIndex;        
+        test.keyColor = helper.getColor() === "" ? "gray" : helper.getColor();
 
-        console.log("on destruction called");
     }
+
 }
