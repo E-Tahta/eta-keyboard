@@ -150,15 +150,15 @@ ApplicationWindow {
 
 
                         onEntered: {
-                            languageKey.btnHovered()
+                            colorKey.btnHovered()
                         }
 
                         onExited: {
-                            languageKey.btnHovered()
+                            colorKey.btnHovered()
                         }
 
                         onPressed: {
-                            languageKey.btnPressed()
+                            colorKey.btnPressed()
 
                             settings.colorIndex++
                             if (settings.colorIndex<colorModel.count){
@@ -380,7 +380,7 @@ ApplicationWindow {
         languageKey.keyText = languageModel.get(0).text
         colorKey.keyText = colorModel.get(0).text
         layoutKey.keyText = main.layout
-
+        hideSettings.start()
 
 
     }

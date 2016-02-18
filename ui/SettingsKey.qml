@@ -4,7 +4,6 @@ import QtQuick 2.3
 
 Key {
     id: key
-    property bool open: main.settingsVisible
     property int angle: 90
 
     Image {
@@ -16,14 +15,6 @@ Key {
 
 
         RotationAnimation on rotation {
-            onStarted: {
-                if (!key.open)
-                    key.angle = 0;
-                else
-                    key.angle = 90
-                key.open = !key.open;
-                main.settingsVisible = !main.settingsVisible
-            }
             id: rotationAnimation
             from: 0 + key.angle
             to: 90 - key.angle
@@ -57,6 +48,15 @@ Key {
         }
         onClicked: {
             key.btnClicked()
+            if (!main.settingsVisible){
+                key.angle = 90
+                main.settingsVisible = true
+            }
+            else{
+                key.angle = 0
+                main.settingsVisible = false
+
+            }
             rotationAnimation.start()
         }
     }

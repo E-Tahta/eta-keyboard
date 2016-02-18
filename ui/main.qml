@@ -1,6 +1,6 @@
 /*****************************************************************************
  *   Copyright (C) 2016 by Hikmet Bas                                        *
- *   <hikmet.bask@pardus.org.tr>                                             *
+ *   <hikmet.bas@pardus.org.tr>                                              *
  *                                                                           *
  *   This program is free software; you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by    *
@@ -25,12 +25,12 @@ import eta.helper 1.0
 
 ApplicationWindow {
     id: main
-    visible: false
-    title: qsTr("ETA Virtual Keyboard")
-    color: "#010101"
 
     flags:Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowDoesNotAcceptFocus | Qt.X11BypassWindowManagerHint
 
+    visible: false
+    title: qsTr("ETA Virtual Keyboard")
+    color: "#010101"
 
     property string keyColor: "#585858" //settings.keyColor
     property string keyPressedColor: "#ffffff"
@@ -40,27 +40,28 @@ ApplicationWindow {
     property string textPressedColor: "#5e5a5a"
     property int keyHeight
     property int keyWidth: keyHeight
+
     property int spacing: keyHeight / 12
     property int dockSize
     property double scale : 1 // 0.2 ... 1.8
+
     property string layout: "tablet"
     property int languageLayoutIndex: 0 // Current System Language Layout
     property int keyLevel: 0
+
     property bool releaseAll: false
-    property bool settingsVisible : false
+    property bool settingsVisible
     property bool updateTheme: false
     property bool keyHover: true
     property bool password: false
     property string storedMirror
 
-    ListModel {
-        id:stickyModel
-    }
+    property int screenWidth: Screen.width
+    property int screenHeight: Screen.height
+    property int m_height
 
+    property bool showToggle: false
 
-    Helper {
-        id: helper
-    }
 
     function stickyKeyPressed(keyCode){
 
@@ -91,7 +92,6 @@ ApplicationWindow {
         }
 
     }
-
     function stickyKeyReleased(keyCode){
 
         if (stickyModel.count>0){
@@ -112,7 +112,6 @@ ApplicationWindow {
             }
         }
     }
-
     function checkAlt(){
         return stickyModel.count === 1 && stickyModel.get(0).keyCode === 64;
     }
@@ -131,8 +130,6 @@ ApplicationWindow {
         return false
 
     }
-
-
     function nonStickyPressed(keyCode,mirror){
 
         if (checkAlt()){
@@ -192,8 +189,6 @@ ApplicationWindow {
             main.storedMirror = main.storedMirror.substring(0, main.storedMirror.length - 1)
         }
     }
-
-
     function nonStickyReleased(keyCode){
 
         if (!checkAlt()){
@@ -211,7 +206,52 @@ ApplicationWindow {
             }
         }
     }
+    function setSize(){
 
+        var oldWidth = main.width
+        var oldHeight = main.height
+
+        main.keyHeight =  main.screenHeight * main.scale / 23
+        main.dockSize = main.screenHeight * main.scale / 35
+
+
+        if (main.layout == "full"){
+            main.width = main.keyHeight * 15 + main.spacing * 16
+            main.height = main.keyHeight * 11 / 2 + main.dockSize + main.spacing * 8
+        }
+        else {
+            main.width = main.keyHeight * 11 + main.spacing * 12
+            main.height = main.keyHeight * 4  + main.dockSize + main.spacing * 6
+        }
+
+        main.m_height = main.height
+        main.x += (oldWidth - main.width) / 2
+        main.y += (oldHeight - main.height) / 2
+        main.visible = true
+
+    }
+
+
+    Helper {
+        id: helper
+        onShowFromBottomCalled: {
+            console.log("showFroomBottomCalled from dbus");
+            showFromBottom.start();
+        }
+        onShowFromLeftCalled: {
+            console.log("showFromLeftCalled from dbus");
+        }
+        onHideCalled: {
+            hide.start();
+        }
+        onToggleCalled: {
+            if (showToggle) hide.start()
+            else showFromBottom.start()
+        }
+    }
+    ListModel {
+        id:stickyModel
+    }
     Item {
         id: container
 
@@ -335,57 +375,66 @@ ApplicationWindow {
             anchors.top: dock.bottom
         }
     }
-
-
-
-
-
     Settings{
         id: settings
     }
 
-    function setSize(){
-        var tX = main.width
-        var tY = main.height
 
-
-
-
-        main.keyHeight = Screen.height * main.scale / 23
-        main.dockSize = Screen.height * main.scale / 35
-
-
-        if (main.layout == "full"){
-            main.width = main.keyHeight * 15 + main.spacing * 16
-            main.height = main.keyHeight * 11 / 2 + main.dockSize + main.spacing * 8
+    NumberAnimation {
+        id:showFromBottom
+        target:main
+        property: "y"
+        from: main.y
+        to : main.screenHeight - main.m_height * 3 / 2
+        duration: 400
+        easing.type: Easing.OutBack
+        onStarted: {
+            main.showToggle = true
+            main.opacity = 1
+            settings.opacity = 1
+            main.height = main.m_height
+            main.x = main.screenWidth / 2 - main.width / 2
         }
-        else {
-            main.width = main.keyHeight * 11 + main.spacing * 12
-            main.height = main.keyHeight * 4  + main.dockSize + main.spacing * 6
-        }
-
-        tX -= main.width
-        tY -= main.height
-
-        main.x += tX / 2
-        main.y += tY / 2
 
     }
 
+    ParallelAnimation {
+        id: hide
+
+        NumberAnimation {
+            target: main
+            property: "opacity"
+            from: 1
+            to : 0
+            duration: 200
+
+        }
+
+        NumberAnimation {
+            target: settings
+            property: "opacity"
+            from: 1
+            to : 0
+            duration: 200
+
+        }
 
 
-    Component.onCompleted: {
+        NumberAnimation {
+            target: main
+            property: "y"
+            from: main.y
+            to : main.screenHeight + main.height
+            duration: 315
+            easing.type: Easing.Linear
 
+        }
 
-        main.keyHeight = Screen.height * main.scale / 23
-        main.dockSize = Screen.height * main.scale / 35
+        onStarted: {
+            main.settingsVisible = false
+            main.showToggle = false
+        }
 
-        setSize()
-
-        main.x = Screen.width / 2 - main.width / 2
-        main.y = Screen.height - main.height
-
-        main.visible = true
     }
 
 
@@ -394,13 +443,11 @@ ApplicationWindow {
         setSize()
 
     }
-
     onScaleChanged: {
 
         setSize()
 
     }
-
     onPasswordChanged: {
         if (main.password){
             var len = mirrorText.text.length
@@ -412,6 +459,21 @@ ApplicationWindow {
         else {
             mirrorText.text = main.storedMirror
         }
+
+    }
+    Component.onCompleted: {
+
+        hide.start()
+
+        main.screenHeight = Screen.height
+        main.screenWidth = Screen.width
+
+        setSize()
+
+        main.x =  main.screenWidth / 2 - main.width /2
+        main.y = main.screenHeight + main.height
+
+        main.settingsVisible = false
 
     }
 
