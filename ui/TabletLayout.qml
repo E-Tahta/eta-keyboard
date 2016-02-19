@@ -20,7 +20,6 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
-import eta.helper 1.0
 
 Item{
     id: tabletLayout
@@ -29,11 +28,7 @@ Item{
     property bool updateTheme: main.updateTheme
 
 
-    Helper {
-        id:helperId
 
-
-    }
 
     Rectangle{
         id: container
@@ -116,11 +111,24 @@ Item{
                 spacing: main.spacing
                 SettingsKey{id: keySettings}
                 SpecialKey{id: keyNum; keyText: "12!?"; keyWidth: main.keyWidth ; keyCode: 133}
-                SpecialKey{id: keyEmoji; keyText: "\u263A"; keyWidth: main.keyWidth; keyCode: 133; fontPointSize: keyHeight / 2 }
+                SpecialKey {
+                    id: keyEmoji
+                    keyText: "\u263A"
+                    keyWidth: main.keyWidth
+                    keyCode: 133
+                    fontPointSize:  main.keyHeight ? keyHeight / 2 : 2
+                }
                 AlphaNumericKey{id: keyComma;keyCode: 51}
                 AlphaNumericKey{id: keySpace; keyWidth: main.keyWidth * 4 + main.spacing * 4 ; keyCode: 65}
                 AlphaNumericKey{id: keyDot; keyCode: 61}
-                AlphaNumericKey{id: keyEnter; keyText: "\u23CE"; keyWidth: main.keyWidth * 2; keyCode: 36; fontPointSize: keyHeight / 2; leVis4: true}
+                AlphaNumericKey {
+                    id: keyEnter
+                    keyText: "\u23CE"
+                    keyWidth: main.keyWidth * 2
+                    keyCode: 36
+                    fontPointSize: main.keyHeight ? keyHeight / 2 : 2
+                    leVis4: true
+                }
 
             }
 

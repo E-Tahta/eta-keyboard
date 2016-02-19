@@ -108,7 +108,7 @@ Item {
         Text {
             id: headText
             color: key.textColor
-            font.pixelSize: key.fontPointSize
+            font.pointSize: key.fontPointSize ?  key.fontPointSize : 5
             anchors {
                 centerIn: head
             }

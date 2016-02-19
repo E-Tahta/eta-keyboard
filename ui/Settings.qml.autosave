@@ -365,9 +365,9 @@ ApplicationWindow {
                     MouseArea {
                         id: ma6
                         anchors.fill: parent
-
-                        hoverEnabled: false
-
+                        
+                        
+                        
                         onPressed: {
                             autoShowKey.btnPressed()
                             main.autoShowToggle = !main.autoShowToggle

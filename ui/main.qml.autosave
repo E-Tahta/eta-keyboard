@@ -274,7 +274,7 @@ ApplicationWindow {
 
         onToggleAutoShowCalled: {
             main.autoShowToggle = !main.autoShowToggle
-            helper.setSettings()
+            helper.setSettings(main.keyColor,)
         }
 
 

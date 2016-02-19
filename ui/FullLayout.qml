@@ -20,7 +20,6 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
-import eta.helper 1.0
 
 Item{
     id: fullLayout
@@ -48,11 +47,6 @@ Item{
 
 
 
-    Helper {
-        id:helperId
-
-
-    }
 
     Rectangle{
         id: container

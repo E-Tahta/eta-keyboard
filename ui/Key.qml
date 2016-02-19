@@ -34,7 +34,7 @@ Rectangle {
     property double keyWidth: main.keyWidth
     property double keyHeight: main.keyHeight
     property int keyLevel: main.keyLevel
-    property int fontPointSize: main.keyHeight / 4
+    property int fontPointSize : main.keyHeight / 4
     property int keyRadius: main.keyHeight / 10
     property int keyCode: 24
 
@@ -98,7 +98,7 @@ Rectangle {
     Text {
         id: lev0
         color: key.keyLevel == 0 ? key.activeTextColor : key.textColor
-        font.pointSize: key.fontPointSize
+        font.pointSize: key.fontPointSize ? key.fontPointSize : 5
         anchors {
             left: key.left
             bottom: key.bottom
@@ -112,7 +112,7 @@ Rectangle {
     Text {
         id: lev1
         color: key.keyLevel == 1 ? key.activeTextColor : key.textColor
-        font.pointSize: key.fontPointSize
+        font.pointSize: key.fontPointSize ? key.fontPointSize : 5
         anchors {
             left: key.left
             top: key.top
@@ -126,7 +126,7 @@ Rectangle {
     Text {
         id: lev2
         color: key.keyLevel == 2 ? key.activeTextColor : key.textColor
-        font.pointSize: key.fontPointSize
+        font.pointSize: key.fontPointSize ? key.fontPointSize : 5
         anchors {
             right: key.right
             bottom: key.bottom
@@ -140,7 +140,7 @@ Rectangle {
     Text {
         id: lev3
         color: key.keyLevel == 3 ? key.activeTextColor : key.textColor
-        font.pointSize: key.fontPointSize
+        font.pointSize: key.fontPointSize ? key.fontPointSize : 5
         anchors {
             right: key.right
             top: key.top
@@ -154,7 +154,7 @@ Rectangle {
     Text {
         id: lev4
         color: key.textColor
-        font.pixelSize: key.fontPointSize
+        font.pointSize: key.fontPointSize ? key.fontPointSize * 3 / 4 : 2
         anchors {
             centerIn: key
         }
