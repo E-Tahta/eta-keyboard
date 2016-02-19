@@ -61,6 +61,7 @@ ApplicationWindow {
     property int m_height
     property int m_width
     property int m_settings_height
+    property int m_settings_width
 
     property bool keyboardVisible: false
     property bool autoShowToggle
@@ -228,9 +229,13 @@ ApplicationWindow {
         }
 
 
+        settings.width =  main.keyWidth * 3 + main.spacing * 5
+        settings.height = main.keyHeight * 2 + main.spacing * 3
+
         main.m_height = main.height
         main.m_width = main.width
         main.m_settings_height = settings.height
+        main.m_settings_width = settings.width
         main.x += (oldWidth - main.width) / 2
         main.y += (oldHeight - main.height) / 2
         main.visible = true
@@ -242,6 +247,7 @@ ApplicationWindow {
 
     Helper {
         id: helper
+
 
 
 
@@ -274,7 +280,6 @@ ApplicationWindow {
 
         onToggleAutoShowCalled: {
             main.autoShowToggle = !main.autoShowToggle
-            helper.setSettings()
         }
 
 
@@ -438,6 +443,7 @@ ApplicationWindow {
         duration: 400
         easing.type: Easing.OutBack
         onStarted: {
+            settings.height = main.m_settings_height
             main.visible = true
             main.width = main.m_width
             main.height = main.m_height
@@ -457,6 +463,7 @@ ApplicationWindow {
         duration: 400
         easing.type: Easing.OutBack
         onStarted: {
+            settings.height = main.m_settings_height
             main.visible = true
             main.width = main.m_width
             main.height = main.m_height

@@ -28,16 +28,10 @@ ApplicationWindow {
     flags: Qt.WindowStaysOnBottomHint | Qt.FramelessWindowHint | Qt.X11BypassWindowManagerHint
 
     property bool settingsVisible: main.settingsVisible
-    property int settingsWidth: main.keyWidth * 3 + main.spacing * 4
-    property int settingsHeight: main.keyHeight * 2 + main.spacing * 3
     property string keyColor
-
     property int languageIndex: 0
     property int colorIndex: 0
 
-
-    width: main.keyWidth * 3 + main.spacing * 4
-    height:main.keyHeight * 2 + main.spacing * 3
     visible: true
     color: main.color
 
@@ -258,8 +252,8 @@ ApplicationWindow {
                     id: scaleUp
                     leVis4: true
                     keyText: "+"
-                    fontPointSize: main.keyHeight ? main.keyHeight / 2 : 2
-                    keyHeight: main.keyHeight / 2 - main.spacing
+                    fontPointSize: main.keyHeight ? main.keyHeight / 3 : 2
+                    keyHeight: main.keyHeight / 2 - main.spacing / 2
 
 
                     MouseArea {
@@ -297,7 +291,7 @@ ApplicationWindow {
                     leVis4: true
                     keyText: "-"
                     fontPointSize: main.keyHeight ? main.keyHeight / 2 : 2
-                    keyHeight: main.keyHeight / 2 - main.spacing
+                    keyHeight: main.keyHeight / 2 - main.spacing / 2
 
 
                     MouseArea {
@@ -353,7 +347,7 @@ ApplicationWindow {
 
                     Rectangle{
                         id: autoLed
-                        height: parent.height * 3 / 4
+                        height: parent.height / 2
                         width: autoLed.height
                         radius: autoLed.height / 2
                         color: main.autoShowToggle ? "green" : "red"
@@ -366,7 +360,7 @@ ApplicationWindow {
                         id: ma6
                         anchors.fill: parent
 
-                        hoverEnabled: false
+
 
                         onPressed: {
                             autoShowKey.btnPressed()
@@ -397,7 +391,7 @@ ApplicationWindow {
         id: showSettings;
         target: settings;
         property: "width";
-        to:settings.settingsWidth
+        to:main.m_settings_width
         duration: 300
         easing.type: Easing.OutQuad
     }
