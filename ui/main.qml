@@ -45,7 +45,7 @@ ApplicationWindow {
     property int dockSize
     property double scale : 1 // 0.2 ... 1.8
 
-    property string layout: "tablet"
+    property string layout: "full"
     property int languageLayoutIndex: 0 // Current System Language Layout
     property int keyLevel: 0
 
@@ -60,7 +60,7 @@ ApplicationWindow {
     property int screenHeight: Screen.height
     property int m_height
 
-    property bool showToggle: false
+    property bool keyboardVisible: false
 
 
     function stickyKeyPressed(keyCode){
@@ -234,20 +234,37 @@ ApplicationWindow {
 
     Helper {
         id: helper
+
+
+
         onShowFromBottomCalled: {
-            console.log("showFroomBottomCalled from dbus");
+            if (!keyboardVisible){
             showFromBottom.start();
+            }
         }
         onShowFromLeftCalled: {
-            console.log("showFromLeftCalled from dbus");
+            if (!keyboardVisible){
+            showFromLeft.start();
+            }
         }
+
+        onShowFromRightCalled: {
+            if (!keyboardVisible){
+            showFromRight.start();
+            }
+        }
+
         onHideCalled: {
-            hide.start();
+            if (keyboardVisible){
+                hide.start();
+            }
         }
         onToggleCalled: {
-            if (showToggle) hide.start()
+            if (keyboardVisible) hide.start()
             else showFromBottom.start()
         }
+
+
     }
     ListModel {
         id:stickyModel
@@ -389,11 +406,45 @@ ApplicationWindow {
         duration: 400
         easing.type: Easing.OutBack
         onStarted: {
-            main.showToggle = true
+            main.keyboardVisible = true
             main.opacity = 1
             settings.opacity = 1
             main.height = main.m_height
             main.x = main.screenWidth / 2 - main.width / 2
+        }
+
+    }
+    NumberAnimation {
+        id:showFromLeft
+        target:main
+        property: "x"
+        from: -main.width
+        to : main.screenWidth / 2 - main.width /2
+        duration: 400
+        easing.type: Easing.OutBack
+        onStarted: {
+            main.height = main.m_height
+            main.y = main.screenHeight - main.m_height * 3 / 2
+            main.keyboardVisible = true
+            main.opacity = 1
+            settings.opacity = 1
+        }
+
+    }
+    NumberAnimation {
+        id:showFromRight
+        target:main
+        property: "x"
+        from: main.screenWidth
+        to : main.screenWidth / 2 - main.width /2
+        duration: 400
+        easing.type: Easing.OutBack
+        onStarted: {
+            main.height = main.m_height
+            main.y = main.screenHeight - main.m_height * 3 / 2
+            main.keyboardVisible = true
+            main.opacity = 1
+            settings.opacity = 1
         }
 
     }
@@ -403,19 +454,19 @@ ApplicationWindow {
 
         NumberAnimation {
             target: main
-            property: "opacity"
-            from: 1
+            property: "height"
+            from: main.height
             to : 0
-            duration: 200
+            duration: 100
 
         }
 
         NumberAnimation {
             target: settings
-            property: "opacity"
-            from: 1
+            property: "height"
+            from: settings.height
             to : 0
-            duration: 200
+            duration: 100
 
         }
 
@@ -425,14 +476,14 @@ ApplicationWindow {
             property: "y"
             from: main.y
             to : main.screenHeight + main.height
-            duration: 315
+            duration: 350
             easing.type: Easing.Linear
 
         }
 
         onStarted: {
             main.settingsVisible = false
-            main.showToggle = false
+            main.keyboardVisible = false
         }
 
     }
