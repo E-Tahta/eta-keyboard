@@ -1,6 +1,6 @@
 /*****************************************************************************
  *   Copyright (C) 2016 by Hikmet Bas                                        *
- *   <hikmet.bask@pardus.org.tr>                                             *
+ *   <hikmet.bas@pardus.org.tr>                                              *
  *                                                                           *
  *   This program is free software; you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by    *
@@ -28,18 +28,14 @@ Key {
     function stickyPressed() {
         key.lock = true
         btnPressed()
-
         main.stickyKeyPressed(key.keyCode)
-
     }
 
     function stickyReleased(){
         key.lock = false
         btnHovered()
-
         main.stickyKeyReleased(key.keyCode)
     }
-
 
     MouseArea {
         id: ma
@@ -50,15 +46,18 @@ Key {
                 stickyPressed()
             else stickyReleased()
         }
+
         onPressAndHold: {
             btnHold()
         }
+
         onReleased: {
             key.hold = false
-
         }
+
         onClicked: {
             btnClicked()
         }
     }
+
 }

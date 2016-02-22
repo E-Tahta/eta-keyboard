@@ -1,6 +1,6 @@
 /*****************************************************************************
  *   Copyright (C) 2016 by Hikmet Bas                                        *
- *   <hikmet.bask@pardus.org.tr>                                             *
+ *   <hikmet.bas@pardus.org.tr>                                              *
  *                                                                           *
  *   This program is free software; you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by    *
@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
+
 import QtQuick 2.3
 
 // FunctionKey
@@ -26,12 +27,9 @@ Key {
 
     property string activeLedColor: "light green"
     property string passiveLedColor: main.keyColor
-
     property bool clickedFlag: false
 
-
     leVis4: true
-
     keyCode: 66
 
     Rectangle {
@@ -40,15 +38,12 @@ Key {
         height: statusLed.width
         radius: height / 2
         border.color: main.textColor
-
+        color: key.clickedFlag ? key.activeLedColor : key.passiveLedColor
         anchors {
             top : key.top
             right: key.right
             margins: statusLed.width / 2
         }
-
-        color: key.clickedFlag ? key.activeLedColor : key.passiveLedColor
-
     }
 
     MouseArea {
@@ -67,13 +62,16 @@ Key {
             btnPressed()
             helper.fakeKeyPress(66)
         }
+
         onPressAndHold: {
             btnHold()
         }
+
         onReleased: {
             btnReleased()
             helper.fakeKeyRelease(66);
         }
+
         onClicked: {
             btnClicked()
         }
@@ -85,7 +83,6 @@ Key {
         interval: 5
         onTriggered: {
             key.clickedFlag = helper.getCapslockStatus();
-
         }
     }
 

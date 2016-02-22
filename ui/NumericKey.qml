@@ -1,6 +1,6 @@
 /*****************************************************************************
  *   Copyright (C) 2016 by Hikmet Bas                                        *
- *   <hikmet.bask@pardus.org.tr>                                             *
+ *   <hikmet.bas@pardus.org.tr>                                              *
  *                                                                           *
  *   This program is free software; you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by    *
@@ -43,13 +43,16 @@ Key {
             btnPressed()
             main.nonStickyPressed(key.keyCode, true)
         }
+
         onPressAndHold: {
             btnHold()
         }
+
         onReleased: {
             btnReleased()
             main.nonStickyReleased(key.keyCode)
         }
+
         onClicked: {
             btnClicked()
         }

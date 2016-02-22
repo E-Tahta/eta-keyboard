@@ -1,6 +1,6 @@
 /*****************************************************************************
  *   Copyright (C) 2016 by Hikmet Bas                                        *
- *   <hikmet.bask@pardus.org.tr>                                             *
+ *   <hikmet.bas@pardus.org.tr>                                              *
  *                                                                           *
  *   This program is free software; you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by    *
@@ -28,37 +28,32 @@ Rectangle {
     property string textColor: main.textColor
     property string textPressedColor: main.textPressedColor
     property string activeTextColor: main.activeTextColor
-
     property string keyText
-
     property double keyWidth: main.keyWidth
     property double keyHeight: main.keyHeight
     property int keyLevel: main.keyLevel
-    property int fontPointSize: main.keyHeight / 4
+    property int fontPointSize : main.keyHeight / 4
     property int keyRadius: main.keyHeight / 10
     property int keyCode: 24
-
     property bool leVis0: false
     property bool leVis1: false
     property bool leVis2: false
     property bool leVis3: false
     property bool leVis4: false
-
     property double activeOpacity: 1
     property double passiveOpacity: 0.2
-
     property bool hold: false
     property bool lock: false
     property bool updateTheme: main.updateTheme
-
+    property bool mirror
 
     color: ma.containsMouse ? key.keyHoverColor : key.keyColor
     radius: key.keyRadius
     width: key.keyWidth
     height: key.keyHeight
 
-
     function btnClicked(){
+
     }
 
     function btnPressed(){
@@ -83,7 +78,6 @@ Rectangle {
         }
     }
 
-
     function btnHold(){
         key.hold = true
     }
@@ -91,78 +85,75 @@ Rectangle {
     function btnReleased(){
         key.hold = false
         btnHovered()
-
-
     }
 
     Text {
         id: lev0
         color: key.keyLevel == 0 ? key.activeTextColor : key.textColor
-        font.pointSize: key.fontPointSize
+        font.pointSize: key.fontPointSize ? key.fontPointSize : 5
+        text: helper.getSymbol(key.keyCode,main.languageLayoutIndex,0)
+        visible: leVis0
+        opacity: key.keyLevel == 0 ? key.activeOpacity : key.passiveOpacity
         anchors {
             left: key.left
             bottom: key.bottom
             margins: keyHeight/10
         }
-        text: helper.getSymbol(key.keyCode,main.languageLayoutIndex,0)
-        visible: leVis0
-        opacity: key.keyLevel == 0 ? key.activeOpacity : key.passiveOpacity
     }
 
     Text {
         id: lev1
         color: key.keyLevel == 1 ? key.activeTextColor : key.textColor
-        font.pointSize: key.fontPointSize
+        font.pointSize: key.fontPointSize ? key.fontPointSize : 5
+        text: helper.getSymbol(key.keyCode,main.languageLayoutIndex,1)
+        visible: leVis1
+        opacity: key.keyLevel == 1 ? key.activeOpacity : key.passiveOpacity
         anchors {
             left: key.left
             top: key.top
             margins: keyHeight/10
         }
-        text: helper.getSymbol(key.keyCode,main.languageLayoutIndex,1)
-        visible: leVis1
-        opacity: key.keyLevel == 1 ? key.activeOpacity : key.passiveOpacity
     }
 
     Text {
         id: lev2
         color: key.keyLevel == 2 ? key.activeTextColor : key.textColor
-        font.pointSize: key.fontPointSize
+        font.pointSize: key.fontPointSize ? key.fontPointSize : 5
+        text: helper.getSymbol(key.keyCode,main.languageLayoutIndex,2)
+        visible: leVis2
+        opacity: key.keyLevel == 2 ? key.activeOpacity : key.passiveOpacity
         anchors {
             right: key.right
             bottom: key.bottom
             margins: keyHeight/10
         }
-        text: helper.getSymbol(key.keyCode,main.languageLayoutIndex,2)
-        visible: leVis2
-        opacity: key.keyLevel == 2 ? key.activeOpacity : key.passiveOpacity
     }
 
     Text {
         id: lev3
         color: key.keyLevel == 3 ? key.activeTextColor : key.textColor
-        font.pointSize: key.fontPointSize
+        font.pointSize: key.fontPointSize ? key.fontPointSize : 5
+        text: helper.getSymbol(key.keyCode,main.languageLayoutIndex,3)
+        visible: leVis3
+        opacity: key.keyLevel == 3 ? key.activeOpacity : key.passiveOpacity
         anchors {
             right: key.right
             top: key.top
             margins: keyHeight/10
         }
-        text: helper.getSymbol(key.keyCode,main.languageLayoutIndex,3)
-        visible: leVis3
-        opacity: key.keyLevel == 3 ? key.activeOpacity : key.passiveOpacity
     }
 
     Text {
         id: lev4
         color: key.textColor
-        font.pixelSize: key.fontPointSize
-        anchors {
-            centerIn: key
-        }
+        font.pointSize: key.fontPointSize ? key.fontPointSize * 3 / 4 : 2
         text: key.keyText
         visible: leVis4
         opacity: activeOpacity
+        anchors {
+            centerIn: key
+        }
     }
-
 
     MouseArea{
         id: ma
@@ -170,7 +161,7 @@ Rectangle {
         hoverEnabled: main.keyHover
 
         onEntered: {
-           btnHovered()
+            btnHovered()
         }
 
         onExited: {
@@ -179,15 +170,16 @@ Rectangle {
 
         onPressed: {
             btnPressed()
-
         }
+
         onPressAndHold: {
             btnHold()
-
         }
+
         onReleased: {
             btnReleased()
         }
+
         onClicked: {
             key.btnClicked()
         }
@@ -204,5 +196,4 @@ Rectangle {
     Component.onCompleted: {
 
     }
-
 }
