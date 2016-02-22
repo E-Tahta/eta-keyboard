@@ -27,7 +27,6 @@ Key {
     function stickyPressed() {
         key.lock = true
         btnPressed()
-
         main.stickyKeyPressed(key.keyCode)
 
     }
@@ -35,7 +34,6 @@ Key {
     function stickyReleased(){
         key.lock = false
         btnHovered()
-
         main.stickyKeyReleased(key.keyCode)
     }
 
@@ -43,11 +41,9 @@ Key {
         id: img
         width: parent.width * 2 / 3
         height: img.width
-        anchors.centerIn: parent
         source: "Images/pardus.png"
+        anchors.centerIn: parent
     }
-
-
 
     MouseArea {
         id: ma
@@ -58,13 +54,15 @@ Key {
                 stickyPressed()
             else stickyReleased()
         }
+
         onPressAndHold: {
             btnHold()
         }
+
         onReleased: {
             key.hold = false
-
         }
+
         onClicked: {
             btnClicked()
         }

@@ -17,12 +17,14 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
+
 import QtQuick 2.3
 
 // AlphaNumericKey // NonSticky
 
 Key {
     id: key
+    mirror: true
 
     MouseArea {
         id: ma
@@ -38,15 +40,18 @@ Key {
 
         onPressed: {
             btnPressed()
-            main.nonStickyPressed(key.keyCode,true)
+            main.nonStickyPressed(key.keyCode,mirror)
         }
+
         onPressAndHold: {
             btnHold()
         }
+
         onReleased: {
             btnReleased()
             main.nonStickyReleased(key.keyCode)
         }
+
         onClicked: {
             btnClicked()
         }

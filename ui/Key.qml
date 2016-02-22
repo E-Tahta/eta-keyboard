@@ -45,6 +45,7 @@ Rectangle {
     property bool hold: false
     property bool lock: false
     property bool updateTheme: main.updateTheme
+    property bool mirror
 
     color: ma.containsMouse ? key.keyHoverColor : key.keyColor
     radius: key.keyRadius
@@ -84,7 +85,7 @@ Rectangle {
     function btnReleased(){
         key.hold = false
         btnHovered()
-   }
+    }
 
     Text {
         id: lev0
@@ -98,7 +99,7 @@ Rectangle {
             bottom: key.bottom
             margins: keyHeight/10
         }
-            }
+    }
 
     Text {
         id: lev1
@@ -160,7 +161,7 @@ Rectangle {
         hoverEnabled: main.keyHover
 
         onEntered: {
-           btnHovered()
+            btnHovered()
         }
 
         onExited: {

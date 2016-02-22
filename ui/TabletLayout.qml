@@ -26,6 +26,10 @@ Item{
     property bool releaseAll : main.releaseAll
     property bool updateTheme: main.updateTheme
 
+     function releaseAllSticky(){
+         keyShiftL.stickyReleased()
+     }
+
     Rectangle{
         id: container
         color: main.color
@@ -44,50 +48,50 @@ Item{
                 spacing: main.spacing
 
                 AlphaNumericKey{id: keyQ; keyCode: 24; leVis0: true; leVis1: true; leVis2: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyW; keyCode: 25; leVis0: true; leVis1: true; leVis2: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyE; keyCode: 26; leVis0: true; leVis1: true; leVis2: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyR; keyCode: 27; leVis0: true; leVis1: true; leVis2: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyT; keyCode: 28; leVis0: true; leVis1: true; leVis2: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyY; keyCode: 29; leVis0: true; leVis1: true; leVis2: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyU; keyCode: 30; leVis0: true; leVis1: true; leVis2: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyI; keyCode: 31; leVis0: true; leVis1: true; leVis2: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyO; keyCode: 32; leVis0: true; leVis1: true; leVis2: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyP; keyCode: 33; leVis0: true; leVis1: true; leVis2: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyGG; keyCode: 34; leVis0: true; leVis1: true; leVis2: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyUU; keyCode: 35; leVis0: true; leVis1: true; leVis2: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                AlphaNumericKey{id: keyW; keyCode: 25; leVis0: true; leVis1: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                AlphaNumericKey{id: keyE; keyCode: 26; leVis0: true; leVis1: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                AlphaNumericKey{id: keyR; keyCode: 27; leVis0: true; leVis1: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                AlphaNumericKey{id: keyT; keyCode: 28; leVis0: true; leVis1: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                AlphaNumericKey{id: keyY; keyCode: 29; leVis0: true; leVis1: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                AlphaNumericKey{id: keyU; keyCode: 30; leVis0: true; leVis1: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                AlphaNumericKey{id: keyI; keyCode: 31; leVis0: true; leVis1: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                AlphaNumericKey{id: keyO; keyCode: 32; leVis0: true; leVis1: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                AlphaNumericKey{id: keyP; keyCode: 33; leVis0: true; leVis1: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                AlphaNumericKey{id: keyGG; keyCode: 34; leVis0: true; leVis1: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                AlphaNumericKey{id: keyUU; keyCode: 35; leVis0: true; leVis1: true; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
             }
 
             Row {
                 id: row4
                 spacing: main.spacing
 
-                AlphaNumericKey{id: keyA; keyCode: 38; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyS; keyCode: 39; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyD; keyCode: 40; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyF; keyCode: 41; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyG; keyCode: 42; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyH; keyCode: 43; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyJ; keyCode: 44; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyK; keyCode: 45; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyL; keyCode: 46; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keySS; keyCode: 47; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyII; keyCode: 48; leVis0: true; leVis1: true; leVis2: true}
+                AlphaNumericKey{id: keyA; keyCode: 38; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyS; keyCode: 39; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyD; keyCode: 40; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyF; keyCode: 41; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyG; keyCode: 42; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyH; keyCode: 43; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyJ; keyCode: 44; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyK; keyCode: 45; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyL; keyCode: 46; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keySS; keyCode: 47; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyII; keyCode: 48; leVis0: true; leVis1: true}
             }
             Row {
                 id: row5
                 spacing: main.spacing
 
                 StickyKey{id:keyShiftL; keyText: "Shift"; keyWidth: main.keyWidth; keyCode: 50}
-                AlphaNumericKey{id: keyZ; keyCode: 52; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyX; keyCode: 53; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyC; keyCode: 54; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyV; keyCode: 55; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyB; keyCode: 56; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyN; keyCode: 57; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyM; keyCode: 58; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyOO; keyCode: 59; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyCC; keyCode: 60; leVis0: true; leVis1: true; leVis2: true}
-                AlphaNumericKey{id: keyBackspace; keyText: "←"; keyCode: 22; leVis4: true}
+                AlphaNumericKey{id: keyZ; keyCode: 52; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyX; keyCode: 53; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyC; keyCode: 54; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyV; keyCode: 55; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyB; keyCode: 56; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyN; keyCode: 57; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyM; keyCode: 58; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyOO; keyCode: 59; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyCC; keyCode: 60; leVis0: true; leVis1: true}
+                AlphaNumericKey{id: keyBackspace; keyText: "←"; keyCode: 22; leVis4: true; mirror: false}
             }
 
             Row {
@@ -104,9 +108,9 @@ Item{
                     keyCode: 133
                     fontPointSize:  main.keyHeight ? keyHeight / 2 : 2
                 }
-                AlphaNumericKey{id: keyComma;keyCode: 51}
+                AlphaNumericKey{id: keyComma;keyCode: 51; leVis0: true; leVis1: true}
                 AlphaNumericKey{id: keySpace; keyWidth: main.keyWidth * 4 + main.spacing * 4 ; keyCode: 65}
-                AlphaNumericKey{id: keyDot; keyCode: 61}
+                AlphaNumericKey{id: keyDot; keyCode: 61; leVis0: true; leVis1: true}
                 AlphaNumericKey {
                     id: keyEnter
                     keyText: "\u23CE"
@@ -117,6 +121,10 @@ Item{
                 }
             }
         }
+    }
+
+    onReleaseAllChanged: {
+        releaseAllSticky()
     }
 
     onUpdateThemeChanged: {

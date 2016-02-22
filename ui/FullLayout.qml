@@ -33,7 +33,6 @@ Item{
         keyMeta.stickyReleased()
         keyAlt.stickyReleased()
         keyAltGr.stickyReleased()
-
         main.keyLevel = 0
         stickyModel.clear()
     }
@@ -92,7 +91,7 @@ Item{
                 NumericKey{id: key0; keyCode: 19}
                 NumericKey{id: keyStar; keyCode: 20}
                 NumericKey{id: keyMinus; keyCode: 21}
-                AlphaNumericKey{id: keyBackspace; leVis4: true; keyText: "← Backspace"; keyWidth: main.keyWidth * 2 + main.spacing ; keyCode: 22}
+                AlphaNumericKey{id: keyBackspace; leVis4: true; keyText: "← Backspace"; keyWidth: main.keyWidth * 2 + main.spacing ; keyCode: 22; mirror: false}
             }
 
             Row {

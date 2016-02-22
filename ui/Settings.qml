@@ -30,6 +30,7 @@ ApplicationWindow {
     property string keyColor
     property int languageIndex: 0
     property int colorIndex: 0
+    property bool layout: main.layoutChange
 
     visible: true
     color: main.color
@@ -46,15 +47,8 @@ ApplicationWindow {
             settings.languageIndex = helper.getCurrentLayoutIndex()
         }
         main.languageLayoutIndex = settings.languageIndex
-        helperId.setLayout(settings.languageIndex)
+        helper.setLayout(settings.languageIndex)
         languageKey.keyText = languageModel.count ? languageModel.get(settings.languageIndex).text : ""
-    }
-
-    Helper{
-        id: helperId
-        onLayoutChanged: {
-            changeLanguageLayout(false)
-        }
     }
 
     ListModel {
@@ -207,6 +201,7 @@ ApplicationWindow {
                                 main.layout = "full"
                             }
 
+                            main.releaseAll = !main.releaseAll
                             layoutKey.keyText = main.layout
                         }
 
@@ -369,6 +364,10 @@ ApplicationWindow {
         to: 0 ;
         duration: 300;
         easing.type: Easing.OutQuad
+    }
+
+    onLayoutChanged: {
+        changeLanguageLayout(false)
     }
 
     onSettingsVisibleChanged: {

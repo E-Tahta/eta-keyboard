@@ -24,10 +24,8 @@ import eta.helper 1.0
 
 
 ApplicationWindow {
-    id: main
-
     flags:Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowDoesNotAcceptFocus | Qt.X11BypassWindowManagerHint
-
+    id: main
     visible: false
     title: qsTr("ETA Virtual Keyboard")
     color: "#010101"
@@ -40,39 +38,31 @@ ApplicationWindow {
     property string textPressedColor: "#5e5a5a"
     property int keyHeight
     property int keyWidth: keyHeight
-
     property int spacing: keyHeight / 12
     property int dockSize
     property double scale : 1 // 0.2 ... 1.8
-
     property string layout: "full"
     property int languageLayoutIndex: 0 // Current System Language Layout
     property int keyLevel: 0
-
     property bool releaseAll: false
     property bool settingsVisible
     property bool updateTheme: false
     property bool keyHover: true
     property bool password: false
     property string storedMirror
-
     property int screenWidth: Screen.width
     property int screenHeight: Screen.height
     property int m_height
     property int m_width
     property int m_settings_height
     property int m_settings_width
-
     property bool keyboardVisible: false
     property bool autoShowToggle
-
+    property bool layoutChange: false
 
     function stickyKeyPressed(keyCode){
-
         var press = true
-
         if (stickyModel.count<3){
-
             switch(keyCode){
             case 50: //shift
                 keyLevel++;
@@ -81,32 +71,24 @@ ApplicationWindow {
                 main.keyLevel+=2;
                 break;
             }
-
-
             for (var i=0; i<stickyModel.count; i++)
                 if(stickyModel.get(i).keyCode == keyCode)
                     press = false
-
             if (press)
                 stickyModel.append({keyCode:keyCode})
-
         }
         else {
             main.releaseAll = ! main.releaseAll;
         }
-
     }
+
     function stickyKeyReleased(keyCode){
-
         if (stickyModel.count>0){
-
             for (var i=0; i<stickyModel.count; i++){
                 if (stickyModel.get(i).keyCode == keyCode)
                     stickyModel.remove(i)
             }
-
             switch(keyCode){
-
             case 50: //shift
                 keyLevel--;
                 break;
@@ -116,9 +98,11 @@ ApplicationWindow {
             }
         }
     }
+
     function checkAlt(){
         return stickyModel.count === 1 && stickyModel.get(0).keyCode === 64;
     }
+
     function checkShiftAltgr(){
         if (stickyModel.count == 0) return true
         else if (stickyModel.count == 1)
@@ -129,30 +113,24 @@ ApplicationWindow {
             if(stickyModel.get(1).keyCode === 50 || stickyModel.get(1).keyCode === 108) cnt ++
             if (cnt == 2) return true
             else return false
-
         }
         return false
-
     }
-    function nonStickyPressed(keyCode,mirror){
 
+    function nonStickyPressed(keyCode,mirror){
         if (checkAlt()){
             helper.fakeKeyPress(64)
             helper.fakeKeyPress(keyCode)
             helper.fakeKeyRelease(keyCode)
             helper.fakeKeyRelease(64)
             main.releaseAll = !main.releaseAll;
-
         }
-
         else {
             for (var i=0; i<stickyModel.count; i++){
                 helper.fakeKeyPress(stickyModel.get(i).keyCode)
             }
-
             helper.fakeKeyPress(keyCode)
         }
-
         if (mirror && checkShiftAltgr()){
             main.storedMirror += helper.getSymbol(keyCode,main.languageLayoutIndex,main.keyLevel)
             if (main.password)
@@ -160,8 +138,6 @@ ApplicationWindow {
             else
                 mirrorText.text += helper.getSymbol(keyCode,main.languageLayoutIndex,main.keyLevel)
         }
-
-
         switch (keyCode){
         case 65:
             mirrorText.text = ""
@@ -187,38 +163,31 @@ ApplicationWindow {
             mirrorText.text = ""
             main.storedMirror = ""
             break;
-
         case 22:
             mirrorText.text = mirrorText.text.substring(0, mirrorText.text.length - 1)
             main.storedMirror = main.storedMirror.substring(0, main.storedMirror.length - 1)
         }
     }
-    function nonStickyReleased(keyCode){
 
+    function nonStickyReleased(keyCode){
         if (!checkAlt()){
             helper.fakeKeyRelease(keyCode)
-
             for (var i=0; i<stickyModel.count; i++){
                 helper.fakeKeyRelease(stickyModel.get(i).keyCode)
             }
-
-            main.releaseAll = !main.releaseAll;
-
+            //main.releaseAll = !main.releaseAll;
             for (var i=0; i<stickyModel.count; i++){
                 helper.fakeKeyRelease(stickyModel.get(i).keyCode)
                 console.log(stickyModel.get(i).keyCode+" if you see me there is a problem")
             }
         }
     }
-    function setSize(){
 
+    function setSize(){
         var oldWidth = main.width
         var oldHeight = main.height
-
         main.keyHeight =  main.screenHeight * main.scale / 23
         main.dockSize = main.screenHeight * main.scale / 35
-
-
         if (main.layout == "full"){
             main.width = main.keyHeight * 15 + main.spacing * 16
             main.height = main.keyHeight * 11 / 2 + main.dockSize + main.spacing * 8
@@ -227,11 +196,8 @@ ApplicationWindow {
             main.width = main.keyHeight * 11 + main.spacing * 12
             main.height = main.keyHeight * 4  + main.dockSize + main.spacing * 6
         }
-
-
         settings.width =  main.keyWidth * 3 + main.spacing * 5
         settings.height = main.keyHeight * 2 + main.spacing * 3
-
         main.m_height = main.height
         main.m_width = main.width
         main.m_settings_height = settings.height
@@ -239,57 +205,59 @@ ApplicationWindow {
         main.x += (oldWidth - main.width) / 2
         main.y += (oldHeight - main.height) / 2
         main.visible = true
-
-
-
     }
-
 
     Helper {
         id: helper
 
-
-
-
         onShowFromBottomCalled: {
-            if (!keyboardVisible){
+            if (!keyboardVisible && autoShowToggle){
                 showFromBottom.start();
             }
         }
+
         onShowFromLeftCalled: {
-            if (!keyboardVisible){
+            if (!keyboardVisible && autoShowToggle){
                 showFromLeft.start();
             }
         }
 
         onShowFromRightCalled: {
-            if (!keyboardVisible){
+            if (!keyboardVisible && autoShowToggle){
                 showFromRight.start();
             }
         }
 
         onHideCalled: {
-            if (keyboardVisible){
+            if (keyboardVisible && autoShowToggle){
                 hide.start();
             }
         }
+
         onToggleCalled: {
-            if (keyboardVisible) hide.start()
-            else showFromBottom.start()
+            if (keyboardVisible) {
+                hide.start()
+            }
+            else {
+                showFromBottom.start()
+            }
         }
 
         onToggleAutoShowCalled: {
             main.autoShowToggle = !main.autoShowToggle
         }
 
-
+        onLayoutChanged: {
+            main.layoutChange = !main.layoutChange
+        }
     }
+
     ListModel {
         id:stickyModel
     }
+
     Item {
         id: container
-
 
         Rectangle {
             id: dock
@@ -335,26 +303,25 @@ ApplicationWindow {
                             passwordToggle.color = pToggleMa.containsMouse ? main.keyHoverColor : main.keyColor
                             pToggleText.color = main.textColor
                             main.password = false
-
                         }
                     }
-
                 }
-
-            }
-
+            }//End of passwordToggle
 
             Image {
                 id: closeBtnImage
                 source: "Images/window-close.png"
-
-                anchors.right: dock.right
-                anchors.top: dock.top
-                anchors.bottom: dock.bottom
                 height:main.dockSize
                 width: closeBtnImage.height
+                anchors {
+                    right: dock.right
+                    top: dock.top
+                    bottom: dock.bottom
+                }
+
                 MouseArea{
                     anchors.fill: closeBtnImage
+
                     onClicked: {
                         hide.start();
                     }
@@ -367,32 +334,27 @@ ApplicationWindow {
                 font.pointSize: main.dockSize ? main.dockSize / 2 : 15
                 color: main.activeTextColor
                 anchors.centerIn: dock
-
             }
 
-
             MouseArea{
+                property variant cpos: "1,1"
                 anchors{
                     top: dock.top
                     left: passwordToggle.right
                     bottom: dock.bottom
                     right:closeBtnImage.left
                 }
-                property variant cpos: "1,1"
+
                 onPressed: {
                     cpos = Qt.point(mouse.x,mouse.y);
-                    // main.opacity = 0.3
-                    //settings.opacity = 0.3
                 }
                 onPositionChanged: {
                     var delta = Qt.point(mouse.x - cpos.x, mouse.y - cpos.y);
                     main.x += delta.x;
                     main.y += delta.y;
-
                 }
                 onReleased: {
-                    // main.opacity = 1
-                    //settings.opacity = settingsVisible ? 0 : 1
+
                 }
             }
         }
@@ -409,10 +371,10 @@ ApplicationWindow {
             anchors.top: dock.bottom
         }
     }
+
     Settings{
         id: settings
     }
-
 
     NumberAnimation {
         id:showFromBottom
@@ -422,18 +384,19 @@ ApplicationWindow {
         to : main.screenHeight - main.m_height * 3 / 2
         duration: 400
         easing.type: Easing.OutBack
+
         onStarted: {
             main.visible = true
-            settings.height = main.m_settings_height
             main.keyboardVisible = true
+            settings.height = main.m_settings_height
             main.opacity = 1
             settings.opacity = 1
             main.height = main.m_height
             main.width = main.m_width
             main.x = main.screenWidth / 2 - main.m_width / 2
         }
-
     }
+
     NumberAnimation {
         id:showFromLeft
         target:main
@@ -442,6 +405,7 @@ ApplicationWindow {
         to : main.screenWidth / 2 - main.m_width /2
         duration: 400
         easing.type: Easing.OutBack
+
         onStarted: {
             settings.height = main.m_settings_height
             main.visible = true
@@ -452,8 +416,8 @@ ApplicationWindow {
             main.opacity = 1
             settings.opacity = 1
         }
-
     }
+
     NumberAnimation {
         id:showFromRight
         target:main
@@ -462,6 +426,7 @@ ApplicationWindow {
         to : main.screenWidth / 2 - main.m_width /2
         duration: 400
         easing.type: Easing.OutBack
+
         onStarted: {
             settings.height = main.m_settings_height
             main.visible = true
@@ -472,14 +437,10 @@ ApplicationWindow {
             main.opacity = 1
             settings.opacity = 1
         }
-
     }
 
     ParallelAnimation {
         id: hide
-
-
-
 
         NumberAnimation {
             target: main
@@ -487,7 +448,6 @@ ApplicationWindow {
             from: main.height
             to : 0
             duration: 100
-
         }
 
         NumberAnimation {
@@ -498,7 +458,6 @@ ApplicationWindow {
             duration: 100
         }
 
-
         NumberAnimation {
             target: main
             property: "y"
@@ -506,28 +465,29 @@ ApplicationWindow {
             to : main.y + main.m_height / 2
             duration: 100
             easing.type: Easing.Linear
-
         }
+
         onStarted: {
             main.settingsVisible = false
             main.keyboardVisible = false
+            mirrorText.text = ""
+            main.storedMirror = ""
+            main.releaseAll = !main.releaseAll
         }
+
         onStopped: {
             main.visible = false
         }
     }
 
-
     onLayoutChanged: {
-
         setSize()
-
     }
+
     onScaleChanged: {
-
         setSize()
-
     }
+
     onPasswordChanged: {
         if (main.password){
             var len = mirrorText.text.length
@@ -539,23 +499,18 @@ ApplicationWindow {
         else {
             mirrorText.text = main.storedMirror
         }
-
     }
+
     Component.onCompleted: {
-
         hide.start()
-
         main.screenHeight = Screen.height
         main.screenWidth = Screen.width
-
         setSize()
-
         main.x =  main.screenWidth / 2 - main.width /2
         main.y = main.screenHeight + main.height
-
         main.settingsVisible = false
-
+        main.autoShowToggle = helper.getAutoShow()
+        console.log(main.autoShowToggle)
     }
-
 }
 
