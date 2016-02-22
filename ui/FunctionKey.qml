@@ -1,6 +1,6 @@
 /*****************************************************************************
  *   Copyright (C) 2016 by Hikmet Bas                                        *
- *   <hikmet.bask@pardus.org.tr>                                             *
+ *   <hikmet.bas@pardus.org.tr>                                              *
  *                                                                           *
  *   This program is free software; you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by    *
@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
+
 import QtQuick 2.3
 
 // FunctionKey
@@ -43,13 +44,16 @@ Key {
             btnPressed()
             main.nonStickyPressed(key.keyCode,false)
         }
+
         onPressAndHold: {
             btnHold()
         }
+
         onReleased: {
             btnReleased()
             main.nonStickyReleased(key.keyCode)
         }
+
         onClicked: {
             btnClicked()
         }

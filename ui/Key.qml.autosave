@@ -21,7 +21,7 @@ import QtQuick 2.3
 
 Rectangle {
     id: key
-
+    
     property string keyColor: main.keyColor
     property string keyPressedColor: main.keyPressedColor
     property string keyHoverColor: main.keyHoverColor
@@ -45,16 +45,16 @@ Rectangle {
     property bool hold: false
     property bool lock: false
     property bool updateTheme: main.updateTheme
-
+    
     color: ma.containsMouse ? key.keyHoverColor : key.keyColor
     radius: key.keyRadius
     width: key.keyWidth
     height: key.keyHeight
-
+    
     function btnClicked(){
-
+        
     }
-
+    
     function btnPressed(){
         key.color = key.keyPressedColor
         switch (key.keyLevel){
@@ -65,7 +65,7 @@ Rectangle {
         }
         lev4.color = key.textPressedColor
     }
-
+    
     function btnHovered(){
         if (!key.lock){
             key.color = ma.containsMouse ? key.keyHoverColor : key.keyColor
@@ -76,16 +76,16 @@ Rectangle {
             lev4.color = key.textColor;
         }
     }
-
+    
     function btnHold(){
         key.hold = true
     }
-
+    
     function btnReleased(){
         key.hold = false
         btnHovered()
-   }
-
+    }
+    
     Text {
         id: lev0
         color: key.keyLevel == 0 ? key.activeTextColor : key.textColor
@@ -98,8 +98,8 @@ Rectangle {
             bottom: key.bottom
             margins: keyHeight/10
         }
-            }
-
+    }
+    
     Text {
         id: lev1
         color: key.keyLevel == 1 ? key.activeTextColor : key.textColor
@@ -113,7 +113,7 @@ Rectangle {
             margins: keyHeight/10
         }
     }
-
+    
     Text {
         id: lev2
         color: key.keyLevel == 2 ? key.activeTextColor : key.textColor
@@ -127,7 +127,7 @@ Rectangle {
             margins: keyHeight/10
         }
     }
-
+    
     Text {
         id: lev3
         color: key.keyLevel == 3 ? key.activeTextColor : key.textColor
@@ -141,7 +141,7 @@ Rectangle {
             margins: keyHeight/10
         }
     }
-
+    
     Text {
         id: lev4
         color: key.textColor
@@ -153,46 +153,46 @@ Rectangle {
             centerIn: key
         }
     }
-
+    
     MouseArea{
         id: ma
         anchors.fill: parent
         hoverEnabled: main.keyHover
-
+        
         onEntered: {
-           btnHovered()
+            btnHovered()
         }
-
+        
         onExited: {
             btnHovered()
         }
-
+        
         onPressed: {
             btnPressed()
         }
-
+        
         onPressAndHold: {
             btnHold()
         }
-
+        
         onReleased: {
             btnReleased()
         }
-
+        
         onClicked: {
             key.btnClicked()
         }
     }
-
+    
     onUpdateThemeChanged:{
         btnHovered()
     }
-
+    
     onKeyLevelChanged: {
         btnHovered()
     }
-
+    
     Component.onCompleted: {
-
+        
     }
 }

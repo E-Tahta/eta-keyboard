@@ -1,6 +1,6 @@
 /*****************************************************************************
  *   Copyright (C) 2016 by Hikmet Bas                                        *
- *   <hikmet.bask@pardus.org.tr>                                             *
+ *   <hikmet.bas@pardus.org.tr>                                              *
  *                                                                           *
  *   This program is free software; you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by    *
@@ -17,12 +17,12 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
+
 import QtQuick 2.3
 
-// EnterKeyHead
+// EnterKey
 
 Item {
-
     id: key
 
     property string keyColor: main.keyColor
@@ -30,28 +30,22 @@ Item {
     property string keyHoverColor: main.keyHoverColor
     property string textColor: main.textColor
     property string textPressedColor: main.textPressedColor
-
     property string keyText
-
     property double keyWidth: main.keyWidth
     property double keyHeight: main.keyHeight
     property int keyLevel: main.keyLevel
     property int fontPointSize: main.keyHeight / 4
     property int keyRadius: main.keyHeight / 10
     property int keyCode: 36
-
     property bool hold: false
     property bool updateTheme: main.updateTheme
     property bool entered: false
 
-
-
     width: keyWidth * 3 / 2
     height: keyHeight * 2 + main.spacing
 
-
-
     function btnClicked(){
+
     }
 
     function btnPressed(){
@@ -59,28 +53,22 @@ Item {
         foot.color = key.keyPressedColor
         headText.color = key.textPressedColor
         main.nonStickyPressed(key.keyCode,false)
-
     }
 
     function btnHovered(){
         if (!key.hold){
-
             if (key.entered){
                 head.color = key.keyHoverColor
                 headText.color = key.textColor
                 foot.color = key.keyHoverColor
             }
-
             else {
                 head.color = key.keyColor
                 headText.color = key.textColor
                 foot.color = key.keyColor
             }
-
         }
-
     }
-
 
     function btnHold(){
         key.hold = true
@@ -90,13 +78,7 @@ Item {
         key.hold = false
         btnHovered()
         main.nonStickyReleased(key.keyCode)
-
-
-
     }
-
-
-
 
     Rectangle{
         id: head
@@ -105,15 +87,15 @@ Item {
         height: key.keyHeight
         width: key.width + main.spacing
         z: 10
+
         Text {
             id: headText
             color: key.textColor
             font.pointSize: key.fontPointSize ?  key.fontPointSize : 5
+            text: "\u23CE Enter"
             anchors {
                 centerIn: head
             }
-            text: "\u23CE Enter"
-
         }
 
         MouseArea{
@@ -133,35 +115,32 @@ Item {
 
             onPressed: {
                 btnPressed()
-
             }
+
             onPressAndHold: {
                 btnHold()
-
             }
+
             onReleased: {
                 btnReleased()
             }
+
             onClicked: {
                 btnClicked()
             }
         }
-
     }
+
     Rectangle{
         id: foot
         color: ma1.containsMouse ? key.keyHoverColor : key.keyColor
         radius: key.keyRadius
         width: key.keyWidth * 5 / 4 + main.spacing
         height: key.height
-
-
         anchors {
             top: head.top
             right: head.right
         }
-
-
 
         MouseArea{
             id: ma1
@@ -180,20 +159,20 @@ Item {
 
             onPressed: {
                 btnPressed()
-
             }
+
             onPressAndHold: {
                 btnHold()
-
             }
+
             onReleased: {
                 btnReleased()
             }
+
             onClicked: {
                 btnClicked()
             }
         }
-
     }
 
     onUpdateThemeChanged:{

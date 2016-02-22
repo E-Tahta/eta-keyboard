@@ -1,6 +1,6 @@
 /*****************************************************************************
  *   Copyright (C) 2016 by Hikmet Bas                                        *
- *   <hikmet.bask@pardus.org.tr>                                             *
+ *   <hikmet.bas@pardus.org.tr>                                              *
  *                                                                           *
  *   This program is free software; you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by    *
@@ -19,12 +19,10 @@
  *****************************************************************************/
 import QtQuick 2.3
 
-// AlphaNumericKey
+// AlphaNumericKey // NonSticky
 
 Key {
     id: key
-    leVis0: true
-    leVis1: true
 
     MouseArea {
         id: ma

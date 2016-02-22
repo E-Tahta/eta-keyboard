@@ -17,46 +17,73 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
+
 import QtQuick 2.3
 
-// StickyKey
+// FunctionKey
 
 Key {
     id: key
+    
+    property string activeLedColor: "light green"
+    property string passiveLedColor: main.keyColor
+    property bool clickedFlag: false
+    
     leVis4: true
-
-    function stickyPressed() {
-        key.lock = true
-        btnPressed()
-        main.stickyKeyPressed(key.keyCode)
+    keyCode: 66
+    
+    Rectangle {
+        id: statusLed
+        width: keyWidth / 9
+        height: statusLed.width
+        radius: height / 2
+        border.color: main.textColor
+        color: key.clickedFlag ? key.activeLedColor : key.passiveLedColor
+        anchors {
+            top : key.top
+            right: key.right
+            margins: statusLed.width / 2
+        }
     }
-
-    function stickyReleased(){
-        key.lock = false
-        btnHovered()
-        main.stickyKeyReleased(key.keyCode)
-    }
-
+    
     MouseArea {
         id: ma
         anchors.fill: parent
-
-        onPressed: {
-            if (!key.lock)
-                stickyPressed()
-            else stickyReleased()
+        
+        onEntered: {
+            btnHovered()
         }
-
+        
+        onExited: {
+            btnHovered()
+        }
+        
+        onPressed: {
+            btnPressed()
+            helper.fakeKeyPress(66)
+        }
+        
         onPressAndHold: {
             btnHold()
         }
-
+        
         onReleased: {
-            key.hold = false
+            btnReleased()
+            helper.fakeKeyRelease(66);
         }
-
+        
         onClicked: {
             btnClicked()
         }
     }
+    
+    Timer {
+        running: true
+        repeat: true
+        interval: 5
+        onTriggered: {
+            key.clickedFlag = helper.getCapslockStatus();
+        }
+    }
+    
 }

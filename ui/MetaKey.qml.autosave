@@ -1,6 +1,6 @@
 /*****************************************************************************
  *   Copyright (C) 2016 by Hikmet Bas                                        *
- *   <hikmet.bask@pardus.org.tr>                                             *
+ *   <hikmet.bas@pardus.org.tr>                                              *
  *                                                                           *
  *   This program is free software; you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by    *
@@ -19,35 +19,50 @@
  *****************************************************************************/
 import QtQuick 2.3
 
-// ArrowKey
+// MetaKey
 
 Key {
     id: key
-    leVis4: true
-
+    
+    function stickyPressed() {
+        key.lock = true
+        btnPressed()
+        main.stickyKeyPressed(key.keyCode)
+        
+    }
+    
+    function stickyReleased(){
+        key.lock = false
+        btnHovered()
+        main.stickyKeyReleased(key.keyCode)
+    }
+    
+    Image {
+        id: img
+        width: parent.width * 2 / 3
+        height: img.width
+        source: "Images/pardus.png"
+        anchors.centerIn: parent
+    }
+    
     MouseArea {
         id: ma
         anchors.fill: parent
-
-        onEntered: {
-            btnHovered()
-        }
-
-        onExited: {
-            btnHovered()
-        }
-
+        
         onPressed: {
-            btnPressed()
-            main.nonStickyPressed(key.keyCode,false)
+            if (!key.lock)
+                stickyPressed()
+            else stickyReleased()
         }
+        
         onPressAndHold: {
             btnHold()
         }
+        
         onReleased: {
-            btnReleased()
-            main.nonStickyReleased(key.keyCode)
+            key.hold = false
         }
+        
         onClicked: {
             btnClicked()
         }
