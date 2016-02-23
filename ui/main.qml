@@ -40,8 +40,8 @@ ApplicationWindow {
     property int keyWidth: keyHeight
     property int spacing: keyHeight / 12
     property int dockSize
-    property double scale : 1 // 0.2 ... 1.8
-    property string layout: "full"
+    property double scale: 1 // 0.2 ... 1.8
+    property string layout
     property int languageLayoutIndex: 0 // Current System Language Layout
     property int keyLevel: 0
     property bool releaseAll: false
@@ -59,8 +59,16 @@ ApplicationWindow {
     property bool keyboardVisible: false
     property bool autoShowToggle
     property bool layoutChange: false
+    property string themeName
+    property bool loaded: false
+
+    function setAndSave(){
+        helper.setSettings(main.themeName,main.layout,main.scale,main.languageLayoutIndex,main.autoShowToggle)
+        helper.saveSettings()
+    }
 
     function stickyKeyPressed(keyCode){
+        main.settingsVisible = false
         var press = true
         if (stickyModel.count<3){
             switch(keyCode){
@@ -84,6 +92,7 @@ ApplicationWindow {
 
     function stickyKeyReleased(keyCode){
         if (stickyModel.count>0){
+            main.settingsVisible = false
             for (var i=0; i<stickyModel.count; i++){
                 if (stickyModel.get(i).keyCode == keyCode)
                     stickyModel.remove(i)
@@ -118,6 +127,7 @@ ApplicationWindow {
     }
 
     function nonStickyPressed(keyCode,mirror){
+        main.settingsVisible = false
         if (checkAlt()){
             helper.fakeKeyPress(64)
             helper.fakeKeyPress(keyCode)
@@ -348,11 +358,14 @@ ApplicationWindow {
                 onPressed: {
                     cpos = Qt.point(mouse.x,mouse.y);
                 }
+
                 onPositionChanged: {
+                    main.settingsVisible = false
                     var delta = Qt.point(mouse.x - cpos.x, mouse.y - cpos.y);
                     main.x += delta.x;
                     main.y += delta.y;
                 }
+
                 onReleased: {
 
                 }
@@ -381,7 +394,7 @@ ApplicationWindow {
         target:main
         property: "y"
         from: main.screenHeight + main.height
-        to : main.screenHeight - main.m_height * 3 / 2
+        to : main.screenHeight - main.m_height - main.spacing * 10
         duration: 400
         easing.type: Easing.OutBack
 
@@ -502,6 +515,16 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
+        console.log(helper.getColor())
+        console.log(helper.getAutoShow())
+        console.log(helper.getLayoutType())
+        console.log(helper.getScale())
+
+        main.themeName = helper.getColor() ? helper.getColor() : "Blue"
+        main.autoShowToggle = helper.getAutoShow() ? helper.getAutoShow() : false
+        main.layout = helper.getLayoutType() ? helper.getLayoutType() : "full"
+        main.scale = helper.getScale() ? helper.getScale() : 1
+
         hide.start()
         main.screenHeight = Screen.height
         main.screenWidth = Screen.width
@@ -509,8 +532,11 @@ ApplicationWindow {
         main.x =  main.screenWidth / 2 - main.width /2
         main.y = main.screenHeight + main.height
         main.settingsVisible = false
-        main.autoShowToggle = helper.getAutoShow()
-        console.log(main.autoShowToggle)
+
+        main.loaded = true
+        console.log("main.qml loaded")
+
     }
+
 }
 

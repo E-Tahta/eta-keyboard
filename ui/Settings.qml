@@ -31,11 +31,59 @@ ApplicationWindow {
     property int languageIndex: 0
     property int colorIndex: 0
     property bool layout: main.layoutChange
+    property bool loaded: main.loaded
 
     visible: true
     color: main.color
     x: main.x - settings.width + main.spacing
     y: main.y + main.height - settings.height
+
+    function setAndSaveConf(){
+        if (main.loaded)
+            main.setAndSave()
+        else console.log("waiting main")
+    }
+
+    function setLayout(){
+
+        main.releaseAll = !main.releaseAll
+        layoutKey.keyText = main.layout
+
+        settings.setAndSaveConf()
+
+        console.log("layout")
+    }
+
+    function changeTheme(){
+
+
+        layoutKey.keyText = main.layout
+        if (settings.colorIndex<colorModel.count){
+            main.keyColor = colorModel.get(settings.colorIndex).kColor;
+            main.textColor = colorModel.get(settings.colorIndex).tColor;
+            main.activeTextColor = colorModel.get(settings.colorIndex).atColor;
+            main.keyHoverColor = colorModel.get(settings.colorIndex).hColor;
+            main.color = colorModel.get(settings.colorIndex).bColor;
+            main.updateTheme = !main.updateTheme
+            colorKey.keyText = colorModel.get(settings.colorIndex).text
+        }
+        else {
+            settings.colorIndex = 0
+            main.keyColor = colorModel.get(settings.colorIndex).kColor;
+            main.textColor = colorModel.get(settings.colorIndex).tColor;
+            main.activeTextColor = colorModel.get(settings.colorIndex).atColor;
+            main.keyHoverColor = colorModel.get(settings.colorIndex).hColor;
+            main.color = colorModel.get(settings.colorIndex).bColor;
+            main.updateTheme = !main.updateTheme
+            colorKey.keyText = colorModel.get(settings.colorIndex).text
+        }
+
+        main.themeName = colorKey.keyText
+
+        settings.setAndSaveConf()
+
+        console.log("theme")
+    }
 
     function changeLanguageLayout(button){
         if (button){
@@ -49,6 +97,10 @@ ApplicationWindow {
         main.languageLayoutIndex = settings.languageIndex
         helper.setLayout(settings.languageIndex)
         languageKey.keyText = languageModel.count ? languageModel.get(settings.languageIndex).text : ""
+
+        settings.setAndSaveConf()
+
+        console.log("language")
     }
 
     ListModel {
@@ -133,25 +185,7 @@ ApplicationWindow {
                         onPressed: {
                             colorKey.btnPressed()
                             settings.colorIndex++
-                            if (settings.colorIndex<colorModel.count){
-                                main.keyColor = colorModel.get(settings.colorIndex).kColor;
-                                main.textColor = colorModel.get(settings.colorIndex).tColor;
-                                main.activeTextColor = colorModel.get(settings.colorIndex).atColor;
-                                main.keyHoverColor = colorModel.get(settings.colorIndex).hColor;
-                                main.color = colorModel.get(settings.colorIndex).bColor;
-                                main.updateTheme = !main.updateTheme
-                                colorKey.keyText = colorModel.get(settings.colorIndex).text
-                            }
-                            else {
-                                settings.colorIndex = 0
-                                main.keyColor = colorModel.get(settings.colorIndex).kColor;
-                                main.textColor = colorModel.get(settings.colorIndex).tColor;
-                                main.activeTextColor = colorModel.get(settings.colorIndex).atColor;
-                                main.keyHoverColor = colorModel.get(settings.colorIndex).hColor;
-                                main.color = colorModel.get(settings.colorIndex).bColor;
-                                main.updateTheme = !main.updateTheme
-                                colorKey.keyText = colorModel.get(settings.colorIndex).text
-                            }
+                            changeTheme()
                         }
 
                         onPressAndHold: {
@@ -200,9 +234,7 @@ ApplicationWindow {
                             else {
                                 main.layout = "full"
                             }
-
-                            main.releaseAll = !main.releaseAll
-                            layoutKey.keyText = main.layout
+                            settings.setLayout()
                         }
 
                         onClicked: {
@@ -216,111 +248,89 @@ ApplicationWindow {
                 id: r2
                 spacing: main.spacing
 
-                Column{
-                    spacing: main.spacing
-
-                    Key{
-                        id: scaleUp
-                        leVis4: true
-                        keyText: "+"
-                        fontPointSize: main.keyHeight ? main.keyHeight / 3 : 2
-                        keyHeight: main.keyHeight / 2 - main.spacing / 2
-
-                        MouseArea {
-                            id: ma4
-                            anchors.fill: parent
-
-                            onEntered: {
-                                scaleUp.btnHovered()
-                            }
-
-                            onExited: {
-                                scaleUp.btnHovered()
-                            }
-
-                            onPressed: {
-                                scaleUp.btnPressed()
-                            }
-
-                            onPressAndHold: {
-                                scaleUp.btnHold()
-                            }
-
-                            onReleased: {
-                                if (main.scale<1.5) {
-                                    main.scale+=0.1
-                                }
-                                scale.keyText = main.scale
-                            }
-
-                            onClicked: {
-                                scaleDown.btnClicked()
-                            }
-                        }
-                    }
-
-                    Key{
-                        id: scaleDown
-                        leVis4: true
-                        keyText: "-"
-                        fontPointSize: main.keyHeight ? main.keyHeight / 2 : 2
-                        keyHeight: main.keyHeight / 2 - main.spacing / 2
-
-                        MouseArea {
-                            id: ma3
-                            anchors.fill: parent
-
-                            onEntered: {
-                                scaleDown.btnHovered()
-                            }
-
-                            onExited: {
-                                scaleDown.btnHovered()
-                            }
-
-                            onPressed: {
-                                scaleDown.btnPressed()
-                            }
-                            onPressAndHold: {
-                                scaleDown.btnHold()
-                            }
-
-                            onReleased: {
-                                if (main.scale>0.5) {
-                                    main.scale-=0.1
-                                }
-                                scale.keyText = main.scale
-                            }
-
-                            onClicked: {
-                                scaleDown.btnClicked()
-                            }
-                        }
-                    }
-                }
-
                 Key{
-                    id: scale
+                    id: scaleDown
                     leVis4: true
-                    keyText: main.scale
-                    fontPointSize: main.keyHeight ? main.keyHeight / 2 : 2
+                    keyText: "-"
 
                     MouseArea {
-                        id: ma5
+                        id: ma3
                         anchors.fill: parent
+
+                        onEntered: {
+                            scaleDown.btnHovered()
+                        }
+
+                        onExited: {
+                            scaleDown.btnHovered()
+                        }
+
+                        onPressed: {
+                            scaleDown.btnPressed()
+                        }
+                        onPressAndHold: {
+                            scaleDown.btnHold()
+                        }
+
+                        onReleased: {
+                            if (main.scale>0.5) {
+                                main.scale-=0.1
+                            }
+
+                            settings.setAndSaveConf()
+                        }
+
+                        onClicked: {
+                            scaleDown.btnClicked()
+                        }
                     }
                 }
+
+                Key{
+                    id: scaleUp
+                    leVis4: true
+                    keyText: "+"
+
+                    MouseArea {
+                        id: ma4
+                        anchors.fill: parent
+
+                        onEntered: {
+                            scaleUp.btnHovered()
+                        }
+
+                        onExited: {
+                            scaleUp.btnHovered()
+                        }
+
+                        onPressed: {
+                            scaleUp.btnPressed()
+                        }
+
+                        onPressAndHold: {
+                            scaleUp.btnHold()
+                        }
+
+                        onReleased: {
+                            if (main.scale<1.5) {
+                                main.scale+=0.1
+                            }
+
+                            settings.setAndSaveConf()
+                        }
+
+                        onClicked: {
+                            scaleDown.btnClicked()
+                        }
+                    }
+                }
+
                 Key{
                     id: autoShowKey
-
-                    Rectangle{
-                        id: autoLed
-                        height: parent.height / 2
-                        width: autoLed.height
-                        radius: autoLed.height / 2
-                        color: main.autoShowToggle ? "green" : "red"
-                        anchors.centerIn: parent
-                    }
+                    leVis4: true
+                    keyText: "OTO"
+                    highlighted: main.autoShowToggle ? true : false
+                    activeOpacity: main.autoShowToggle ? 1 : 0.2
 
                     MouseArea {
                         id: ma6
@@ -329,6 +339,8 @@ ApplicationWindow {
                         onPressed: {
                             autoShowKey.btnPressed()
                             main.autoShowToggle = !main.autoShowToggle
+
+                            settings.setAndSaveConf()
                         }
 
                         onPressAndHold: {
@@ -379,13 +391,28 @@ ApplicationWindow {
         }
     }
 
+    onLoadedChanged: {
+        switch (main.themeName){
+        case "Grey": settings.colorIndex = 0
+            break;
+        case "Green": settings.colorIndex = 1
+            break;
+        case "Blue": settings.colorIndex = 2
+        }
+        changeTheme()
+        changeLanguageLayout(false)
+        setLayout()
+
+        settings.setAndSaveConf()
+    }
+
     Component.onCompleted: {
         for(var i = 0; i< helper.getNumberOfLayouts();i++) {
             languageModel.append({text:helper.getLayoutName(i)})
         }
         changeLanguageLayout(false)
-        colorKey.keyText = colorModel.get(0).text
-        layoutKey.keyText = main.layout
         hideSettings.start()
+
+        console.log("settings.qml loaded")
     }
 }

@@ -40,6 +40,7 @@ Rectangle {
     property bool leVis2: false
     property bool leVis3: false
     property bool leVis4: false
+    property bool highlighted: false
     property double activeOpacity: 1
     property double passiveOpacity: 0.2
     property bool hold: false
@@ -148,6 +149,8 @@ Rectangle {
         color: key.textColor
         font.pointSize: key.fontPointSize ? key.fontPointSize * 3 / 4 : 2
         text: key.keyText
+        font.bold: key.highlighted
+        font.underline: key.highlighted
         visible: leVis4
         opacity: activeOpacity
         anchors {
