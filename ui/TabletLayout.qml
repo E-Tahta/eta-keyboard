@@ -100,16 +100,8 @@ Item{
 
                 SettingsKey{id: keySettings}
                 AlphaNumericKey{id: keyNum; leVis4: true; keyText: "12!?"; keyWidth: main.keyWidth; mirror: false}
-                AlphaNumericKey {
-                    id: keyEmoji
-                    leVis4: true
-                    keyText: "\u263A"
-                    keyWidth: main.keyWidth
-                    keyCode: 133
-                    fontPointSize:  main.keyHeight ? keyHeight / 2 : 2
-                }
                 AlphaNumericKey{id: keyComma;keyCode: 51; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,0)}
-                AlphaNumericKey{id: keySpace; keyWidth: main.keyWidth * 4 + main.spacing * 4 ; keyCode: 65}
+                AlphaNumericKey{id: keySpace; keyWidth: main.keyWidth * 5 + main.spacing * 5 ; keyCode: 65}
                 AlphaNumericKey{id: keyDot; keyCode: 61; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,0)}
                 AlphaNumericKey {
                     id: keyEnter
