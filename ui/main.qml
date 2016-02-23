@@ -394,7 +394,7 @@ ApplicationWindow {
         target:main
         property: "y"
         from: main.screenHeight + main.height
-        to : main.screenHeight - main.m_height - main.spacing * 10
+        to : main.screenHeight - main.m_height - main.spacing * 20
         duration: 400
         easing.type: Easing.OutBack
 
@@ -520,10 +520,10 @@ ApplicationWindow {
         console.log(helper.getLayoutType())
         console.log(helper.getScale())
 
-        main.themeName = helper.getColor() ? helper.getColor() : "Blue"
+        main.themeName = helper.getColor() ? helper.getColor() : "Grey"
         main.autoShowToggle = helper.getAutoShow() ? helper.getAutoShow() : false
         main.layout = helper.getLayoutType() ? helper.getLayoutType() : "full"
-        main.scale = helper.getScale() ? helper.getScale() : 1
+        main.scale = helper.getScale() < 1.6 && helper.getScale() > 0.4 ? helper.getScale() : 1
 
         hide.start()
         main.screenHeight = Screen.height
