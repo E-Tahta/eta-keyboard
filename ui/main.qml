@@ -44,6 +44,7 @@ ApplicationWindow {
     property string layout
     property int languageLayoutIndex: 0 // Current System Language Layout
     property int keyLevel: 0
+    property bool symbolMode: false
     property bool releaseAll: false
     property bool settingsVisible
     property bool updateTheme: false
@@ -192,6 +193,43 @@ ApplicationWindow {
             }
         }
     }
+
+    function fakeKeyTablet(code,level,keyText) {
+        main.settingsVisible = false
+        switch(level) {
+        case 0:
+            helper.fakeKeyPress(code);
+            helper.fakeKeyRelease(code);
+            break;
+        case 1:
+            helper.fakeKeyPress(50);
+            helper.fakeKeyPress(code);
+            helper.fakeKeyRelease(code);
+            helper.fakeKeyRelease(50);
+            break
+        case 2:
+            helper.fakeKeyPress(108);
+            helper.fakeKeyPress(code);
+            helper.fakeKeyRelease(code);
+            helper.fakeKeyRelease(108);
+            break
+        case 3:
+            helper.fakeKeyPress(108);
+            helper.fakeKeyPress(50);
+            helper.fakeKeyPress(code);
+            helper.fakeKeyRelease(code);
+            helper.fakeKeyRelease(50);
+            helper.fakeKeyRelease(108);
+            break
+        }
+
+        main.storedMirror += keyText
+        if (main.password)
+            mirrorText.text +="*"
+        else
+            mirrorText.text += keyText
+    }
+
 
     function setSize(){
         var oldWidth = main.width

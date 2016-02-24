@@ -28,6 +28,7 @@ Item{
 
      function releaseAllSticky(){
          keyShiftL.stickyReleased()
+         keySymbols.symbolModeOff()
      }
 
     Rectangle{
@@ -47,50 +48,50 @@ Item{
                 id: row3
                 spacing: main.spacing
 
-                AlphaNumericKey{id: keyQ; keyCode: 24; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1); keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyW; keyCode: 25; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1); keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyE; keyCode: 26; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1); keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyR; keyCode: 27; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1); keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyT; keyCode: 28; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1); keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyY; keyCode: 29; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1); keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyU; keyCode: 30; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1); keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyI; keyCode: 31; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1); keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyO; keyCode: 32; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1); keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyP; keyCode: 33; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1); keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyGG; keyCode: 34; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1); keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-                AlphaNumericKey{id: keyUU; keyCode: 35; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1); keyWidth: (11 * main.keyWidth - main.spacing) / 12}
-            }
+                TabletKey {id: keyQ; keyCode: 24; keyCodeSymbol: 10; symbolLevel: 0; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                TabletKey {id: keyW; keyCode: 25; keyCodeSymbol: 11; symbolLevel: 0; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                TabletKey {id: keyE; keyCode: 26; keyCodeSymbol: 12; symbolLevel: 0; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                TabletKey {id: keyR; keyCode: 27; keyCodeSymbol: 13; symbolLevel: 0; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                TabletKey {id: keyT; keyCode: 28; keyCodeSymbol: 14; symbolLevel: 0; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                TabletKey {id: keyY; keyCode: 29; keyCodeSymbol: 15; symbolLevel: 0; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                TabletKey {id: keyU; keyCode: 30; keyCodeSymbol: 16; symbolLevel: 0; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                TabletKey {id: keyI; keyCode: 31; keyCodeSymbol: 17; symbolLevel: 0; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                TabletKey {id: keyO; keyCode: 32; keyCodeSymbol: 18; symbolLevel: 0; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                TabletKey {id: keyP; keyCode: 33; keyCodeSymbol: 19; symbolLevel: 0; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                TabletKey {id: keyGG; keyCode: 34; keyCodeSymbol: 16; symbolLevel: 2; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+                TabletKey {id: keyUU; keyCode: 35; keyCodeSymbol: 19; symbolLevel: 2; keyWidth: (11 * main.keyWidth - main.spacing) / 12}
+             }
 
             Row {
                 id: row4
                 spacing: main.spacing
 
-                AlphaNumericKey{id: keyA; keyCode: 38; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyS; keyCode: 39; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyD; keyCode: 40; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyF; keyCode: 41; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyG; keyCode: 42; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyH; keyCode: 43; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyJ; keyCode: 44; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyK; keyCode: 45; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyL; keyCode: 46; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keySS; keyCode: 47; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyII; keyCode: 48; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
+                TabletKey{id: keyA; keyCode: 38; keyCodeSymbol: 24; symbolLevel: 2}
+                TabletKey{id: keyS; keyCode: 39; keyCodeSymbol: 12; symbolLevel: 2}
+                TabletKey{id: keyD; keyCode: 40; keyCodeSymbol: 13; symbolLevel: 2}
+                TabletKey{id: keyF; keyCode: 41; keyCodeSymbol: 14; symbolLevel: 1}
+                TabletKey{id: keyG; keyCode: 42; keyCodeSymbol: 15; symbolLevel: 1}
+                TabletKey{id: keyH; keyCode: 43; keyCodeSymbol: 17; symbolLevel: 1}
+                TabletKey{id: keyJ; keyCode: 44; keyCodeSymbol: 18; symbolLevel: 1}
+                TabletKey{id: keyK; keyCode: 45; keyCodeSymbol: 21; symbolLevel: 0}
+                TabletKey{id: keyL; keyCode: 46; keyCodeSymbol: 94; symbolLevel: 0}
+                TabletKey{id: keySS; keyCode: 47; keyCodeSymbol: 94; symbolLevel: 1}
+                TabletKey{id: keyII; keyCode: 48; keyCodeSymbol: 10; symbolLevel: 1}
             }
             Row {
                 id: row5
                 spacing: main.spacing
 
                 StickyKey{id:keyShiftL; keyText: "Shift"; keyWidth: main.keyWidth; keyCode: 50}
-                AlphaNumericKey{id: keyZ; keyCode: 52; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyX; keyCode: 53; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyC; keyCode: 54; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyV; keyCode: 55; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyB; keyCode: 56; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyN; keyCode: 57; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyM; keyCode: 58; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyOO; keyCode: 59; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
-                AlphaNumericKey{id: keyCC; keyCode: 60; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,1)}
+                TabletKey{id: keyZ; keyCode: 52; keyCodeSymbol: 51; symbolLevel: 1}
+                TabletKey{id: keyX; keyCode: 53; keyCodeSymbol: 61; symbolLevel: 1}
+                TabletKey{id: keyC; keyCode: 54; keyCodeSymbol: 11; symbolLevel: 1}
+                TabletKey{id: keyV; keyCode: 55; keyCodeSymbol: 49; symbolLevel: 0}
+                TabletKey{id: keyB; keyCode: 56; keyCodeSymbol: 20; symbolLevel: 1}
+                TabletKey{id: keyN; keyCode: 57; keyCodeSymbol: 16; symbolLevel: 1}
+                TabletKey{id: keyM; keyCode: 58; keyCodeSymbol: 13; symbolLevel: 1}
+                TabletKey{id: keyOO; keyCode: 59; keyCodeSymbol: 19; symbolLevel: 1}
+                TabletKey{id: keyCC; keyCode: 60; keyCodeSymbol: 21; symbolLevel: 1}
                 AlphaNumericKey{id: keyBackspace; keyText: "←"; keyCode: 22; leVis4: true; mirror: false}
             }
 
@@ -99,14 +100,38 @@ Item{
                 spacing: main.spacing
 
                 SettingsKey{id: keySettings}
-                AlphaNumericKey{id: keyNum; leVis4: true; keyText: "12!?"; keyWidth: main.keyWidth; mirror: false}
-                AlphaNumericKey{id: keyComma;keyCode: 51; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,0)}
-                AlphaNumericKey{id: keySpace; keyWidth: main.keyWidth * 5 + main.spacing * 5 ; keyCode: 65}
-                AlphaNumericKey{id: keyDot; keyCode: 61; leVis4: visible; keyText: helper.getSymbol(keyCode,main.languageLayoutIndex,0)}
+                StickyKey{
+                    id: keySymbols
+                    keyText: "12!?"
+
+                    MouseArea {
+                        id: ma
+                        anchors.fill: parent
+
+                        onPressed: {
+                            keySymbols.symbolMode()
+                        }
+
+                        onPressAndHold: {
+                            keySymbols.btnHold()
+                        }
+
+                        onReleased: {
+                            keySymbols.hold = false
+                        }
+
+                        onClicked: {
+                            keySymbols.btnClicked()
+                        }
+                    }
+                }
+                TabletKey{id: keyComma; keyCode: 51; keyCodeSymbol: 51; symbolLevel: 0}
+                AlphaNumericKey{id: keySpace; keyWidth: main.keyWidth * 5 + main.spacing * 4 ; keyCode: 65}
+                TabletKey{id: keyDot; keyCode: 61; keyCodeSymbol: 61; symbolLevel: 0}
                 AlphaNumericKey {
                     id: keyEnter
                     keyText: "\u23CE"
-                    keyWidth: main.keyWidth * 2
+                    keyWidth: main.keyWidth * 2 + main.spacing
                     keyCode: 36
                     fontPointSize: main.keyHeight ? keyHeight / 2 : 2
                     leVis4: true

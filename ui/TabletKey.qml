@@ -17,68 +17,59 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
+
 import QtQuick 2.3
 
-// StickyKey
+// TabletKey
 
 Key {
     id: key
+
+    property int keyCodeSymbol
+    property int symbolLevel
+    fontPointSize: main.keyHeight / 3
+
     leVis4: true
+    keyText: main.symbolMode ?
+                 helper.getSymbol(key.keyCodeSymbol,main.languageLayoutIndex,key.symbolLevel)
+               : helper.getSymbol(key.keyCode,main.languageLayoutIndex,main.keyLevel)
 
-
-    function symbolModeOff(){
-        key.lock = false
-        main.symbolMode = false
-        btnHovered()
-    }
-
-    function symbolMode(){
-        key.lock = !key.lock
-
-        if (key.lock){
-            btnPressed()
-            main.symbolMode = true
-        }
-
-        else {
-            btnHovered()
-            main.symbolMode = false
-        }
-    }
-
-    function stickyPressed() {
-        key.lock = true
-        btnPressed()
-        main.stickyKeyPressed(key.keyCode)
-    }
-
-    function stickyReleased(){
-        key.lock = false
-        btnHovered()
-        main.stickyKeyReleased(key.keyCode)
-    }
+    mirror: true
 
     MouseArea {
         id: ma
         anchors.fill: parent
 
-        onPressed: {
-            if (!key.lock)
-                stickyPressed()
-            else stickyReleased()
+        onEntered: {
+            btnHovered()
         }
+
+        onExited: {
+            btnHovered()
+        }
+
+        onPressed: {
+            btnPressed()
+            if (main.symbolMode){
+                main.fakeKeyTablet(key.keyCodeSymbol, key.symbolLevel,key.keyText)
+            }
+            else{
+                main.nonStickyPressed(key.keyCode,true)
+            }
+         }
 
         onPressAndHold: {
             btnHold()
         }
 
         onReleased: {
-            key.hold = false
+            btnReleased()
+            if (!main.symbolMode)
+                main.nonStickyReleased(key.keyCode)
         }
 
         onClicked: {
             btnClicked()
         }
     }
-
 }
