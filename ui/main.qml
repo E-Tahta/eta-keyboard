@@ -241,7 +241,7 @@ ApplicationWindow {
             main.height = main.keyHeight * 11 / 2 + main.dockSize + main.spacing * 8
         }
         else {
-            main.width = main.keyHeight * 11 + main.spacing * 12
+            main.width = main.keyHeight * 12 + main.spacing * 13
             main.height = main.keyHeight * 4  + main.dockSize + main.spacing * 6
         }
         settings.width =  main.keyWidth * 3 + main.spacing * 5
