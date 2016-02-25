@@ -21,11 +21,26 @@
 #include <QQmlApplicationEngine>
 #include <QtQml>
 #include <helper.h>
+#include "singleinstance.h"
 
 int main(int argc, char *argv[])
 {
     qmlRegisterType<Helper>("eta.helper",1,0,"Helper");
     QApplication app(argc, argv);
+
+    QString name = "com.eta.keyboard";
+
+    SingleInstance cInstance;
+    if(cInstance.hasPrevious(name, QCoreApplication::arguments()))
+    {
+        qDebug() << "Previous instance detected!";
+        return 0;
+    }
+
+
+    qDebug() << "There can be only one!";
+    cInstance.listen(name);
+
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/ui/main.qml")));

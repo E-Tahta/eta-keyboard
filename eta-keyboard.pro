@@ -10,7 +10,8 @@ SOURCES += main.cpp \
     xkblibwrapper.cpp \
     settings.cpp \
     etalocalserver.cpp \
-    localserverinterface.cpp
+    localserverinterface.cpp \
+    singleinstance.cpp
 
 RESOURCES += qml.qrc images.qrc
 
@@ -25,7 +26,8 @@ HEADERS += \
     xkblibwrapper.h \
     settings.h \
     etalocalserver.h \
-    localserverinterface.h
+    localserverinterface.h \
+    singleinstance.h
 LIBS += -lxcb -lxkbcommon -lxkbcommon-x11 -lX11 -lXtst -lxcb-xkb
 
 
