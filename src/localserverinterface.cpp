@@ -1,5 +1,5 @@
-#include "localserverinterface.h"
-#include "etalocalserver.h"
+#include "src/localserverinterface.h"
+#include "src/etalocalserver.h"
 #include <QFileInfo>
 #include <QDir>
 

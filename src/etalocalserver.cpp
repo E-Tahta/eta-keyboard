@@ -1,4 +1,4 @@
-#include "etalocalserver.h"
+#include "src/etalocalserver.h"
 #include <QtNetwork/QLocalSocket>
 #include <QtNetwork/QLocalServer>
 

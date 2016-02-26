@@ -1,4 +1,4 @@
-#include "singleinstance.h"
+#include "src/singleinstance.h"
 
 SingleInstance::SingleInstance(QObject *parent) : QObject(parent)
 {

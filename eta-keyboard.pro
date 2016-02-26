@@ -2,32 +2,31 @@ TEMPLATE = app
 
 QT += qml quick widgets dbus x11extras network
 
-SOURCES += main.cpp \
-    helper.cpp \
-    xwrapper.cpp \
-    vkdbusinterface.cpp \
-    adaptor.cpp \
-    xkblibwrapper.cpp \
-    settings.cpp \
-    etalocalserver.cpp \
-    localserverinterface.cpp \
-    singleinstance.cpp
+SOURCES += src/xwrapper.cpp \
+    src/xkblibwrapper.cpp \
+    src/vkdbusinterface.cpp \
+    src/singleinstance.cpp \
+    src/settings.cpp \
+    src/main.cpp \
+    src/localserverinterface.cpp \
+    src/helper.cpp \
+    src/etalocalserver.cpp \
+    src/adaptor.cpp
 
 RESOURCES += qml.qrc images.qrc
 
 # Default rules for deployment.
 include(deployment.pri)
 
-HEADERS += \
-    helper.h \
-    xwrapper.h \
-    vkdbusinterface.h \
-    adaptor.h \
-    xkblibwrapper.h \
-    settings.h \
-    etalocalserver.h \
-    localserverinterface.h \
-    singleinstance.h
+HEADERS += src/xwrapper.h \
+    src/xkblibwrapper.h \
+    src/vkdbusinterface.h \
+    src/singleinstance.h \
+    src/settings.h \
+    src/localserverinterface.h \
+    src/helper.h \
+    src/etalocalserver.h \
+    src/adaptor.h
 LIBS += -lxcb -lxkbcommon -lxkbcommon-x11 -lX11 -lXtst -lxcb-xkb
 
 

@@ -17,41 +17,30 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-#include "vkdbusinterface.h"
-#include "adaptor.h"
-#include <QDBusConnection>
-#include <QDebug>
+#include <QApplication>
+#include <QQmlApplicationEngine>
+#include <QtQml>
+#include "src/helper.h"
+#include "src/singleinstance.h"
+#include <QDir>
 
-VkDbusInterface::VkDbusInterface(QObject *parent) :
-    QObject(parent)
-{
-    new VirtualKeyboardInterfaceAdaptor(this);
-    QDBusConnection connection = QDBusConnection::sessionBus();
-    connection.registerObject("/VirtualKeyboard", this);
-    connection.registerService("org.eta.virtualkeyboard");
-}
+#define SERVER_NAME ".eta-keyboard"
 
-void VkDbusInterface::toggleSlot()
+int main(int argc, char *argv[])
 {
-    emit toggle();
-}
-void VkDbusInterface::hideSlot()
-{
-    emit hide();
-}
-void VkDbusInterface::fromLeftSlot()
-{
-    emit showFromLeft();
-}
-void VkDbusInterface::fromRightSlot()
-{
-    emit showFromRight();
-}
-void VkDbusInterface::fromBottomSlot()
-{
-    emit showFromBottom();
-}
-void VkDbusInterface::toggleAutoShowSlot()
-{
-    emit toggleAutoShow();
+    qmlRegisterType<Helper>("eta.helper",1,0,"Helper");
+    QApplication app(argc, argv);
+
+    QString name = QDir::homePath() + SERVER_NAME;
+
+    SingleInstance cInstance;
+    if(cInstance.hasPrevious(name, QCoreApplication::arguments()))
+    {
+        return 0;
+    }    
+    cInstance.listen(name);
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:/ui/main.qml")));
+
+    return app.exec();
 }

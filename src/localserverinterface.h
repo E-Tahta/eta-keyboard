@@ -2,7 +2,7 @@
 #define LOCALSERVERINTERFACE_H
 
 #include <QObject>
-#include "etalocalserver.h"
+#include "src/etalocalserver.h"
 
 class EtaLocalServer;
 

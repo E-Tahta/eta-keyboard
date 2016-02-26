@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-#include "xwrapper.h"
-#include "helper.h"
+#include "src/xwrapper.h"
+#include "src/helper.h"
 
 
 

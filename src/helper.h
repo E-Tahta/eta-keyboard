@@ -22,7 +22,7 @@
 
 #include <QObject>
 #include <QString>
-#include "etalocalserver.h"
+#include "src/etalocalserver.h"
 
 class XWrapper;
 class VkDbusInterface;

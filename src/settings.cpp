@@ -19,7 +19,7 @@
  *****************************************************************************/
 #include <QDir>
 #include <QFileInfo>
-#include "settings.h"
+#include "src/settings.h"
 #include <QSettings>
 #include <QVariant>
 #include <QDebug>

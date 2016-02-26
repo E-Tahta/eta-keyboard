@@ -17,53 +17,41 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-#include "adaptor.h"
+#include "src/vkdbusinterface.h"
+#include "src/adaptor.h"
+#include <QDBusConnection>
+#include <QDebug>
 
-#include <QtCore/QMetaObject>
-#include <QtCore/QByteArray>
-#include <QtCore/QList>
-#include <QtCore/QMap>
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QVariant>
-
-
-VirtualKeyboardInterfaceAdaptor::VirtualKeyboardInterfaceAdaptor
-(QObject *parent): QDBusAbstractAdaptor(parent)
+VkDbusInterface::VkDbusInterface(QObject *parent) :
+    QObject(parent)
 {
-    setAutoRelaySignals(true);
-}
-VirtualKeyboardInterfaceAdaptor::~VirtualKeyboardInterfaceAdaptor()
-{
-
+    new VirtualKeyboardInterfaceAdaptor(this);
+    QDBusConnection connection = QDBusConnection::sessionBus();
+    connection.registerObject("/VirtualKeyboard", this);
+    connection.registerService("org.eta.virtualkeyboard");
 }
 
-void VirtualKeyboardInterfaceAdaptor::toggle()
+void VkDbusInterface::toggleSlot()
 {
-    QMetaObject::invokeMethod(parent(), "toggleSlot");
+    emit toggle();
 }
-
-void VirtualKeyboardInterfaceAdaptor::hide()
+void VkDbusInterface::hideSlot()
 {
-    QMetaObject::invokeMethod(parent(), "hideSlot");
+    emit hide();
 }
-
-void VirtualKeyboardInterfaceAdaptor::showFromLeft()
+void VkDbusInterface::fromLeftSlot()
 {
-    QMetaObject::invokeMethod(parent(), "fromLeftSlot");
+    emit showFromLeft();
 }
-
-void VirtualKeyboardInterfaceAdaptor::showFromRight()
+void VkDbusInterface::fromRightSlot()
 {
-    QMetaObject::invokeMethod(parent(), "fromRightSlot");
+    emit showFromRight();
 }
-
-void VirtualKeyboardInterfaceAdaptor::showFromBottom()
+void VkDbusInterface::fromBottomSlot()
 {
-    QMetaObject::invokeMethod(parent(), "fromBottomSlot");
+    emit showFromBottom();
 }
-
-void VirtualKeyboardInterfaceAdaptor::toggleAutoShow()
+void VkDbusInterface::toggleAutoShowSlot()
 {
-    QMetaObject::invokeMethod(parent(), "toggleAutoShowSlot");
+    emit toggleAutoShow();
 }

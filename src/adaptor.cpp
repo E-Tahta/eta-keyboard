@@ -17,27 +17,53 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-#include <QApplication>
-#include <QQmlApplicationEngine>
-#include <QtQml>
-#include <helper.h>
-#include "singleinstance.h"
+#include "src/adaptor.h"
 
-int main(int argc, char *argv[])
+#include <QtCore/QMetaObject>
+#include <QtCore/QByteArray>
+#include <QtCore/QList>
+#include <QtCore/QMap>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtCore/QVariant>
+
+
+VirtualKeyboardInterfaceAdaptor::VirtualKeyboardInterfaceAdaptor
+(QObject *parent): QDBusAbstractAdaptor(parent)
 {
-    qmlRegisterType<Helper>("eta.helper",1,0,"Helper");
-    QApplication app(argc, argv);
+    setAutoRelaySignals(true);
+}
+VirtualKeyboardInterfaceAdaptor::~VirtualKeyboardInterfaceAdaptor()
+{
 
-    QString name = "org.eta.virtualkeyboard";
+}
 
-    SingleInstance cInstance;
-    if(cInstance.hasPrevious(name, QCoreApplication::arguments()))
-    {
-        return 0;
-    }    
-    cInstance.listen(name);
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/ui/main.qml")));
+void VirtualKeyboardInterfaceAdaptor::toggle()
+{
+    QMetaObject::invokeMethod(parent(), "toggleSlot");
+}
 
-    return app.exec();
+void VirtualKeyboardInterfaceAdaptor::hide()
+{
+    QMetaObject::invokeMethod(parent(), "hideSlot");
+}
+
+void VirtualKeyboardInterfaceAdaptor::showFromLeft()
+{
+    QMetaObject::invokeMethod(parent(), "fromLeftSlot");
+}
+
+void VirtualKeyboardInterfaceAdaptor::showFromRight()
+{
+    QMetaObject::invokeMethod(parent(), "fromRightSlot");
+}
+
+void VirtualKeyboardInterfaceAdaptor::showFromBottom()
+{
+    QMetaObject::invokeMethod(parent(), "fromBottomSlot");
+}
+
+void VirtualKeyboardInterfaceAdaptor::toggleAutoShow()
+{
+    QMetaObject::invokeMethod(parent(), "toggleAutoShowSlot");
 }

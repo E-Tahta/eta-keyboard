@@ -17,13 +17,13 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-#include "adaptor.h"
-#include "helper.h"
-#include "xwrapper.h"
-#include "vkdbusinterface.h"
-#include "xkblibwrapper.h"
-#include "settings.h"
-#include "localserverinterface.h"
+#include "src/adaptor.h"
+#include "src/helper.h"
+#include "src/xwrapper.h"
+#include "src/vkdbusinterface.h"
+#include "src/xkblibwrapper.h"
+#include "src/settings.h"
+#include "src/localserverinterface.h"
 #include <QAbstractEventDispatcher>
 #include <QFileInfo>
 #include <QTimer>
