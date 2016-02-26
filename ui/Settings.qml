@@ -87,7 +87,7 @@ ApplicationWindow {
     function changeLanguageLayout(button){
         if (button){
             settings.languageIndex++
-            if (languageIndex>helper.getNumberOfLayouts())
+            if (languageIndex>=helper.getNumberOfLayouts())
                 settings.languageIndex = 0
         }
         else {
