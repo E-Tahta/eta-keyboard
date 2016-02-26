@@ -33,6 +33,7 @@ ApplicationWindow {
     property int colorIndex: 0
     property bool layout: main.layoutChange
     property bool loaded: main.loaded
+    property bool waitFlag : true
 
     visible: true
     color: main.color
@@ -168,7 +169,9 @@ ApplicationWindow {
 
                         onPressed: {
                             languageKey.btnPressed()
+                            settings.waitFlag = false
                             changeLanguageLayout(true)
+
                         }
 
                         onPressAndHold: {
@@ -177,6 +180,7 @@ ApplicationWindow {
 
                         onReleased: {
                             languageKey.btnReleased()
+                            settings.waitFlag = true
                         }
 
                         onClicked: {
@@ -398,6 +402,11 @@ ApplicationWindow {
     }
 
     onLayoutChanged: {
+        languageModel.clear()
+        for(var i = 0; i< helper.getNumberOfLayouts();i++) {
+            languageModel.append({text:helper.getLayoutName(i)})
+        }
+        if (settings.waitFlag)
         changeLanguageLayout(false)
     }
 
