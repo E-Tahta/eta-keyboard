@@ -61,6 +61,7 @@ Key {
         onPressed: {
             btnPressed()
             helper.fakeKeyPress(66)
+            main.settingsVisible = false
         }
 
         onPressAndHold: {

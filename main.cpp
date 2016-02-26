@@ -21,12 +21,21 @@
 #include <QQmlApplicationEngine>
 #include <QtQml>
 #include <helper.h>
+#include "singleinstance.h"
 
 int main(int argc, char *argv[])
 {
     qmlRegisterType<Helper>("eta.helper",1,0,"Helper");
     QApplication app(argc, argv);
 
+    QString name = "org.eta.virtualkeyboard";
+
+    SingleInstance cInstance;
+    if(cInstance.hasPrevious(name, QCoreApplication::arguments()))
+    {
+        return 0;
+    }    
+    cInstance.listen(name);
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/ui/main.qml")));
 

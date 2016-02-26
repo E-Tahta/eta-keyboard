@@ -20,28 +20,21 @@
 
 import QtQuick 2.3
 
-// SettingsKey
+// TabletKey
 
 Key {
     id: key
-    property int angle: 90
-    property bool settingsVisible: main.settingsVisible
 
-    Image {
-        id: img
-        width: parent.width * 2 / 3
-        height: img.width
-        anchors.centerIn: parent
-        source: "Images/gear.png"
+    property int keyCodeSymbol
+    property int symbolLevel
+    fontPointSize: main.keyHeight / 3
 
-        RotationAnimation on rotation {
-            id: rotationAnimation
-            from: 0 + key.angle
-            to: 90 - key.angle
-            duration: 300
-            easing.type:  Easing.OutQuad
-       }
-    }
+    leVis4: true
+    keyText: main.symbolMode ?
+                 helper.getSymbol(key.keyCodeSymbol,main.languageLayoutIndex,key.symbolLevel)
+               : helper.getSymbol(key.keyCode,main.languageLayoutIndex,main.keyLevel)
+
+    mirror: true
 
     MouseArea {
         id: ma
@@ -57,7 +50,13 @@ Key {
 
         onPressed: {
             btnPressed()
-        }
+            if (main.symbolMode){
+                main.fakeKeyTablet(key.keyCodeSymbol, key.symbolLevel,key.keyText)
+            }
+            else{
+                main.nonStickyPressed(key.keyCode,true)
+            }
+         }
 
         onPressAndHold: {
             btnHold()
@@ -65,30 +64,12 @@ Key {
 
         onReleased: {
             btnReleased()
+            if (!main.symbolMode)
+                main.nonStickyReleased(key.keyCode)
         }
 
         onClicked: {
-            key.btnClicked()
-            if (!main.settingsVisible){
-                key.angle = 90
-                main.settingsVisible = true
-            }
-            else{
-                key.angle = 0
-                main.settingsVisible = false
-            }
-            rotationAnimation.start()
+            btnClicked()
         }
-    }
-
-    onSettingsVisibleChanged: {
-        if (main.settingsVisible) {
-            key.angle = 90
-        }
-        else {
-            key.angle = 0
-        }
-
-        rotationAnimation.start()
     }
 }

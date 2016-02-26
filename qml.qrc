@@ -14,5 +14,6 @@
         <file>ui/StickyKey.qml</file>
         <file>ui/TabletLayout.qml</file>
         <file>ui/Test.qml</file>
+        <file>ui/TabletKey.qml</file>
     </qresource>
 </RCC>

@@ -25,6 +25,27 @@ Key {
     id: key
     leVis4: true
 
+
+    function symbolModeOff(){
+        key.lock = false
+        main.symbolMode = false
+        btnHovered()
+    }
+
+    function symbolMode(){
+        key.lock = !key.lock
+
+        if (key.lock){
+            btnPressed()
+            main.symbolMode = true
+        }
+
+        else {
+            btnHovered()
+            main.symbolMode = false
+        }
+    }
+
     function stickyPressed() {
         key.lock = true
         btnPressed()
