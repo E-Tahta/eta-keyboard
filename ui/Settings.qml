@@ -23,9 +23,10 @@ import QtQuick.Window 2.0
 import eta.helper 1.0
 
 ApplicationWindow {
-    flags: Qt.WindowStaysOnBottomHint | Qt.FramelessWindowHint | Qt.X11BypassWindowManagerHint
+    flags: Qt.WindowStaysOnBottomHint |
+           Qt.FramelessWindowHint |
+           Qt.X11BypassWindowManagerHint
     id: settings
-
     property bool settingsVisible: main.settingsVisible
     property string keyColor
     property int languageIndex: 0
@@ -39,19 +40,17 @@ ApplicationWindow {
     y: main.y + main.height - settings.height
 
     function setAndSaveConf(){
-        if (main.loaded)
+        if (main.loaded) {
             main.setAndSave()
-        else console.log("waiting main")
+        }
+
     }
 
     function setLayout(){
 
         main.releaseAll = !main.releaseAll
         layoutKey.keyText = main.layout
-
         settings.setAndSaveConf()
-
-        console.log("layout")
     }
 
     function changeTheme(){
@@ -82,7 +81,6 @@ ApplicationWindow {
 
         settings.setAndSaveConf()
 
-        console.log("theme")
     }
 
     function changeLanguageLayout(button){
@@ -96,11 +94,11 @@ ApplicationWindow {
         }
         main.languageLayoutIndex = settings.languageIndex
         helper.setLayout(settings.languageIndex)
-        languageKey.keyText = languageModel.count ? languageModel.get(settings.languageIndex).text : ""
+        languageKey.keyText = languageModel.count ?
+                    languageModel.get(settings.languageIndex).text : ""
 
         settings.setAndSaveConf()
 
-        console.log("language")
     }
 
     ListModel {
@@ -109,9 +107,30 @@ ApplicationWindow {
 
     ListModel {
         id: colorModel
-        ListElement {text:"Grey"; kColor:"#585858"; tColor:"#dddddd"; atColor:"white";hColor:"#848484"; bColor: "#010101"}
-        ListElement {text:"Green"; kColor:"dark green"; tColor:"white"; atColor:"white";hColor:"green"; bColor: "#010101"}
-        ListElement {text:"Blue"; kColor:"#1b50b8"; tColor:"#fbfcfe"; atColor:"#fbfcfe";hColor:"#3980f4";bColor: "#010101"}
+        ListElement {
+            text:"Grey"
+            kColor:"#585858"
+            tColor:"#dddddd"
+            atColor:"white"
+            hColor:"#848484"
+            bColor: "#010101"
+        }
+        ListElement {
+            text:"Green"
+            kColor:"dark green"
+            tColor:"white"
+            atColor:"white"
+            hColor:"green"
+            bColor: "#010101"
+        }
+        ListElement {
+            text:"Blue"
+            kColor:"#1b50b8"
+            tColor:"#fbfcfe"
+            atColor:"#fbfcfe"
+            hColor:"#3980f4"
+            bColor: "#010101"
+        }
     }
 
     Rectangle{
@@ -413,6 +432,5 @@ ApplicationWindow {
         changeLanguageLayout(false)
         hideSettings.start()
 
-        console.log("settings.qml loaded")
     }
 }

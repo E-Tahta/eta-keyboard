@@ -71,6 +71,5 @@ void EtaLocalServer::showSlot()
 
 void EtaLocalServer::hideSlot()
 {
-    qDebug() << "hide slot called ";
     emit hideSignal();
 }

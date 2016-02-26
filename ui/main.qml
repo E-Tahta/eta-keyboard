@@ -24,7 +24,11 @@ import eta.helper 1.0
 
 
 ApplicationWindow {
-    flags:Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowDoesNotAcceptFocus | Qt.X11BypassWindowManagerHint
+    flags:Qt.WindowStaysOnTopHint |
+          Qt.FramelessWindowHint |
+          Qt.WindowSystemMenuHint |
+          Qt.WindowDoesNotAcceptFocus |
+          Qt.X11BypassWindowManagerHint
     id: main
     visible: false
     title: qsTr("ETA Virtual Keyboard")
@@ -64,7 +68,11 @@ ApplicationWindow {
     property bool loaded: false
 
     function setAndSave(){
-        helper.setSettings(main.themeName,main.layout,main.scale,main.languageLayoutIndex,main.autoShowToggle)
+        helper.setSettings(main.themeName,
+                           main.layout,
+                           main.scale,
+                           main.languageLayoutIndex,
+                           main.autoShowToggle)
         helper.saveSettings()
     }
 
@@ -116,11 +124,14 @@ ApplicationWindow {
     function checkShiftAltgr(){
         if (stickyModel.count == 0) return true
         else if (stickyModel.count == 1)
-            return stickyModel.get(0).keyCode === 50 || stickyModel.get(0).keyCode === 108
+            return stickyModel.get(0).keyCode === 50 ||
+                    stickyModel.get(0).keyCode === 108
         else if (stickyModel.count == 2){
             var cnt = 0
-            if(stickyModel.get(0).keyCode === 50 || stickyModel.get(0).keyCode === 108) cnt ++
-            if(stickyModel.get(1).keyCode === 50 || stickyModel.get(1).keyCode === 108) cnt ++
+            if(stickyModel.get(0).keyCode === 50 ||
+                    stickyModel.get(0).keyCode === 108) cnt ++
+            if(stickyModel.get(1).keyCode === 50 ||
+                    stickyModel.get(1).keyCode === 108) cnt ++
             if (cnt == 2) return true
             else return false
         }
@@ -143,11 +154,15 @@ ApplicationWindow {
             helper.fakeKeyPress(keyCode)
         }
         if (mirror && checkShiftAltgr()){
-            main.storedMirror += helper.getSymbol(keyCode,main.languageLayoutIndex,main.keyLevel)
+            main.storedMirror += helper.getSymbol(keyCode,
+                                                  main.languageLayoutIndex,
+                                                  main.keyLevel)
             if (main.password)
                 mirrorText.text +="*"
             else
-                mirrorText.text += helper.getSymbol(keyCode,main.languageLayoutIndex,main.keyLevel)
+                mirrorText.text += helper.getSymbol(keyCode,
+                                                    main.languageLayoutIndex,
+                                                    main.keyLevel)
         }
         switch (keyCode){
         case 65:
@@ -175,8 +190,10 @@ ApplicationWindow {
             main.storedMirror = ""
             break;
         case 22:
-            mirrorText.text = mirrorText.text.substring(0, mirrorText.text.length - 1)
-            main.storedMirror = main.storedMirror.substring(0, main.storedMirror.length - 1)
+            mirrorText.text =
+                    mirrorText.text.substring(0, mirrorText.text.length - 1)
+            main.storedMirror =
+                    main.storedMirror.substring(0, main.storedMirror.length - 1)
         }
     }
 
@@ -188,8 +205,7 @@ ApplicationWindow {
             }
             //main.releaseAll = !main.releaseAll;
             for (var i=0; i<stickyModel.count; i++){
-                helper.fakeKeyRelease(stickyModel.get(i).keyCode)
-                console.log(stickyModel.get(i).keyCode+" if you see me there is a problem")
+                helper.fakeKeyRelease(stickyModel.get(i).keyCode)                
             }
         }
     }
@@ -238,11 +254,13 @@ ApplicationWindow {
         main.dockSize = main.screenHeight * main.scale / 35
         if (main.layout == "full"){
             main.width = main.keyHeight * 15 + main.spacing * 16
-            main.height = main.keyHeight * 11 / 2 + main.dockSize + main.spacing * 8
+            main.height = main.keyHeight * 11 / 2 + main.dockSize +
+                    main.spacing * 8
         }
         else {
             main.width = main.keyHeight * 12 + main.spacing * 13
-            main.height = main.keyHeight * 4  + main.dockSize + main.spacing * 6
+            main.height = main.keyHeight * 4  + main.dockSize +
+                    main.spacing * 6
         }
         settings.width =  main.keyWidth * 3 + main.spacing * 5
         settings.height = main.keyHeight * 2 + main.spacing * 3
@@ -322,7 +340,8 @@ ApplicationWindow {
                 id: passwordToggle
                 height: dock.height
                 width: passwordToggle.height
-                color: pToggleMa.containsMouse ? main.keyHoverColor : main.keyColor
+                color: pToggleMa.containsMouse ? main.keyHoverColor :
+                                                 main.keyColor
                 radius: passwordToggle.height / 2
                 anchors{
                     left: dock.left
@@ -348,7 +367,8 @@ ApplicationWindow {
                             main.password = true
                         }
                         else {
-                            passwordToggle.color = pToggleMa.containsMouse ? main.keyHoverColor : main.keyColor
+                            passwordToggle.color = pToggleMa.containsMouse ?
+                                        main.keyHoverColor : main.keyColor
                             pToggleText.color = main.textColor
                             main.password = false
                         }
@@ -462,7 +482,7 @@ ApplicationWindow {
             main.visible = true
             main.width = main.m_width
             main.height = main.m_height
-            main.y = main.screenHeight - main.m_height * 3 / 2
+            main.y = main.screenHeight - main.m_height - main.spacing * 20
             main.keyboardVisible = true
             main.opacity = 1
             settings.opacity = 1
@@ -483,7 +503,7 @@ ApplicationWindow {
             main.visible = true
             main.width = main.m_width
             main.height = main.m_height
-            main.y = main.screenHeight - main.m_height * 3 / 2
+            main.y = main.screenHeight - main.m_height - main.spacing * 20
             main.keyboardVisible = true
             main.opacity = 1
             settings.opacity = 1
@@ -553,15 +573,12 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        console.log(helper.getColor())
-        console.log(helper.getAutoShow())
-        console.log(helper.getLayoutType())
-        console.log(helper.getScale())
-
         main.themeName = helper.getColor() ? helper.getColor() : "Grey"
-        main.autoShowToggle = helper.getAutoShow() ? helper.getAutoShow() : false
+        main.autoShowToggle = helper.getAutoShow() ?
+                    helper.getAutoShow() : false
         main.layout = helper.getLayoutType() ? helper.getLayoutType() : "full"
-        main.scale = helper.getScale() < 1.6 && helper.getScale() > 0.4 ? helper.getScale() : 1
+        main.scale = helper.getScale() < 1.6 && helper.getScale() > 0.4 ?
+                    helper.getScale() : 1
 
         hide.start()
         main.screenHeight = Screen.height
@@ -570,9 +587,7 @@ ApplicationWindow {
         main.x =  main.screenWidth / 2 - main.width /2
         main.y = main.screenHeight + main.height
         main.settingsVisible = false
-
-        main.loaded = true
-        console.log("main.qml loaded")
+        main.loaded = true        
 
     }
 

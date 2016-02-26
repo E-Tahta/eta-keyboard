@@ -14,17 +14,12 @@ void SingleInstance::listen(QString name)
 {
     mServer.removeServer(name);
     mServer.listen(name);
-
-    qDebug() << "Listening for: " << name;
-    qDebug() << mServer.errorString();
-
 }
 
 bool SingleInstance::hasPrevious(QString name, QStringList arg)
 {
 
     qDebug() << "Checking for previous instance...";
-
     QLocalSocket socket;
     socket.connectToServer(name, QLocalSocket::ReadWrite);
 
@@ -51,17 +46,12 @@ bool SingleInstance::hasPrevious(QString name, QStringList arg)
 void SingleInstance::newConnection()
 {
     emit newInstance();
-
-   qDebug() << "New connection loading...";
-   mSocket = mServer.nextPendingConnection();
-   connect(mSocket,SIGNAL(readyRead()),this,SLOT(readyRead()));
+    mSocket = mServer.nextPendingConnection();
+    connect(mSocket,SIGNAL(readyRead()),this,SLOT(readyRead()));
 }
 
 void SingleInstance::readyRead()
-{
-    qDebug() << "READ!!";
-    qDebug() << "Arg = " << mSocket->readAll();
+{   
     mSocket->deleteLater();
-
 }
 
