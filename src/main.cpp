@@ -24,21 +24,23 @@
 #include "src/singleinstance.h"
 #include <QDir>
 
-#define SERVER_NAME ".eta-keyboard"
+#define SINGLE_INSTANCE ".virtualkeyboard"
 
 int main(int argc, char *argv[])
 {
     qmlRegisterType<Helper>("eta.helper",1,0,"Helper");
     QApplication app(argc, argv);
 
-    QString name = QDir::homePath() + SERVER_NAME;
+    QString name = SINGLE_INSTANCE;
 
     SingleInstance cInstance;
     if(cInstance.hasPrevious(name, QCoreApplication::arguments()))
     {
+        qDebug() << "eta-keyboard is allready open";
         return 0;
     }    
     cInstance.listen(name);
+
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/ui/main.qml")));
 
