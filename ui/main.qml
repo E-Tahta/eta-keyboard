@@ -53,6 +53,8 @@ ApplicationWindow {
     property bool settingsVisible
     property bool updateTheme: false
     property bool keyHover: true
+    property bool keyHoverTimer: false
+    property bool keyHoverTimerTriggered: false
     property bool password: false
     property string storedMirror
     property int screenWidth: Screen.width
@@ -285,8 +287,16 @@ ApplicationWindow {
     function setSize(){
         var oldWidth = main.width
         var oldHeight = main.height
-        main.keyHeight =  main.screenHeight * main.scale / 23
-        main.dockSize = main.screenHeight * main.scale / 35
+        var scaleVariable
+
+        if (main.layout == "full") {
+            scaleVariable = main.scale
+        } else {
+            scaleVariable = main.scale + 0.2
+        }
+
+        main.keyHeight =  main.screenHeight * scaleVariable / 23
+        main.dockSize = main.screenHeight * scaleVariable / 35
         if (main.layout == "full"){
             main.width = main.keyHeight * 15 + main.spacing * 16
             main.height = main.keyHeight * 11 / 2 + main.dockSize +
@@ -400,12 +410,14 @@ ApplicationWindow {
                             passwordToggle.color = main.keyPressedColor
                             pToggleText.color = main.textPressedColor
                             main.password = true
+                            main.keyHover = false
                         }
                         else {
                             passwordToggle.color = pToggleMa.containsMouse ?
                                         main.keyHoverColor : main.keyColor
                             pToggleText.color = main.textColor
                             main.password = false
+                            main.keyHover = true
                         }
                     }
                 }
@@ -594,6 +606,8 @@ ApplicationWindow {
         setSize()
     }
 
+
+
     onPasswordChanged: {
         if (main.password){
             var len = mirrorText.text.length
@@ -605,6 +619,11 @@ ApplicationWindow {
         else {
             mirrorText.text = main.storedMirror
         }
+    }
+
+
+    onKeyHoverTimerChanged: {
+        timer.start()
     }
 
     Component.onCompleted: {
@@ -626,5 +645,17 @@ ApplicationWindow {
 
     }
 
+    Timer {
+        id: timer
+        running: false
+        interval: 1250
+        onTriggered: {
+            if (main.keyHoverTimer) {
+                main.keyHoverTimer = false
+                main.keyHoverTimerTriggered = !main.keyHoverTimerTriggered
+
+            }
+        }
+    }
 }
 

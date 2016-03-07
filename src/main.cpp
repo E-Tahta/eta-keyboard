@@ -23,6 +23,7 @@
 #include "src/helper.h"
 #include "src/singleinstance.h"
 #include <QDir>
+#include <QCursor>
 
 #define SINGLE_INSTANCE ".virtualkeyboard"
 
@@ -30,6 +31,8 @@ int main(int argc, char *argv[])
 {
     qmlRegisterType<Helper>("eta.helper",1,0,"Helper");
     QApplication app(argc, argv);
+
+    app.setOverrideCursor(QCursor(Qt::BlankCursor));
 
     QString name = SINGLE_INSTANCE;
 

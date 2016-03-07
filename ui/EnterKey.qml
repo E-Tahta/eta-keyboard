@@ -40,6 +40,8 @@ Item {
     property bool hold: false
     property bool updateTheme: main.updateTheme
     property bool entered: false
+    property bool keyHoverTimerTriggered: main.keyHoverTimerTriggered
+
 
     width: keyWidth * 3 / 2
     height: keyHeight * 2 + main.spacing
@@ -57,7 +59,7 @@ Item {
 
     function btnHovered(){
         if (!key.hold){
-            if (key.entered){
+            if (key.entered && main.keyHoverTimer){
                 head.color = key.keyHoverColor
                 headText.color = key.textColor
                 foot.color = key.keyHoverColor
@@ -104,11 +106,13 @@ Item {
             hoverEnabled: main.keyHover
 
             onEntered: {
+                main.keyHoverTimer = true
                 key.entered = true
                 btnHovered()
             }
 
             onExited: {
+                main.keyHoverTimer = true
                 key.entered = false
                 btnHovered()
             }
@@ -148,11 +152,13 @@ Item {
             hoverEnabled: main.keyHover
 
             onEntered: {
+                main.keyHoverTimer = true
                 key.entered = true
                 btnHovered()
             }
 
             onExited: {
+                main.keyHoverTimer = true
                 key.entered = false
                 btnHovered()
             }
@@ -176,6 +182,10 @@ Item {
     }
 
     onUpdateThemeChanged:{
+        btnHovered()
+    }
+
+    onKeyHoverTimerTriggeredChanged: {
         btnHovered()
     }
 }

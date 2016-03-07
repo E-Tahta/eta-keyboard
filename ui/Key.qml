@@ -48,8 +48,9 @@ Rectangle {
     property bool updateTheme: main.updateTheme
     property bool mirror
     property bool capsMirror
+    property bool keyHoverTimerTriggered: main.keyHoverTimerTriggered
 
-    color: ma.containsMouse ? key.keyHoverColor : key.keyColor
+    color: ma.containsMouse && main.keyHoverTimer ? key.keyHoverColor : key.keyColor
     radius: key.keyRadius
     width: key.keyWidth
     height: key.keyHeight
@@ -70,8 +71,10 @@ Rectangle {
     }
 
     function btnHovered(){
+
         if (!key.lock){
-            key.color = ma.containsMouse ? key.keyHoverColor : key.keyColor
+            key.color = ma.containsMouse && main.keyHoverTimer ? key.keyHoverColor :
+                                                            key.keyColor
             lev0.color = key.keyLevel == 0 ? key.activeTextColor : key.textColor
             lev1.color = key.keyLevel == 1 ? key.activeTextColor : key.textColor
             lev2.color = key.keyLevel == 2 ? key.activeTextColor : key.textColor
@@ -165,11 +168,17 @@ Rectangle {
         hoverEnabled: main.keyHover
 
         onEntered: {
+            main.keyHoverTimer = true
             btnHovered()
+
+
         }
 
         onExited: {
+            main.keyHoverTimer = true
             btnHovered()
+
+
         }
 
         onPressed: {
@@ -187,6 +196,7 @@ Rectangle {
         onClicked: {
             key.btnClicked()
         }
+
     }
 
     onUpdateThemeChanged:{
@@ -200,4 +210,9 @@ Rectangle {
     Component.onCompleted: {
 
     }
+
+    onKeyHoverTimerTriggeredChanged: {
+        btnHovered()
+    }
+
 }

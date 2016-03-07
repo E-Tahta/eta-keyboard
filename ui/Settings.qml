@@ -132,6 +132,15 @@ ApplicationWindow {
             hColor:"#3980f4"
             bColor: "#010101"
         }
+
+        ListElement {
+            text:"Brown"
+            kColor:"brown"
+            tColor:"#fbfcfe"
+            atColor:"#fbfcfe"
+            hColor:"pink"
+            bColor: "#010101"
+        }
     }
 
     Rectangle{
@@ -296,7 +305,7 @@ ApplicationWindow {
                         }
 
                         onReleased: {
-                            if (main.scale>0.5) {
+                            if (main.scale>0.8) {
                                 main.scale-=0.1
                             }
 
@@ -426,6 +435,8 @@ ApplicationWindow {
         case "Green": settings.colorIndex = 1
             break;
         case "Blue": settings.colorIndex = 2
+            break;
+        case "Brown": settings.colorIndex = 3
         }
         changeTheme()
         changeLanguageLayout(false)
