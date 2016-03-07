@@ -26,6 +26,7 @@ Key {
     leVis0: true
     leVis1: true
     leVis2: true
+    capsMirror: false
 
     MouseArea {
         id: ma
@@ -41,7 +42,7 @@ Key {
 
         onPressed: {
             btnPressed()
-            main.nonStickyPressed(key.keyCode, true)
+            main.nonStickyPressed(key.keyCode, true, capsMirror)
         }
 
         onPressAndHold: {

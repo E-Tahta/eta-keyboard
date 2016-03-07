@@ -66,6 +66,7 @@ ApplicationWindow {
     property bool layoutChange: false
     property string themeName
     property bool loaded: false
+    property string mirrorCharacter
 
     function setAndSave(){
         helper.setSettings(main.themeName,
@@ -138,7 +139,7 @@ ApplicationWindow {
         return false
     }
 
-    function nonStickyPressed(keyCode,mirror){
+    function nonStickyPressed(keyCode,mirror,capsMirror){
         main.settingsVisible = false
         if (checkAlt()){
             helper.fakeKeyPress(64)
@@ -154,15 +155,45 @@ ApplicationWindow {
             helper.fakeKeyPress(keyCode)
         }
         if (mirror && checkShiftAltgr()){
-            main.storedMirror += helper.getSymbol(keyCode,
-                                                  main.languageLayoutIndex,
-                                                  main.keyLevel)
-            if (main.password)
-                mirrorText.text +="*"
-            else
-                mirrorText.text += helper.getSymbol(keyCode,
-                                                    main.languageLayoutIndex,
-                                                    main.keyLevel)
+
+            if (helper.getCapslockStatus() &&
+                    main.keyLevel == 0) {
+
+
+                mirrorCharacter = helper.getSymbol(keyCode,
+                                                   main.languageLayoutIndex,
+                                                   main.keyLevel)
+
+                main.storedMirror += mirrorCharacter.toUpperCase()
+                if (main.password)
+                    mirrorText.text +="*"
+                else
+                    mirrorText.text += mirrorCharacter.toUpperCase()
+
+            } else if (helper.getCapslockStatus() &&
+                       main.keyLevel == 1 ){
+
+                mirrorCharacter = helper.getSymbol(keyCode,
+                                                   main.languageLayoutIndex,
+                                                   main.keyLevel)
+
+                main.storedMirror += mirrorCharacter.toLowerCase()
+                if (main.password)
+                    mirrorText.text +="*"
+                else
+                    mirrorText.text += mirrorCharacter.toLowerCase()
+            } else {
+                mirrorCharacter = helper.getSymbol(keyCode,
+                                                   main.languageLayoutIndex,
+                                                   main.keyLevel)
+
+                main.storedMirror += mirrorCharacter
+                if (main.password)
+                    mirrorText.text +="*"
+                else
+                    mirrorText.text += mirrorCharacter
+            }
+
         }
         switch (keyCode){
         case 65:
@@ -189,6 +220,10 @@ ApplicationWindow {
             mirrorText.text = ""
             main.storedMirror = ""
             break;
+        case 23:
+            mirrorText.text = ""
+            main.storedMirror = ""
+            break;
         case 22:
             mirrorText.text =
                     mirrorText.text.substring(0, mirrorText.text.length - 1)
@@ -205,7 +240,7 @@ ApplicationWindow {
             }
             //main.releaseAll = !main.releaseAll;
             for (var i=0; i<stickyModel.count; i++){
-                helper.fakeKeyRelease(stickyModel.get(i).keyCode)                
+                helper.fakeKeyRelease(stickyModel.get(i).keyCode)
             }
         }
     }
@@ -587,7 +622,7 @@ ApplicationWindow {
         main.x =  main.screenWidth / 2 - main.width /2
         main.y = main.screenHeight + main.height
         main.settingsVisible = false
-        main.loaded = true        
+        main.loaded = true
 
     }
 

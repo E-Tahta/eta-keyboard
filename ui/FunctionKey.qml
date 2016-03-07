@@ -42,7 +42,7 @@ Key {
 
         onPressed: {
             btnPressed()
-            main.nonStickyPressed(key.keyCode,false)
+            main.nonStickyPressed(key.keyCode,false,false)
         }
 
         onPressAndHold: {

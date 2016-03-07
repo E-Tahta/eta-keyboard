@@ -25,6 +25,7 @@ import QtQuick 2.3
 Key {
     id: key
     mirror: true
+    capsMirror: true
 
     MouseArea {
         id: ma
@@ -40,7 +41,7 @@ Key {
 
         onPressed: {
             btnPressed()
-            main.nonStickyPressed(key.keyCode,mirror)
+            main.nonStickyPressed(key.keyCode,mirror,capsMirror)
         }
 
         onPressAndHold: {

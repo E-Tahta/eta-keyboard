@@ -54,7 +54,7 @@ Key {
                 main.fakeKeyTablet(key.keyCodeSymbol, key.symbolLevel,key.keyText)
             }
             else{
-                main.nonStickyPressed(key.keyCode,true)
+                main.nonStickyPressed(key.keyCode,true,false)
             }
          }
 

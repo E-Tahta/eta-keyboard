@@ -47,6 +47,7 @@ Rectangle {
     property bool lock: false
     property bool updateTheme: main.updateTheme
     property bool mirror
+    property bool capsMirror
 
     color: ma.containsMouse ? key.keyHoverColor : key.keyColor
     radius: key.keyRadius

@@ -137,7 +137,7 @@ Item{
                 spacing: main.spacing
 
                 StickyKey{id:keyShiftL; keyText: "Shift"; keyWidth: main.keyWidth; keyCode: 50}
-                AlphaNumericKey{id: keyCompare; keyCode: 94; leVis0: true; leVis1: true}
+                NumericKey{id: keyCompare; keyCode: 94}
                 AlphaNumericKey{id: keyZ; keyCode: 52; leVis0: true; leVis1: true}
                 AlphaNumericKey{id: keyX; keyCode: 53; leVis0: true; leVis1: true}
                 AlphaNumericKey{id: keyC; keyCode: 54; leVis0: true; leVis1: true}
