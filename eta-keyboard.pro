@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick widgets dbus x11extras network
+QT += qml quick widgets dbus x11extras network svg
 
 SOURCES += src/xwrapper.cpp \
     src/xkblibwrapper.cpp \

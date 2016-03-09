@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>ui/Images/gear.png</file>
-        <file>ui/Images/pardus.png</file>
-        <file>ui/Images/window-close.png</file>
+        <file>ui/Images/gear.svg</file>
+        <file>ui/Images/pardus.svg</file>
+        <file>ui/Images/close.svg</file>
     </qresource>
 </RCC>

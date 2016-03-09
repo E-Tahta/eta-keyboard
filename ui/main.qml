@@ -385,8 +385,7 @@ ApplicationWindow {
                 id: passwordToggle
                 height: dock.height
                 width: passwordToggle.height
-                color: pToggleMa.containsMouse ? main.keyHoverColor :
-                                                 main.keyColor
+                color:  main.keyColor
                 radius: passwordToggle.height / 2
                 anchors{
                     left: dock.left
@@ -403,7 +402,6 @@ ApplicationWindow {
                 MouseArea{
                     id: pToggleMa
                     anchors.fill: parent
-                    hoverEnabled: main.keyHover
 
                     onPressed: {
                         if (!main.password){
@@ -413,8 +411,7 @@ ApplicationWindow {
                             main.keyHover = false
                         }
                         else {
-                            passwordToggle.color = pToggleMa.containsMouse ?
-                                        main.keyHoverColor : main.keyColor
+                            passwordToggle.color =  main.keyColor
                             pToggleText.color = main.textColor
                             main.password = false
                             main.keyHover = true
@@ -425,7 +422,7 @@ ApplicationWindow {
 
             Image {
                 id: closeBtnImage
-                source: "Images/window-close.png"
+                source: "Images/close.svg"
                 height:main.dockSize
                 width: closeBtnImage.height
                 anchors {

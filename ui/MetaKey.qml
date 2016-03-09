@@ -41,7 +41,7 @@ Key {
         id: img
         width: parent.width * 2 / 3
         height: img.width
-        source: "Images/pardus.png"
+        source: "Images/pardus.svg"
         anchors.centerIn: parent
     }
 

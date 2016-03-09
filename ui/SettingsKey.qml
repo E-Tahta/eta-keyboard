@@ -32,7 +32,7 @@ Key {
         width: parent.width * 2 / 3
         height: img.width
         anchors.centerIn: parent
-        source: "Images/gear.png"
+        source: "Images/gear.svg"
 
         RotationAnimation on rotation {
             id: rotationAnimation
