@@ -65,7 +65,8 @@ ApplicationWindow {
             main.keyHoverColor = colorModel.get(settings.colorIndex).hColor;
             main.color = colorModel.get(settings.colorIndex).bColor;
             main.updateTheme = !main.updateTheme
-            colorKey.keyText = colorModel.get(settings.colorIndex).text
+            main.themeName = colorModel.get(settings.colorIndex).text
+            colorKey.keyText = main.themeName
         }
         else {
             settings.colorIndex = 0
@@ -75,10 +76,11 @@ ApplicationWindow {
             main.keyHoverColor = colorModel.get(settings.colorIndex).hColor;
             main.color = colorModel.get(settings.colorIndex).bColor;
             main.updateTheme = !main.updateTheme
-            colorKey.keyText = colorModel.get(settings.colorIndex).text
+            main.themeName = colorModel.get(settings.colorIndex).text
+            colorKey.keyText = main.themeName
         }
 
-        main.themeName = colorKey.keyText
+
 
         settings.setAndSaveConf()
 
@@ -109,7 +111,7 @@ ApplicationWindow {
     ListModel {
         id: colorModel
         ListElement {
-            text:"Gri"
+            text:"Grey"
             kColor:"#585858"
             tColor:"#dddddd"
             atColor:"white"
@@ -117,7 +119,7 @@ ApplicationWindow {
             bColor:"#010101"
         }
         ListElement {
-            text:"Yeşil"
+            text:"Green"
             kColor:"#2a6f2c"
             tColor:"white"
             atColor:"white"
@@ -125,7 +127,7 @@ ApplicationWindow {
             bColor:"#010101"
         }
         ListElement {
-            text:"Mavi"
+            text:"Blue"
             kColor:"#0e5b83"
             tColor:"#fbfcfe"
             atColor:"#fbfcfe"
@@ -134,7 +136,7 @@ ApplicationWindow {
         }
 
         ListElement {
-            text:"Kahve"
+            text:"Brown"
             kColor:"#693f27"
             tColor:"#fbfcfe"
             atColor:"#fbfcfe"
@@ -260,11 +262,11 @@ ApplicationWindow {
 
                         onReleased: {
                             layoutKey.btnReleased()
-                            if (main.layout == "Tam") {
+                            if (main.layout == "Full") {
                                 main.layout = "Tablet"
                             }
                             else {
-                                main.layout = "Tam"
+                                main.layout = "Full"
                             }
                             settings.setLayout()
                         }
@@ -430,13 +432,13 @@ ApplicationWindow {
 
     onLoadedChanged: {
         switch (main.themeName){
-        case "Gri": settings.colorIndex = 0
+        case "Grey": settings.colorIndex = 0
             break;
-        case "Yeşil": settings.colorIndex = 1
+        case "Green": settings.colorIndex = 1
             break;
-        case "Mavi": settings.colorIndex = 2
+        case "Blue": settings.colorIndex = 2
             break;
-        case "Kahve": settings.colorIndex = 3
+        case "Brown": settings.colorIndex = 3
         }
         changeTheme()
         changeLanguageLayout(false)
