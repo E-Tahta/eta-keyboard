@@ -109,37 +109,37 @@ ApplicationWindow {
     ListModel {
         id: colorModel
         ListElement {
-            text:"Grey"
+            text:"Gri"
             kColor:"#585858"
             tColor:"#dddddd"
             atColor:"white"
             hColor:"#848484"
-            bColor: "#010101"
+            bColor:"#010101"
         }
         ListElement {
-            text:"Green"
-            kColor:"dark green"
+            text:"Yeşil"
+            kColor:"#2a6f2c"
             tColor:"white"
             atColor:"white"
-            hColor:"green"
-            bColor: "#010101"
+            hColor:"#66bb5d"
+            bColor:"#010101"
         }
         ListElement {
-            text:"Blue"
-            kColor:"#1b50b8"
+            text:"Mavi"
+            kColor:"#0e5b83"
             tColor:"#fbfcfe"
             atColor:"#fbfcfe"
             hColor:"#3980f4"
-            bColor: "#010101"
+            bColor:"#010101"
         }
 
         ListElement {
-            text:"Brown"
-            kColor:"brown"
+            text:"Kahve"
+            kColor:"#693f27"
             tColor:"#fbfcfe"
             atColor:"#fbfcfe"
-            hColor:"pink"
-            bColor: "#010101"
+            hColor:"#a07b5e"
+            bColor:"#010101"
         }
     }
 
@@ -260,11 +260,11 @@ ApplicationWindow {
 
                         onReleased: {
                             layoutKey.btnReleased()
-                            if (main.layout == "full") {
-                                main.layout = "tablet"
+                            if (main.layout == "Tam") {
+                                main.layout = "Tablet"
                             }
                             else {
-                                main.layout = "full"
+                                main.layout = "Tam"
                             }
                             settings.setLayout()
                         }
@@ -430,13 +430,13 @@ ApplicationWindow {
 
     onLoadedChanged: {
         switch (main.themeName){
-        case "Grey": settings.colorIndex = 0
+        case "Gri": settings.colorIndex = 0
             break;
-        case "Green": settings.colorIndex = 1
+        case "Yeşil": settings.colorIndex = 1
             break;
-        case "Blue": settings.colorIndex = 2
+        case "Mavi": settings.colorIndex = 2
             break;
-        case "Brown": settings.colorIndex = 3
+        case "Kahve": settings.colorIndex = 3
         }
         changeTheme()
         changeLanguageLayout(false)

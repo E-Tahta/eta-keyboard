@@ -289,7 +289,7 @@ ApplicationWindow {
         var oldHeight = main.height
         var scaleVariable
 
-        if (main.layout == "full") {
+        if (main.layout == "Tam") {
             scaleVariable = main.scale
         } else {
             scaleVariable = main.scale + 0.2
@@ -297,7 +297,7 @@ ApplicationWindow {
 
         main.keyHeight =  main.screenHeight * scaleVariable / 23
         main.dockSize = main.screenHeight * scaleVariable / 35
-        if (main.layout == "full"){
+        if (main.layout == "Tam"){
             main.width = main.keyHeight * 15 + main.spacing * 16
             main.height = main.keyHeight * 11 / 2 + main.dockSize +
                     main.spacing * 8
@@ -483,13 +483,13 @@ ApplicationWindow {
 
         FullLayout{
             id: fullLay
-            visible: main.layout=="full" ? true : false
+            visible: main.layout=="Tam" ? true : false
             anchors.top: dock.bottom
         }
 
         TabletLayout{
             id: tabletLayout
-            visible: main.layout=="tablet" ? true : false
+            visible: main.layout=="Tablet" ? true : false
             anchors.top: dock.bottom
         }
     }
@@ -631,10 +631,10 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        main.themeName = helper.getColor() ? helper.getColor() : "Grey"
+        main.themeName = helper.getColor() ? helper.getColor() : "Gri"
         main.autoShowToggle = helper.getAutoShow() ?
                     helper.getAutoShow() : false
-        main.layout = helper.getLayoutType() ? helper.getLayoutType() : "tablet"
+        main.layout = helper.getLayoutType() ? helper.getLayoutType() : "Tablet"
         main.scale = helper.getScale() < 1.6 && helper.getScale() > 0.4 ?
                     helper.getScale() : 1
 
