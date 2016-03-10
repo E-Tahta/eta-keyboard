@@ -85,6 +85,7 @@ Rectangle {
 
     function btnHold(){
         key.hold = true
+        main.holdBackspace(keyCode)
     }
 
     function btnReleased(){

@@ -318,6 +318,13 @@ ApplicationWindow {
         main.visible = true
     }
 
+    function holdBackspace(keyCode){
+        if (keyCode == 22){
+            mirrorText.text = ""
+            main.storedMirror = ""
+        }
+    }
+
     Helper {
         id: helper
 
@@ -627,7 +634,7 @@ ApplicationWindow {
         main.themeName = helper.getColor() ? helper.getColor() : "Grey"
         main.autoShowToggle = helper.getAutoShow() ?
                     helper.getAutoShow() : false
-        main.layout = helper.getLayoutType() ? helper.getLayoutType() : "full"
+        main.layout = helper.getLayoutType() ? helper.getLayoutType() : "tablet"
         main.scale = helper.getScale() < 1.6 && helper.getScale() > 0.4 ?
                     helper.getScale() : 1
 
