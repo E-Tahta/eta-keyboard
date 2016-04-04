@@ -59,9 +59,18 @@ ApplicationWindow {
 
         layoutKey.keyText = main.layout
         if (settings.colorIndex<colorModel.count){
+            main.keyPressedColor = colorModel.get(settings.colorIndex).pColor;
             main.keyColor = colorModel.get(settings.colorIndex).kColor;
             main.textColor = colorModel.get(settings.colorIndex).tColor;
             main.activeTextColor = colorModel.get(settings.colorIndex).atColor;
+            main.activeTextColor0 =
+                    colorModel.get(settings.colorIndex).atColor0;
+            main.activeTextColor1 =
+                    colorModel.get(settings.colorIndex).atColor1;
+            main.activeTextColor2 =
+                    colorModel.get(settings.colorIndex).atColor2;
+            main.activeTextColor3 =
+                    colorModel.get(settings.colorIndex).atColor3;
             main.keyHoverColor = colorModel.get(settings.colorIndex).hColor;
             main.color = colorModel.get(settings.colorIndex).bColor;
             main.updateTheme = !main.updateTheme
@@ -70,17 +79,24 @@ ApplicationWindow {
         }
         else {
             settings.colorIndex = 0
+            main.keyPressedColor = colorModel.get(settings.colorIndex).pColor;
             main.keyColor = colorModel.get(settings.colorIndex).kColor;
             main.textColor = colorModel.get(settings.colorIndex).tColor;
             main.activeTextColor = colorModel.get(settings.colorIndex).atColor;
+            main.activeTextColor0 =
+                    colorModel.get(settings.colorIndex).atColor0;
+            main.activeTextColor1 =
+                    colorModel.get(settings.colorIndex).atColor1;
+            main.activeTextColor2 =
+                    colorModel.get(settings.colorIndex).atColor2;
+            main.activeTextColor3 =
+                    colorModel.get(settings.colorIndex).atColor3;
             main.keyHoverColor = colorModel.get(settings.colorIndex).hColor;
             main.color = colorModel.get(settings.colorIndex).bColor;
             main.updateTheme = !main.updateTheme
             main.themeName = colorModel.get(settings.colorIndex).text
             colorKey.keyText = main.themeName
         }
-
-
 
         settings.setAndSaveConf()
 
@@ -115,24 +131,39 @@ ApplicationWindow {
             kColor:"#585858"
             tColor:"#dddddd"
             atColor:"white"
+            atColor0:"white"
+            atColor1:"white"
+            atColor2:"light green"
+            atColor3:"white"
             hColor:"#848484"
             bColor:"#010101"
+            pColor: "white"
         }
         ListElement {
             text:"Green"
             kColor:"#2a6f2c"
             tColor:"white"
             atColor:"white"
+            atColor0:"white"
+            atColor1:"white"
+            atColor2:"#f4ff0f"
+            atColor3:"white"
             hColor:"#66bb5d"
             bColor:"#010101"
+            pColor: "white"
         }
         ListElement {
             text:"Blue"
             kColor:"#0e5b83"
             tColor:"#fbfcfe"
             atColor:"#fbfcfe"
+            atColor0:"white"
+            atColor1:"white"
+            atColor2:"#f4ff0f"
+            atColor3:"white"
             hColor:"#3980f4"
             bColor:"#010101"
+            pColor: "white"
         }
 
         ListElement {
@@ -140,10 +171,30 @@ ApplicationWindow {
             kColor:"#693f27"
             tColor:"#fbfcfe"
             atColor:"#fbfcfe"
+            atColor0:"white"
+            atColor1:"white"
+            atColor2:"#f4ff0f"
+            atColor3:"white"
             hColor:"#a07b5e"
             bColor:"#010101"
+            pColor: "white"
+        }
+        ListElement {
+            text:"White"
+            kColor:"#f9f9f9"
+            tColor:"grey"
+            atColor:"grey"
+            atColor0:"grey"
+            atColor1:"grey"
+            atColor2:"red"
+            atColor3:"grey"
+            hColor:"white"
+            bColor:"#bbb7b6"
+            pColor: "grey"
         }
     }
+
+
 
     Rectangle{
         id: container
@@ -223,15 +274,15 @@ ApplicationWindow {
                         }
 
                         onPressAndHold: {
-                            languageKey.btnHold()
+                            colorKey.btnHold()
                         }
 
                         onReleased: {
-                            languageKey.btnReleased()
+                            colorKey.btnReleased()
                         }
 
                         onClicked: {
-                            languageKey.btnClicked()
+
                         }
                     }
                 }
@@ -262,6 +313,10 @@ ApplicationWindow {
 
                         onReleased: {
                             layoutKey.btnReleased()
+                        }
+
+                        onClicked: {
+                            layoutKey.btnClicked()
                             if (main.layout == "Full") {
                                 main.layout = "Tablet"
                             }
@@ -269,10 +324,6 @@ ApplicationWindow {
                                 main.layout = "Full"
                             }
                             settings.setLayout()
-                        }
-
-                        onClicked: {
-                            layoutKey.btnClicked()
                         }
                     }
                 }
@@ -307,15 +358,16 @@ ApplicationWindow {
                         }
 
                         onReleased: {
+                           scaleDown.btnReleased()
+                        }
+
+                        onClicked: {
+                            scaleDown.btnClicked()
                             if (main.scale>0.8) {
                                 main.scale-=0.1
                             }
 
                             settings.setAndSaveConf()
-                        }
-
-                        onClicked: {
-                            scaleDown.btnClicked()
                         }
                     }
                 }
@@ -346,15 +398,16 @@ ApplicationWindow {
                         }
 
                         onReleased: {
+                            scaleUp.btnReleased()
+                        }
+
+                        onClicked: {
+                            scaleDown.btnClicked()
                             if (main.scale<1.5) {
                                 main.scale+=0.1
                             }
 
                             settings.setAndSaveConf()
-                        }
-
-                        onClicked: {
-                            scaleDown.btnClicked()
                         }
                     }
                 }
@@ -372,9 +425,7 @@ ApplicationWindow {
 
                         onPressed: {
                             autoShowKey.btnPressed()
-                            main.autoShowToggle = !main.autoShowToggle
 
-                            settings.setAndSaveConf()
                         }
 
                         onPressAndHold: {
@@ -387,6 +438,8 @@ ApplicationWindow {
 
                         onClicked: {
                             autoShowKey.btnClicked()
+                            main.autoShowToggle = !main.autoShowToggle
+                            settings.setAndSaveConf()
                         }
                     }
                 }
@@ -418,7 +471,7 @@ ApplicationWindow {
             languageModel.append({text:helper.getLayoutName(i)})
         }
         if (settings.waitFlag)
-        changeLanguageLayout(false)
+            changeLanguageLayout(false)
     }
 
     onSettingsVisibleChanged: {
@@ -439,6 +492,9 @@ ApplicationWindow {
         case "Blue": settings.colorIndex = 2
             break;
         case "Brown": settings.colorIndex = 3
+            break;
+        case "White": settings.colorIndex = 4
+            break;
         }
         changeTheme()
         changeLanguageLayout(false)

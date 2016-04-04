@@ -26,10 +26,6 @@ Item{
     property bool releaseAll : main.releaseAll
     property bool updateTheme: main.updateTheme
 
-     function releaseAllSticky(){
-         keyShiftL.stickyReleased()
-         keySymbols.symbolModeOff()
-     }
 
     Rectangle{
         id: container
@@ -84,7 +80,10 @@ Item{
                 id: row5
                 spacing: main.spacing
 
-                StickyKey{id:keyShiftL; keyText: "Shift"; keyCode: 50; keyWidth: main.keyWidth + main.spacing + splitter.width}
+                StickyKey{id:keyShiftL; keyText: "Shift"; keyCode: 50;
+                    keyWidth: main.keyWidth + main.spacing + splitter.width
+                    lock: main.btnShift
+                }
                 TabletKey{id: keyZ; keyCode: 52; keyCodeSymbol: 51; symbolLevel: 1}
                 TabletKey{id: keyX; keyCode: 53; keyCodeSymbol: 61; symbolLevel: 1}
                 TabletKey{id: keyC; keyCode: 54; keyCodeSymbol: 11; symbolLevel: 1}
@@ -105,30 +104,12 @@ Item{
                 StickyKey{
                     id: keySymbols
                     keyText: "12!?"
-
-                    MouseArea {
-                        id: ma
-                        anchors.fill: parent
-
-                        onPressed: {
-                            keySymbols.symbolMode()
-                        }
-
-                        onPressAndHold: {
-                            keySymbols.btnHold()
-                        }
-
-                        onReleased: {
-                            keySymbols.hold = false
-                        }
-
-                        onClicked: {
-                            keySymbols.btnClicked()
-                        }
-                    }
+                    keyCode: 500
+                    lock: main.symbolMode
                 }
                 TabletKey{id: keyComma; keyCode: 51; keyCodeSymbol: 51; symbolLevel: 0}
-                AlphaNumericKey{id: keySpace; keyWidth: main.keyWidth * 6 + main.spacing * 5 ; keyCode: 65}
+                AlphaNumericKey{id: keySpace;
+                    keyWidth: main.keyWidth * 6 + main.spacing * 5 ; keyCode: 65}
                 TabletKey{id: keyDot; keyCode: 61; keyCodeSymbol: 61; symbolLevel: 0}
                 AlphaNumericKey {
                     id: keyEnter
@@ -137,13 +118,14 @@ Item{
                     keyCode: 36
                     fontPointSize: main.keyHeight ? keyHeight / 2 : 2
                     leVis4: true
+                    mirror: false
                 }
             }
         }
     }
 
     onReleaseAllChanged: {
-        releaseAllSticky()
+
     }
 
     onUpdateThemeChanged: {

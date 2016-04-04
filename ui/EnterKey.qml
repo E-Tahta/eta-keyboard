@@ -38,6 +38,7 @@ Item {
     property int keyRadius: main.keyHeight / 10
     property int keyCode: 36
     property bool hold: false
+    property bool pressed: false
     property bool updateTheme: main.updateTheme
     property bool entered: false
     property bool keyHoverTimerTriggered: main.keyHoverTimerTriggered
@@ -51,10 +52,10 @@ Item {
     }
 
     function btnPressed(){
+        key.pressed = true
         head.color = key.keyPressedColor
         foot.color = key.keyPressedColor
         headText.color = key.textPressedColor
-        main.nonStickyPressed(key.keyCode,false,false)
     }
 
     function btnHovered(){
@@ -78,8 +79,8 @@ Item {
 
     function btnReleased(){
         key.hold = false
+        key.pressed = false
         btnHovered()
-        main.nonStickyReleased(key.keyCode)
     }
 
     Rectangle{
@@ -119,6 +120,7 @@ Item {
 
             onPressed: {
                 btnPressed()
+                main.keyClicked(key.keyCode)
             }
 
             onPressAndHold: {
@@ -130,7 +132,7 @@ Item {
             }
 
             onClicked: {
-                btnClicked()
+
             }
         }
     }
@@ -165,6 +167,7 @@ Item {
 
             onPressed: {
                 btnPressed()
+                main.keyClicked(key.keyCode)
             }
 
             onPressAndHold: {
@@ -176,13 +179,15 @@ Item {
             }
 
             onClicked: {
-                btnClicked()
+
             }
         }
     }
 
     onUpdateThemeChanged:{
-        btnHovered()
+        if (!key.pressed) {
+            btnHovered()
+        }
     }
 
     onKeyHoverTimerTriggeredChanged: {

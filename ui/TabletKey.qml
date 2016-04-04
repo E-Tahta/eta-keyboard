@@ -25,51 +25,15 @@ import QtQuick 2.3
 Key {
     id: key
 
-    property int keyCodeSymbol
-    property int symbolLevel
+
     fontPointSize: main.keyHeight / 3
 
     leVis4: true
     keyText: main.symbolMode ?
-                 helper.getSymbol(key.keyCodeSymbol,main.languageLayoutIndex,key.symbolLevel)
-               : helper.getSymbol(key.keyCode,main.languageLayoutIndex,main.keyLevel)
+                 helper.getSymbol
+                 (key.keyCodeSymbol,main.languageLayoutIndex,key.symbolLevel)
+               : helper.getSymbol
+                 (key.keyCode,main.languageLayoutIndex,main.keyLevel)
 
     mirror: true
-
-    MouseArea {
-        id: ma
-        anchors.fill: parent
-
-        onEntered: {
-            btnHovered()
-        }
-
-        onExited: {
-            btnHovered()
-        }
-
-        onPressed: {
-            btnPressed()
-            if (main.symbolMode){
-                main.fakeKeyTablet(key.keyCodeSymbol, key.symbolLevel,key.keyText)
-            }
-            else{
-                main.nonStickyPressed(key.keyCode,true,false)
-            }
-         }
-
-        onPressAndHold: {
-            btnHold()
-        }
-
-        onReleased: {
-            btnReleased()
-            if (!main.symbolMode)
-                main.nonStickyReleased(key.keyCode)
-        }
-
-        onClicked: {
-            btnClicked()
-        }
-    }
 }

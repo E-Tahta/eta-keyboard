@@ -57,6 +57,16 @@ Key {
 
         onPressed: {
             btnPressed()
+            if (!main.settingsVisible){
+                key.angle = 90
+                main.settingsVisible = true
+            }
+            else{
+                key.angle = 0
+                main.settingsVisible = false
+            }
+            rotationAnimation.start()
+            main.releaseAllSticky()
         }
 
         onPressAndHold: {
@@ -69,15 +79,7 @@ Key {
 
         onClicked: {
             key.btnClicked()
-            if (!main.settingsVisible){
-                key.angle = 90
-                main.settingsVisible = true
-            }
-            else{
-                key.angle = 0
-                main.settingsVisible = false
-            }
-            rotationAnimation.start()
+
         }
     }
 

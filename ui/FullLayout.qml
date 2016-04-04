@@ -26,16 +26,6 @@ Item{
     property bool releaseAll : main.releaseAll
     property bool updateTheme: main.updateTheme
 
-    function releaseAllSticky(){
-        keyShiftL.stickyReleased()
-        keyCtrlL.stickyReleased()
-        keyCtrlR.stickyReleased()
-        keyMeta.stickyReleased()
-        keyAlt.stickyReleased()
-        keyAltGr.stickyReleased()
-        main.keyLevel = 0
-        stickyModel.clear()
-    }
 
     Rectangle{
         id: container
@@ -136,7 +126,8 @@ Item{
                 id: row5
                 spacing: main.spacing
 
-                StickyKey{id:keyShiftL; keyText: "Shift"; keyWidth: main.keyWidth; keyCode: 50}
+                StickyKey{id:keyShiftL; keyText: "Shift"; keyWidth: main.keyWidth;
+                    keyCode: 50; lock: main.btnShift}
                 NumericKey{id: keyCompare; keyCode: 94}
                 AlphaNumericKey{id: keyZ; keyCode: 52; leVis0: true; leVis1: true}
                 AlphaNumericKey{id: keyX; keyCode: 53; leVis0: true; leVis1: true}
@@ -155,12 +146,14 @@ Item{
                 spacing: main.spacing
 
                 SettingsKey{id: keySettings}
-                StickyKey{id: keyCtrlL; keyText: "Ctrl"; keyWidth: main.keyWidth;keyCode: 37}
-                MetaKey{id: keyMeta; keyCode: 133}
-                StickyKey{id: keyAlt; keyText: "Alt"; keyWidth: main.keyWidth;keyCode: 64}
-                AlphaNumericKey{id: keySpace; keyWidth: main.keyWidth * 6 + 5 * main.spacing; keyCode: 65}
-                StickyKey{id: keyAltGr; keyText: "Alt Gr"; keyWidth: main.keyWidth; keyCode: 108}
-                StickyKey{id: keyCtrlR; keyText: "Ctrl"; keyWidth: main.keyWidth;keyCode: 105}
+                StickyKey{id: keyCtrlL; keyText: "Ctrl"; keyWidth: main.keyWidth;
+                    keyCode: 37; lock: main.btnCtrl}
+                MetaKey{id: keyMeta; keyCode: 133; lock: main.btnMeta}
+                StickyKey{id: keyAlt; keyText: "Alt"; keyWidth: main.keyWidth;
+                    keyCode: 64; lock: main.btnAlt}
+                AlphaNumericKey{id: keySpace; keyWidth: main.keyWidth * 7 + 6 * main.spacing; keyCode: 65}
+                StickyKey{id: keyAltGr; keyText: "Alt Gr"; keyWidth: main.keyWidth;
+                    keyCode: 108; lock: main.btnAltGr}
                 AlphaNumericKey{id: keyArrowL; leVis4: true; keyText: "◄"; keyCode: 113}
                 AlphaNumericKey{id: keyArrowB; leVis4: true; keyText: "▼"; keyCode: 116}
                 AlphaNumericKey{id: keyArrowR; leVis4: true; keyText: "►"; keyCode: 114}
@@ -185,7 +178,7 @@ Item{
     }//End of the container
 
     onReleaseAllChanged: {
-        releaseAllSticky()
+
     }
 
     onUpdateThemeChanged: {

@@ -27,35 +27,5 @@ Key {
     leVis1: true
     leVis2: true
     capsMirror: false
-
-    MouseArea {
-        id: ma
-        anchors.fill: parent
-
-        onEntered: {
-            btnHovered()
-        }
-
-        onExited: {
-            btnHovered()
-        }
-
-        onPressed: {
-            btnPressed()
-            main.nonStickyPressed(key.keyCode, true, capsMirror)
-        }
-
-        onPressAndHold: {
-            btnHold()
-        }
-
-        onReleased: {
-            btnReleased()
-            main.nonStickyReleased(key.keyCode)
-        }
-
-        onClicked: {
-            btnClicked()
-        }
-    }
+    mirror: true
 }

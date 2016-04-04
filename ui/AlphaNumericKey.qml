@@ -26,35 +26,4 @@ Key {
     id: key
     mirror: true
     capsMirror: true
-
-    MouseArea {
-        id: ma
-        anchors.fill: parent
-
-        onEntered: {
-            btnHovered()
-        }
-
-        onExited: {
-            btnHovered()
-        }
-
-        onPressed: {
-            btnPressed()
-            main.nonStickyPressed(key.keyCode,mirror,capsMirror)
-        }
-
-        onPressAndHold: {
-            btnHold()
-        }
-
-        onReleased: {
-            btnReleased()
-            main.nonStickyReleased(key.keyCode)
-        }
-
-        onClicked: {
-            btnClicked()
-        }
-    }
 }

@@ -39,6 +39,10 @@ ApplicationWindow {
     property string keyHoverColor: "#848484"
     property string textColor: "#dddddd"
     property string activeTextColor: "white"
+    property string activeTextColor0: "white"
+    property string activeTextColor1: "white"
+    property string activeTextColor2: "white"
+    property string activeTextColor3: "white"
     property string textPressedColor: "#5e5a5a"
     property int keyHeight
     property int keyWidth: keyHeight
@@ -56,7 +60,6 @@ ApplicationWindow {
     property bool keyHoverTimer: false
     property bool keyHoverTimerTriggered: false
     property bool password: false
-    property string storedMirror
     property int screenWidth: Screen.width
     property int screenHeight: Screen.height
     property int m_height
@@ -68,7 +71,15 @@ ApplicationWindow {
     property bool layoutChange: false
     property string themeName
     property bool loaded: false
+    property string storedMirror
     property string mirrorCharacter
+    property bool btnCtrl: false
+    property bool btnAlt: false
+    property bool btnMeta: false
+    property bool btnShift: false
+    property bool btnAltGr: false
+    property bool sticky: false
+    property int stickyNum: 0
 
     function setAndSave(){
         helper.setSettings(main.themeName,
@@ -79,173 +90,232 @@ ApplicationWindow {
         helper.saveSettings()
     }
 
-    function stickyKeyPressed(keyCode){
+    function releaseAllSticky(){
+        btnAlt = false
+        btnAltGr = false
+        btnCtrl = false
+        btnMeta = false
+        btnShift = false
+        sticky = false
+        stickyNum = 0
+        keyLevel = 0
+        releaseAll = !releaseAll
+    }
+
+
+    function keyClicked(keyCode,mirror,keyText,level,code){
+
         main.settingsVisible = false
-        var press = true
-        if (stickyModel.count<3){
-            switch(keyCode){
-            case 50: //shift
-                keyLevel++;
+
+        if (symbolMode && mirror) {
+            switch(level) {
+            case 0:
+                helper.fakeKeyPress(code);
+                helper.fakeKeyRelease(code);
                 break;
-            case 108: //AltGr
-                main.keyLevel+=2;
-                break;
+            case 1:
+                helper.fakeKeyPress(50);
+                helper.fakeKeyPress(code);
+                helper.fakeKeyRelease(code);
+                helper.fakeKeyRelease(50);
+                break
+            case 2:
+                helper.fakeKeyPress(108);
+                helper.fakeKeyPress(code);
+                helper.fakeKeyRelease(code);
+                helper.fakeKeyRelease(108);
+                break
+            case 3:
+                helper.fakeKeyPress(108);
+                helper.fakeKeyPress(50);
+                helper.fakeKeyPress(code);
+                helper.fakeKeyRelease(code);
+                helper.fakeKeyRelease(50);
+                helper.fakeKeyRelease(108);
+                break
             }
-            for (var i=0; i<stickyModel.count; i++)
-                if(stickyModel.get(i).keyCode == keyCode)
-                    press = false
-            if (press)
-                stickyModel.append({keyCode:keyCode})
+
+            main.storedMirror += keyText
+            if (main.password) {
+                mirrorText.text +="*"
+            }
+            else {
+                mirrorText.text += keyText
+            }
+            if (keyCode == 65) {
+                mirrorText.text = ""
+                main.storedMirror = ""
+            }
+
         }
         else {
-            main.releaseAll = ! main.releaseAll;
+            switch (keyCode){
+            case 500: // symbol
+                symbolMode = !symbolMode
+                sticky = true
+                break
+            case 37: // ctrlL
+                stickyNum+= btnCtrl ? -1 : 1
+                btnCtrl = !btnCtrl
+                sticky = true
+                break
+            case 64: // alt
+                stickyNum+= btnAlt ? -1 : 1
+                btnAlt = !btnAlt
+                sticky = true
+                break
+            case 133: // meta
+                stickyNum+= btnMeta ? -1 : 1
+                btnMeta = !btnMeta
+                sticky = true
+                break
+            case 108: // altgr
+                stickyNum+= btnAltGr ? -1 : 1
+                main.keyLevel+= btnAltGr ? -2 : 2
+                btnAltGr = !btnAltGr
+                sticky = true
+                break
+            case 50: // shift
+                stickyNum+= btnShift ? -1 : 1
+                main.keyLevel+= btnShift ? -1 : 1
+                btnShift = !btnShift
+                sticky = true
+                break
+            }
+
+            if (stickyNum>3){
+                releaseAllSticky()
+                return 0
+            }
+
+            if (!sticky) {
+
+                if (btnAlt){
+                    helper.fakeKeyPress(64)
+                }
+
+                if (btnAltGr){
+                    helper.fakeKeyPress(108)
+                }
+
+                if (btnCtrl){
+                    helper.fakeKeyPress(37)
+                }
+
+                if (btnMeta){
+                    helper.fakeKeyPress(133)
+                }
+
+                if (btnShift){
+                    helper.fakeKeyPress(50)
+                }
+
+                helper.fakeKeyPress(keyCode);
+                helper.fakeKeyRelease(keyCode);
+
+                if (mirror && !btnAlt && !btnCtrl && !btnMeta){
+
+                    if (helper.getCapslockStatus() &&
+                            main.keyLevel == 0) {
+
+
+                        mirrorCharacter = helper.getSymbol(keyCode,
+                                                           main.languageLayoutIndex,
+                                                           main.keyLevel)
+
+                        main.storedMirror += mirrorCharacter.toUpperCase()
+                        if (main.password) {
+                            mirrorText.text +="*"
+                        }
+                        else {
+                            mirrorText.text += mirrorCharacter.toUpperCase()
+                        }
+                    } else if (helper.getCapslockStatus() &&
+                               main.keyLevel == 1 ){
+
+                        mirrorCharacter = helper.getSymbol(keyCode,
+                                                           main.languageLayoutIndex,
+                                                           main.keyLevel)
+
+                        main.storedMirror += mirrorCharacter.toLowerCase()
+                        if (main.password)
+                            mirrorText.text +="*"
+                        else
+                            mirrorText.text += mirrorCharacter.toLowerCase()
+                    } else {
+                        mirrorCharacter = helper.getSymbol(keyCode,
+                                                           main.languageLayoutIndex,
+                                                           main.keyLevel)
+
+                        main.storedMirror += mirrorCharacter
+                        if (main.password) {
+                            mirrorText.text +="*"
+                        }
+                        else {
+                            mirrorText.text += mirrorCharacter
+                        }
+                    }
+
+                }
+                switch (keyCode){
+                case 65:
+                    mirrorText.text = ""
+                    main.storedMirror = ""
+                    break;
+                case 36:
+                    mirrorText.text = ""
+                    main.storedMirror = ""
+                    break;
+                case 111:
+                    mirrorText.text = ""
+                    main.storedMirror = ""
+                    break;
+                case 113:
+                    mirrorText.text = ""
+                    main.storedMirror = ""
+                    break;
+                case 114:
+                    mirrorText.text = ""
+                    main.storedMirror = ""
+                    break;
+                case 116:
+                    mirrorText.text = ""
+                    main.storedMirror = ""
+                    break;
+                case 23:
+                    mirrorText.text = ""
+                    main.storedMirror = ""
+                    break;
+
+                }
+
+                if (btnAlt){
+                    helper.fakeKeyRelease(64)
+                }
+
+                if (btnAltGr){
+                    helper.fakeKeyRelease(108)
+                }
+
+                if (btnCtrl){
+                    helper.fakeKeyRelease(37)
+                }
+
+                if (btnMeta){
+                    helper.fakeKeyRelease(133)
+                }
+
+                if (btnShift){
+                    helper.fakeKeyRelease(50)
+                }
+
+                releaseAllSticky()
+            }
+
+            sticky = false
         }
     }
 
-    function stickyKeyReleased(keyCode){
-        if (stickyModel.count>0){
-            main.settingsVisible = false
-            for (var i=0; i<stickyModel.count; i++){
-                if (stickyModel.get(i).keyCode == keyCode)
-                    stickyModel.remove(i)
-            }
-            switch(keyCode){
-            case 50: //shift
-                keyLevel--;
-                break;
-            case 108: //AltGr
-                main.keyLevel-=2;
-                break;
-            }
-        }
-    }
-
-    function checkAlt(){
-        return stickyModel.count === 1 && stickyModel.get(0).keyCode === 64;
-    }
-
-    function checkShiftAltgr(){
-        if (stickyModel.count == 0) return true
-        else if (stickyModel.count == 1)
-            return stickyModel.get(0).keyCode === 50 ||
-                    stickyModel.get(0).keyCode === 108
-        else if (stickyModel.count == 2){
-            var cnt = 0
-            if(stickyModel.get(0).keyCode === 50 ||
-                    stickyModel.get(0).keyCode === 108) cnt ++
-            if(stickyModel.get(1).keyCode === 50 ||
-                    stickyModel.get(1).keyCode === 108) cnt ++
-            if (cnt == 2) return true
-            else return false
-        }
-        return false
-    }
-
-    function nonStickyPressed(keyCode,mirror,capsMirror){
-        main.settingsVisible = false
-        if (checkAlt()){
-            helper.fakeKeyPress(64)
-            helper.fakeKeyPress(keyCode)
-            helper.fakeKeyRelease(keyCode)
-            helper.fakeKeyRelease(64)
-            main.releaseAll = !main.releaseAll;
-        }
-        else {
-            for (var i=0; i<stickyModel.count; i++){
-                helper.fakeKeyPress(stickyModel.get(i).keyCode)
-            }
-            helper.fakeKeyPress(keyCode)
-        }
-        if (mirror && checkShiftAltgr()){
-
-            if (helper.getCapslockStatus() &&
-                    main.keyLevel == 0) {
-
-
-                mirrorCharacter = helper.getSymbol(keyCode,
-                                                   main.languageLayoutIndex,
-                                                   main.keyLevel)
-
-                main.storedMirror += mirrorCharacter.toUpperCase()
-                if (main.password)
-                    mirrorText.text +="*"
-                else
-                    mirrorText.text += mirrorCharacter.toUpperCase()
-
-            } else if (helper.getCapslockStatus() &&
-                       main.keyLevel == 1 ){
-
-                mirrorCharacter = helper.getSymbol(keyCode,
-                                                   main.languageLayoutIndex,
-                                                   main.keyLevel)
-
-                main.storedMirror += mirrorCharacter.toLowerCase()
-                if (main.password)
-                    mirrorText.text +="*"
-                else
-                    mirrorText.text += mirrorCharacter.toLowerCase()
-            } else {
-                mirrorCharacter = helper.getSymbol(keyCode,
-                                                   main.languageLayoutIndex,
-                                                   main.keyLevel)
-
-                main.storedMirror += mirrorCharacter
-                if (main.password)
-                    mirrorText.text +="*"
-                else
-                    mirrorText.text += mirrorCharacter
-            }
-
-        }
-        switch (keyCode){
-        case 65:
-            mirrorText.text = ""
-            main.storedMirror = ""
-            break;
-        case 36:
-            mirrorText.text = ""
-            main.storedMirror = ""
-            break;
-        case 111:
-            mirrorText.text = ""
-            main.storedMirror = ""
-            break;
-        case 113:
-            mirrorText.text = ""
-            main.storedMirror = ""
-            break;
-        case 114:
-            mirrorText.text = ""
-            main.storedMirror = ""
-            break;
-        case 116:
-            mirrorText.text = ""
-            main.storedMirror = ""
-            break;
-        case 23:
-            mirrorText.text = ""
-            main.storedMirror = ""
-            break;
-        case 22:
-            mirrorText.text =
-                    mirrorText.text.substring(0, mirrorText.text.length - 1)
-            main.storedMirror =
-                    main.storedMirror.substring(0, main.storedMirror.length - 1)
-        }
-    }
-
-    function nonStickyReleased(keyCode){
-        if (!checkAlt()){
-            helper.fakeKeyRelease(keyCode)
-            for (var i=0; i<stickyModel.count; i++){
-                helper.fakeKeyRelease(stickyModel.get(i).keyCode)
-            }
-            //main.releaseAll = !main.releaseAll;
-            for (var i=0; i<stickyModel.count; i++){
-                helper.fakeKeyRelease(stickyModel.get(i).keyCode)
-            }
-        }
-    }
 
     function fakeKeyTablet(code,level,keyText) {
         main.settingsVisible = false
@@ -316,6 +386,18 @@ ApplicationWindow {
         main.x += (oldWidth - main.width) / 2
         main.y += (oldHeight - main.height) / 2
         main.visible = true
+    }
+
+    function pressedBackspace(){
+        helper.fakeKeyPress(22)
+        mirrorText.text =
+                mirrorText.text.substring(0, mirrorText.text.length - 1)
+        main.storedMirror =
+                main.storedMirror.substring(0, main.storedMirror.length - 1)
+    }
+
+    function releasedBackspace(){
+        helper.fakeKeyRelease(22)
     }
 
     function holdBackspace(keyCode){
@@ -398,6 +480,7 @@ ApplicationWindow {
                     left: dock.left
                     top: dock.top
                 }
+                z: +5
 
                 Text {
                     id: pToggleText
@@ -410,16 +493,14 @@ ApplicationWindow {
                     id: pToggleMa
                     anchors.fill: parent
 
-                    onPressed: {
+                    onClicked: {
                         if (!main.password){
-                            passwordToggle.color = main.keyPressedColor
-                            pToggleText.color = main.textPressedColor
+
                             main.password = true
                             main.keyHover = false
                         }
                         else {
-                            passwordToggle.color =  main.keyColor
-                            pToggleText.color = main.textColor
+
                             main.password = false
                             main.keyHover = true
                         }
@@ -437,6 +518,7 @@ ApplicationWindow {
                     top: dock.top
                     bottom: dock.bottom
                 }
+                z: +5
 
                 MouseArea{
                     anchors.fill: closeBtnImage
@@ -447,13 +529,27 @@ ApplicationWindow {
                 }
             }
 
-            Text {
-                id: mirrorText
-                text: ""
-                font.pointSize: main.dockSize ? main.dockSize / 2 : 15
-                color: main.activeTextColor
-                anchors.centerIn: dock
+            Item {
+                id: mirrorTextContainer
+                anchors {
+                    left: passwordToggle.right
+                    right: closeBtnImage.left
+                    top: dock.top
+                    bottom: dock.bottom
+                }
+
+                Text {
+                    id: mirrorText
+                    text: ""
+                    font.pointSize: main.dockSize ? main.dockSize / 2 : 15
+                    color: main.activeTextColor
+                    anchors.centerIn: mirrorTextContainer
+                    wrapMode: Text.WordWrap
+                    z: -5
+                }
             }
+
+
 
             MouseArea{
                 property variant cpos: "1,1"
@@ -594,7 +690,7 @@ ApplicationWindow {
             main.keyboardVisible = false
             mirrorText.text = ""
             main.storedMirror = ""
-            main.releaseAll = !main.releaseAll
+            releaseAllSticky()
         }
 
         onStopped: {
@@ -623,6 +719,11 @@ ApplicationWindow {
         else {
             mirrorText.text = main.storedMirror
         }
+
+        passwordToggle.color = main.password ? main.keyPressedColor :
+                                               main.keyColor
+        pToggleText.color = main.password ? main.textPressedColor :
+                                            main.textColor
     }
 
 

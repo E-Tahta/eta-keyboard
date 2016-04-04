@@ -28,6 +28,10 @@ Rectangle {
     property string textColor: main.textColor
     property string textPressedColor: main.textPressedColor
     property string activeTextColor: main.activeTextColor
+    property string activeTextColor0: main.activeTextColor0
+    property string activeTextColor1: main.activeTextColor1
+    property string activeTextColor2: main.activeTextColor2
+    property string activeTextColor3: main.activeTextColor3
     property string keyText
     property double keyWidth: main.keyWidth
     property double keyHeight: main.keyHeight
@@ -44,11 +48,15 @@ Rectangle {
     property double activeOpacity: 1
     property double passiveOpacity: 0.2
     property bool hold: false
+    property bool pressed: false
     property bool lock: false
     property bool updateTheme: main.updateTheme
     property bool mirror
     property bool capsMirror
     property bool keyHoverTimerTriggered: main.keyHoverTimerTriggered
+    property bool releaseAll: main.releaseAll
+    property int keyCodeSymbol
+    property int symbolLevel
 
     color: ma.containsMouse && main.keyHoverTimer ? key.keyHoverColor : key.keyColor
     radius: key.keyRadius
@@ -61,6 +69,7 @@ Rectangle {
 
     function btnPressed(){
         key.color = key.keyPressedColor
+        key.pressed = true
         switch (key.keyLevel){
         case 0: lev0.color = key.textPressedColor; break;
         case 1: lev1.color = key.textPressedColor; break;
@@ -72,15 +81,27 @@ Rectangle {
 
     function btnHovered(){
 
-        if (!key.lock){
-            key.color = ma.containsMouse && main.keyHoverTimer ? key.keyHoverColor :
-                                                            key.keyColor
-            lev0.color = key.keyLevel == 0 ? key.activeTextColor : key.textColor
-            lev1.color = key.keyLevel == 1 ? key.activeTextColor : key.textColor
-            lev2.color = key.keyLevel == 2 ? key.activeTextColor : key.textColor
-            lev3.color = key.keyLevel == 3 ? key.activeTextColor : key.textColor
+        if (!key.lock && !key.pressed){
+            key.color = ma.containsMouse && main.keyHoverTimer ?
+                        key.keyHoverColor : key.keyColor
+            lev0.color = key.keyLevel == 0 ? key.activeTextColor0 : key.textColor
+            lev1.color = key.keyLevel == 1 ? key.activeTextColor1 : key.textColor
+            lev2.color = key.keyLevel == 2 ? key.activeTextColor2 : key.textColor
+            lev3.color = key.keyLevel == 3 ? key.activeTextColor3 : key.textColor
             lev4.color = key.textColor;
         }
+
+        else {
+            key.color = key.keyPressedColor
+            switch (key.keyLevel){
+            case 0: lev0.color = key.textPressedColor; break;
+            case 1: lev1.color = key.textPressedColor; break;
+            case 2: lev2.color = key.textPressedColor; break;
+            case 3: lev3.color = key.textPressedColor; break;
+            }
+            lev4.color = key.textPressedColor
+        }
+
     }
 
     function btnHold(){
@@ -90,6 +111,7 @@ Rectangle {
 
     function btnReleased(){
         key.hold = false
+        key.pressed = false
         btnHovered()
     }
 
@@ -171,19 +193,30 @@ Rectangle {
         onEntered: {
             main.keyHoverTimer = true
             btnHovered()
-
-
         }
 
         onExited: {
             main.keyHoverTimer = true
             btnHovered()
-
-
         }
 
         onPressed: {
+
             btnPressed()
+
+            if (key.keyCode == 22){
+                main.pressedBackspace()
+            }
+
+            else {
+                main.keyClicked(key.keyCode,mirror,keyText,key.symbolLevel,
+                                key.keyCodeSymbol)
+            }
+
+            btnHovered()
+
+
+
         }
 
         onPressAndHold: {
@@ -192,12 +225,20 @@ Rectangle {
 
         onReleased: {
             btnReleased()
+            if (key.keyCode == 22){
+                main.releasedBackspace()
+            }
         }
 
         onClicked: {
             key.btnClicked()
+
         }
 
+    }
+
+    onReleaseAllChanged: {
+        btnHovered()
     }
 
     onUpdateThemeChanged:{
@@ -209,11 +250,13 @@ Rectangle {
     }
 
     Component.onCompleted: {
-
+        btnHovered()
     }
 
     onKeyHoverTimerTriggeredChanged: {
-        btnHovered()
+        if (key.pressed) {
+            btnHovered()
+        }
     }
 
 }
