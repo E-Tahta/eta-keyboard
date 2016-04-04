@@ -23,7 +23,11 @@
 #include <QObject>
 #include <QDebug>
 #include <QStringList>
+#include <X11/XKBlib.h>
+
 typedef struct _XDisplay Display;
+
+
 
 struct XkbConfig {
     QString keyboardModel;
@@ -52,6 +56,7 @@ private:
     QList<LayoutUnit> getLayoutsList();
     bool getGroupNames(XkbConfig* xkbConfig);
     Display *display;
+    XkbStateRec xkbState;
 };
 
 #endif // XKBLIBWRAPPER_H

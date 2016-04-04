@@ -41,7 +41,8 @@ class Helper : public QObject
                NOTIFY showFromRightCalled
                NOTIFY showFromBottomCalled
                NOTIFY toggleCalled
-               NOTIFY toggleAutoShowCalled)
+               NOTIFY toggleAutoShowCalled
+               NOTIFY passwordDetected)
 public:
     explicit Helper(QObject *parent = 0);
     ~Helper();
@@ -79,6 +80,7 @@ private:
 private slots:
     void hideSlot();
     void showSlot();
+    void passwordDetectedSlot();
 signals:
     void hideCalled();
     void layoutChanged();
@@ -86,7 +88,8 @@ signals:
     void showFromRightCalled();
     void showFromBottomCalled();
     void toggleCalled();
-    void toggleAutoShowCalled();    
+    void toggleAutoShowCalled();
+    void passwordDetected();
 };
 
 #endif // HELPER_H

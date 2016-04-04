@@ -117,6 +117,9 @@ ApplicationWindow {
             console.log("Hide called");
             hide.start();
         }
+        onPasswordDetected: {
+            console.log("pasword detected");
+        }
 
     }
     function fakeKey(code){

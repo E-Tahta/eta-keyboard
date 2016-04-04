@@ -43,6 +43,7 @@ Helper::Helper(QObject *parent):
 
     connect(lsi,SIGNAL(hideSignal()),this,SLOT(hideSlot()));
     connect(lsi,SIGNAL(showSignal()),this,SLOT(showSlot()));
+    connect(lsi,SIGNAL(passwordSignal()),this,SLOT(passwordDetectedSlot()));
 
     connect(vkdi,SIGNAL(hide()),this,SIGNAL(hideCalled()));
     connect(vkdi,SIGNAL(showFromLeft()),this,SIGNAL(showFromLeftCalled()));
@@ -56,6 +57,13 @@ Helper::Helper(QObject *parent):
 Helper::~Helper()
 {
     delete xw;
+}
+
+void Helper::passwordDetectedSlot()
+{
+    if(s->getAutoShow()) {
+        emit passwordDetected();
+    }
 }
 
 void Helper::hideSlot()

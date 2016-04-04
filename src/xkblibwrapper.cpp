@@ -25,7 +25,7 @@
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
-#include <X11/XKBlib.h>
+//#include <X11/XKBlib.h>
 #include <X11/extensions/XKBrules.h>
 
 XKBLibWrapper::XKBLibWrapper(QObject *parent) :
@@ -38,7 +38,8 @@ void XKBLibWrapper::setLayout(unsigned int layoutIndex)
 {
     if (XkbLockGroup(display, XkbUseCoreKbd, layoutIndex)) {
         qDebug() << "Attempt to change layout group to " << layoutIndex;
-        XkbStateRec xkbState;
+        //XkbStateRec xkbState;
+
         XkbGetState( display, XkbUseCoreKbd, &xkbState );
         unsigned int group = xkbState.group;
         qDebug() << "Current group after attempting to change layout group is "
@@ -50,14 +51,14 @@ void XKBLibWrapper::setLayout(unsigned int layoutIndex)
 
 int XKBLibWrapper::getCurrentLayoutIndex()
 {
-    XkbStateRec xkbState;
+    //XkbStateRec xkbState;
     XkbGetState( display, XkbUseCoreKbd, &xkbState );
     return xkbState.group;
 }
 
 QString XKBLibWrapper::getCurrentLayout()
 {
-    XkbStateRec xkbState;
+    //XkbStateRec xkbState;
     XkbGetState( display, XkbUseCoreKbd, &xkbState );
     unsigned int group = xkbState.group;
     return getLayoutName(group);

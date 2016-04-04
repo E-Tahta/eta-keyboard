@@ -37,7 +37,12 @@ void EtaLocalServer::onReadyRead()
 
     switch (data[0]) {
     case '1':
-        showSlot();
+        if(data[2] == '1') {
+            passwordSlot();
+            qDebug() << "password area detection from python over qlocalsocket";
+        } else {
+            showSlot();
+        }
         break;
     case '2':
         hideSlot();        
@@ -72,4 +77,9 @@ void EtaLocalServer::showSlot()
 void EtaLocalServer::hideSlot()
 {
     emit hideSignal();
+}
+
+void EtaLocalServer::passwordSlot()
+{
+    emit passwordSignal();
 }

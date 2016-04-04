@@ -19,6 +19,7 @@ public:
 signals:
     void hideSignal();
     void showSignal();
+    void passwordSignal();
 public slots:
     void disconnectClients();
 protected:
@@ -28,6 +29,7 @@ private slots:
     void onDisconnected();
     void hideSlot();
     void showSlot();
+    void passwordSlot();
 
 private:
     QList<QLocalSocket*> m_clients;

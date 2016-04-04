@@ -21,13 +21,20 @@ LocalServerInterface::LocalServerInterface(QObject *parent) :
     }
     connect(server, SIGNAL(showSignal()), this, SLOT(showSlot()));
     connect(server, SIGNAL(hideSignal()), this, SLOT(hideSlot()));
+    connect(server, SIGNAL(passwordSignal()),this,SLOT(passwordSlot()));
 }
 
 void LocalServerInterface::hideSlot()
 {
     emit hideSignal();
 }
+
 void LocalServerInterface::showSlot()
 {
     emit showSignal();
+}
+
+void LocalServerInterface::passwordSlot()
+{
+    emit passwordSignal();
 }

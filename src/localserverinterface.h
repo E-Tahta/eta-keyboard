@@ -18,9 +18,11 @@ private:
 signals:
     void hideSignal();
     void showSignal();
+    void passwordSignal();
 public slots:
     void hideSlot();
     void showSlot();
+    void passwordSlot();
 };
 
 #endif // LOCALSERVERINTERFACE_H
