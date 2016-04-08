@@ -323,6 +323,7 @@ ApplicationWindow {
                             else {
                                 main.layout = "Full"
                             }
+                            main.symbolMode = false
                             settings.setLayout()
                         }
                     }
