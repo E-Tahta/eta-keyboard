@@ -414,24 +414,28 @@ ApplicationWindow {
             if (!keyboardVisible && autoShowToggle){
                 showFromBottom.start();
             }
+            main.password = false
         }
 
         onShowFromLeftCalled: {
             if (!keyboardVisible && autoShowToggle){
                 showFromLeft.start();
             }
+            main.password = false
         }
 
         onShowFromRightCalled: {
             if (!keyboardVisible && autoShowToggle){
                 showFromRight.start();
             }
+            main.password = false
         }
 
         onHideCalled: {
             if (keyboardVisible && autoShowToggle){
                 hide.start();
             }
+            main.password = false
         }
 
         onToggleCalled: {
@@ -449,6 +453,13 @@ ApplicationWindow {
 
         onLayoutChanged: {
             main.layoutChange = !main.layoutChange
+        }
+
+        onPasswordDetected: {
+            main.password = true
+            if (!keyboardVisible && autoShowToggle){
+                showFromBottom.start();
+            }
         }
     }
 
