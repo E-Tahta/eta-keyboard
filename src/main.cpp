@@ -29,6 +29,10 @@
 
 int main(int argc, char *argv[])
 {
+    if (argc == 2 && QString(argv[1]) == "login") {
+        Helper::login = true;
+    }
+
     qmlRegisterType<Helper>("eta.helper",1,0,"Helper");
     QApplication app(argc, argv);
 
@@ -46,6 +50,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/ui/main.qml")));
+
 
     return app.exec();
 }

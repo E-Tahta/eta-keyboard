@@ -29,6 +29,8 @@
 #include <QTimer>
 #include <QDebug>
 
+bool Helper::login = false;
+
 Helper::Helper(QObject *parent):
     QObject (parent)
 
@@ -51,7 +53,19 @@ Helper::Helper(QObject *parent):
     connect(vkdi,SIGNAL(showFromBottom()),this,SIGNAL(showFromBottomCalled()));
     connect(vkdi,SIGNAL(toggle()),this,SIGNAL(toggleCalled()));
     connect(vkdi,SIGNAL(toggleAutoShow()),this,SIGNAL(toggleAutoShowCalled()));
+/*
+    QString uname = qgetenv("USER");
+    if (uname.isEmpty()) {
+        uname = qgetenv("USERNAME");
+    }
 
+    qDebug() << uname;
+
+    if (uname == "root") {
+        loginSlot();
+        qDebug() << "here";
+    }
+*/
 }
 
 Helper::~Helper()
@@ -143,6 +157,12 @@ QString Helper::getCurrentLayout() const
 {
     return xkblw->getCurrentLayout();
 }
+
+bool Helper::isLogin() const
+{
+   return Helper::login;
+}
+
 QString Helper::layout() const
 {
     return Helper::getCurrentLayout();

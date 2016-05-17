@@ -415,6 +415,7 @@ ApplicationWindow {
                 showFromBottom.start();
             }
             main.password = false
+            console.log("hello")
         }
 
         onShowFromLeftCalled: {
@@ -750,15 +751,26 @@ ApplicationWindow {
         main.scale = helper.getScale() < 1.6 && helper.getScale() > 0.4 ?
                     helper.getScale() : 1
 
-        hide.start()
-        main.screenHeight = Screen.height
-        main.screenWidth = Screen.width
-        setSize()
-        main.x =  main.screenWidth / 2 - main.width /2
-        main.y = main.screenHeight + main.height
-        main.settingsVisible = false
-        main.loaded = true
+        if (helper.isLogin()){
+            main.screenHeight = Screen.height
+            main.screenWidth = Screen.width
+            setSize()
+            main.x =  main.screenWidth / 2 - main.width /2
+            main.y = main.screenHeight - main.height * 5/4
+            main.settingsVisible = false
+            main.loaded = true
+        }
 
+        else {
+            hide.start()
+            main.screenHeight = Screen.height
+            main.screenWidth = Screen.width
+            setSize()
+            main.x =  main.screenWidth / 2 - main.width /2
+            main.y = main.screenHeight + main.height
+            main.settingsVisible = false
+            main.loaded = true
+        }
     }
 
     Timer {
