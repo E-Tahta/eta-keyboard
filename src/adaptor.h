@@ -43,6 +43,7 @@ class VirtualKeyboardInterfaceAdaptor : public QDBusAbstractAdaptor
 "    <method name=\"showFromRight\"/>\n"
 "    <method name=\"showFromBottom\"/>\n"
 "    <method name=\"toggleAutoShow\"/>\n"
+"    <method name=\"showPinInput\"/>\n"
 "  </interface>\n"
         "")
 
@@ -58,6 +59,7 @@ public Q_SLOTS:
     void showFromRight();
     void showFromBottom();
     void toggleAutoShow();
+    void showPinInput();
 
 
 };

@@ -67,3 +67,8 @@ void VirtualKeyboardInterfaceAdaptor::toggleAutoShow()
 {
     QMetaObject::invokeMethod(parent(), "toggleAutoShowSlot");
 }
+
+void VirtualKeyboardInterfaceAdaptor::showPinInput()
+{
+    QMetaObject::invokeMethod(parent(), "showPinInputSlot");
+}

@@ -53,19 +53,8 @@ Helper::Helper(QObject *parent):
     connect(vkdi,SIGNAL(showFromBottom()),this,SIGNAL(showFromBottomCalled()));
     connect(vkdi,SIGNAL(toggle()),this,SIGNAL(toggleCalled()));
     connect(vkdi,SIGNAL(toggleAutoShow()),this,SIGNAL(toggleAutoShowCalled()));
-/*
-    QString uname = qgetenv("USER");
-    if (uname.isEmpty()) {
-        uname = qgetenv("USERNAME");
-    }
+    connect(vkdi,SIGNAL(showPinInput()),this,SIGNAL(showPinInputCalled()));
 
-    qDebug() << uname;
-
-    if (uname == "root") {
-        loginSlot();
-        qDebug() << "here";
-    }
-*/
 }
 
 Helper::~Helper()

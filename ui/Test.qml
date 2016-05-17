@@ -120,6 +120,9 @@ ApplicationWindow {
         onPasswordDetected: {
             console.log("pasword detected");
         }
+        onShowPinInputCalled: {
+            console.log("showPinInputCalled")
+        }
 
     }
     function fakeKey(code){

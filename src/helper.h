@@ -42,7 +42,8 @@ class Helper : public QObject
                NOTIFY showFromBottomCalled
                NOTIFY toggleCalled
                NOTIFY toggleAutoShowCalled
-               NOTIFY passwordDetected)
+               NOTIFY passwordDetected
+               NOTIFY showPinInputCalled)
 public:
     explicit Helper(QObject *parent = 0);
     ~Helper();
@@ -93,6 +94,7 @@ signals:
     void toggleCalled();
     void toggleAutoShowCalled();
     void passwordDetected();
+    void showPinInputCalled();
 };
 
 #endif // HELPER_H
