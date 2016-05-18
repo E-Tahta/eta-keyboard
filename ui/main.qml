@@ -577,10 +577,12 @@ ApplicationWindow {
                 }
 
                 onPositionChanged: {
+                    if(!helper.isLogin()) {
                     main.settingsVisible = false
                     var delta = Qt.point(mouse.x - cpos.x, mouse.y - cpos.y);
                     main.x += delta.x;
                     main.y += delta.y;
+                    }
                 }
 
                 onReleased: {

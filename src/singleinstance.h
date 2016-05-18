@@ -14,7 +14,7 @@ public:
     ~SingleInstance();
 
 
-    void listen(QString name);    
+    bool listen(QString name);
     bool hasPrevious(QString name, QStringList arg);
 
 signals:    
