@@ -40,7 +40,7 @@ Key {
             to: 90 - key.angle
             duration: 300
             easing.type:  Easing.OutQuad
-       }
+        }
     }
 
     MouseArea {
@@ -56,17 +56,19 @@ Key {
         }
 
         onPressed: {
-            btnPressed()
-            if (!main.settingsVisible){
-                key.angle = 90
-                main.settingsVisible = true
+            if (!helper.isLogin()) {
+                btnPressed()
+                if (!main.settingsVisible){
+                    key.angle = 90
+                    main.settingsVisible = true
+                }
+                else{
+                    key.angle = 0
+                    main.settingsVisible = false
+                }
+                rotationAnimation.start()
+                main.releaseAllSticky()
             }
-            else{
-                key.angle = 0
-                main.settingsVisible = false
-            }
-            rotationAnimation.start()
-            main.releaseAllSticky()
         }
 
         onPressAndHold: {

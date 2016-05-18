@@ -254,7 +254,7 @@ Rectangle {
     }
 
     onKeyHoverTimerTriggeredChanged: {
-        if (key.pressed) {
+        if (!key.pressed) {
             btnHovered()
         }
     }

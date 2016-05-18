@@ -45,12 +45,12 @@ int main(int argc, char *argv[])
     {
         qDebug() << "eta-keyboard is allready open";
         return 0;
-    }    
+    }
     if (cInstance.listen(name)) {
-       qDebug() << "creating single instance";
+        qDebug() << "creating single instance";
     } else {
-       qDebug() << "couldnt create single instance aborting";
-       return 0;
+        qDebug() << "couldnt create single instance aborting";
+        return 0;
     }
 
     QQmlApplicationEngine engine;
