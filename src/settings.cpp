@@ -40,19 +40,22 @@ Settings::Settings(QObject *parent) :
         m_languageLayoutIndex = preferences->
                 value("LanguageLayoutIndex").toUInt();
         m_autoShow = preferences->value("AutoShow").toBool();
+        m_opacity = preferences->value("Opacity").toDouble();
         preferences->endGroup();
     }
 }
 
 void Settings::setSettings(const QString& color, const QString& layoutType,
                            double scale,
-                           unsigned int languageLayoutIndex, bool autoShow)
+                           unsigned int languageLayoutIndex, bool autoShow,
+                           double opacity)
 {
     this->m_color = color;
     this->m_layoutType = layoutType;
     this->m_scale = scale;
     this->m_languageLayoutIndex = languageLayoutIndex;
     this->m_autoShow = autoShow;
+    this->m_opacity = opacity;
 }
 
 QString Settings::getColor() const
@@ -80,6 +83,11 @@ bool Settings::getAutoShow()
     return this->m_autoShow;
 }
 
+double Settings::getOpacity()
+{
+    return this->m_opacity;
+}
+
 void Settings::saveSettings()
 {
     preferences = new QSettings(configpath,QSettings::IniFormat);
@@ -94,5 +102,7 @@ void Settings::saveSettings()
     preferences->setValue("LanguageLayoutIndex",varLanguage);
     QVariant varAutoShow(this->m_autoShow);
     preferences->setValue("AutoShow",varAutoShow);
+    QVariant varOpacity(this->m_opacity);
+    preferences->setValue("Opacity",varOpacity);
     preferences->endGroup();
 }

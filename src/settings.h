@@ -34,12 +34,14 @@ public:
     explicit Settings(QObject *parent = 0);
     void setSettings(const QString& color, const QString& layoutType,
                      double scale,
-                     unsigned int languageLayoutIndex, bool autoShow);
+                     unsigned int languageLayoutIndex, bool autoShow,
+                     double opacity);
     QString getColor() const;
     QString getLayoutType() const;
     double getScale();
     unsigned int getLanguageLayoutIndex();
     bool getAutoShow();
+    double getOpacity();
     void saveSettings();
 private:
     QString m_color;
@@ -49,6 +51,7 @@ private:
     bool m_autoShow;
     QString configpath;
     QSettings *preferences;
+    double m_opacity;
 
 public slots:
 

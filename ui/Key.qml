@@ -57,6 +57,7 @@ Rectangle {
     property bool releaseAll: main.releaseAll
     property int keyCodeSymbol
     property int symbolLevel
+    property double transparency: main.transparency
 
     color: ma.containsMouse && main.keyHoverTimer ? key.keyHoverColor : key.keyColor
     radius: key.keyRadius
@@ -258,5 +259,7 @@ Rectangle {
             btnHovered()
         }
     }
+
+
 
 }
