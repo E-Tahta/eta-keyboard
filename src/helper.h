@@ -64,10 +64,11 @@ public:
                                  const QString& layoutType,
                                  double scale,
                                  unsigned int languageLayoutIndex,
-                                 bool autoShow);
+                                 bool autoShow, double opacity);
     Q_INVOKABLE QString getColor() const;
     Q_INVOKABLE QString getLayoutType() const;
     Q_INVOKABLE double getScale();
+    Q_INVOKABLE double getOpacity();
     Q_INVOKABLE unsigned int getLanguageLayoutIndex();
     Q_INVOKABLE bool getAutoShow();
     Q_INVOKABLE void saveSettings();

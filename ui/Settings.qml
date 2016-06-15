@@ -213,6 +213,49 @@ ApplicationWindow {
                 id: row1
                 spacing: main.spacing
 
+
+                Key{
+                    id: transUp
+                    leVis4: true
+                    keyText: "O"
+
+                    MouseArea {
+                        id: ma8
+                        anchors.fill: parent
+
+                        onEntered: {
+                            transUp.btnHovered()
+                        }
+
+                        onExited: {
+                            transUp.btnHovered()
+                        }
+
+                        onPressed: {
+                            transUp.btnPressed()
+                        }
+
+                        onPressAndHold: {
+                            transUp.btnHold()
+                        }
+
+                        onReleased: {
+                            transUp.btnReleased()
+                        }
+
+                        onClicked: {
+                            transUp.btnClicked()
+                            if (main.transparency<1) {
+                                main.transparency+=0.1
+                                settings.opacity = main.transparency
+
+                            }
+
+                            settings.setAndSaveConf()
+                        }
+                    }
+                }
+
                 Key{
                     id: languageKey
                     leVis4: true
@@ -335,6 +378,47 @@ ApplicationWindow {
                 spacing: main.spacing
 
                 Key{
+                    id: transDown
+                    leVis4: true
+                    keyText: "o"
+
+                    MouseArea {
+                        id: ma7
+                        anchors.fill: parent
+
+                        onEntered: {
+                            transDown.btnHovered()
+                        }
+
+                        onExited: {
+                            transDown.btnHovered()
+                        }
+
+                        onPressed: {
+                            transDown.btnPressed()
+                        }
+
+                        onPressAndHold: {
+                            transDown.btnHold()
+                        }
+
+                        onReleased: {
+                            transDown.btnReleased()
+                        }
+
+                        onClicked: {
+                            transDown.btnClicked()
+                            if (main.transparency>0.4) {
+                                main.transparency-=0.1
+                                settings.opacity = main.transparency
+                            }
+
+                            settings.setAndSaveConf()
+                        }
+                    }
+                }
+
+                Key{
                     id: scaleDown
                     leVis4: true
                     keyText: "-"
@@ -364,7 +448,7 @@ ApplicationWindow {
 
                         onClicked: {
                             scaleDown.btnClicked()
-                            if (main.scale>0.8) {
+                            if (main.scale>0.5) {
                                 main.scale-=0.1
                             }
 

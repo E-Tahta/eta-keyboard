@@ -49,6 +49,7 @@ ApplicationWindow {
     property int spacing: keyHeight / 12
     property int dockSize
     property double scale: 1 // 0.2 ... 1.8
+    property double transparency: 1
     property string layout
     property int languageLayoutIndex: 0 // Current System Language Layout
     property int keyLevel: 0
@@ -86,7 +87,8 @@ ApplicationWindow {
                            main.layout,
                            main.scale,
                            main.languageLayoutIndex,
-                           main.autoShowToggle)
+                           main.autoShowToggle,
+                           main.opacity)
         helper.saveSettings()
     }
 
@@ -377,7 +379,7 @@ ApplicationWindow {
             main.height = main.keyHeight * 4  + main.dockSize +
                     main.spacing * 6
         }
-        settings.width =  main.keyWidth * 3 + main.spacing * 5
+        settings.width =  main.keyWidth * 4 + main.spacing * 6
         settings.height = main.keyHeight * 2 + main.spacing * 3
         main.m_height = main.height
         main.m_width = main.width
@@ -415,7 +417,6 @@ ApplicationWindow {
                 showFromBottom.start();
             }
             main.password = false
-            console.log("hello")
         }
 
         onShowFromLeftCalled: {
@@ -621,8 +622,8 @@ ApplicationWindow {
             main.visible = true
             main.keyboardVisible = true
             settings.height = main.m_settings_height
-            main.opacity = 1
-            settings.opacity = 1
+            main.opacity = main.transparency
+            settings.opacity = main.transparency
             main.height = main.m_height
             main.width = main.m_width
             main.x = main.screenWidth / 2 - main.m_width / 2
@@ -702,6 +703,7 @@ ApplicationWindow {
         onStarted: {
             main.settingsVisible = false
             main.keyboardVisible = false
+            main.symbolMode = false
             mirrorText.text = ""
             main.storedMirror = ""
             releaseAllSticky()
@@ -720,6 +722,9 @@ ApplicationWindow {
         setSize()
     }
 
+    onTransparencyChanged: {
+        main.opacity = main.transparency
+    }
 
 
     onPasswordChanged: {
@@ -752,6 +757,9 @@ ApplicationWindow {
         main.layout = helper.getLayoutType() ? helper.getLayoutType() : "Tablet"
         main.scale = helper.getScale() < 1.6 && helper.getScale() > 0.4 ?
                     helper.getScale() : 1
+        main.transparency = helper.getOpacity() ? helper.getOpacity() : 1
+        main.opacity = main.transparency
+        settings.opacity = main.transparency
 
         if (helper.isLogin()){
             main.screenHeight = Screen.height
