@@ -81,6 +81,9 @@ ApplicationWindow {
     property bool btnAltGr: false
     property bool sticky: false
     property int stickyNum: 0
+    property bool shuffle: true
+    property bool pinMode: false
+    property string previousLayout
 
     function setAndSave(){
         helper.setSettings(main.themeName,
@@ -154,6 +157,10 @@ ApplicationWindow {
             switch (keyCode){
             case 500: // symbol
                 symbolMode = !symbolMode
+                sticky = true
+                break
+            case 560: // shuffle
+                shuffle = !shuffle
                 sticky = true
                 break
             case 37: // ctrlL
@@ -374,11 +381,17 @@ ApplicationWindow {
             main.height = main.keyHeight * 11 / 2 + main.dockSize +
                     main.spacing * 8
         }
-        else {
+        else if (main.layout == "Tablet"){
             main.width = main.keyHeight * 12 + main.spacing * 13
             main.height = main.keyHeight * 4  + main.dockSize +
                     main.spacing * 6
         }
+        else {
+            main.width = main.keyHeight * 4 + main.spacing * 5
+            main.height = main.keyHeight * 4  + main.dockSize +
+                    main.spacing * 6
+        }
+
         settings.width =  main.keyWidth * 4 + main.spacing * 6
         settings.height = main.keyHeight * 2 + main.spacing * 3
         main.m_height = main.height
@@ -387,7 +400,8 @@ ApplicationWindow {
         main.m_settings_width = settings.width
         main.x += (oldWidth - main.width) / 2
         main.y += (oldHeight - main.height) / 2
-        main.visible = true
+        //main.visible = true
+
     }
 
     function pressedBackspace(){
@@ -413,44 +427,65 @@ ApplicationWindow {
         id: helper
 
         onShowFromBottomCalled: {
-            if (!keyboardVisible && autoShowToggle){
-                showFromBottom.start();
+            if (!main.pinMode){
+                if (!keyboardVisible && autoShowToggle){
+                    showFromBottom.start();
+                }
+                main.password = false
             }
-            main.password = false
         }
 
         onShowFromLeftCalled: {
-            if (!keyboardVisible && autoShowToggle){
-                showFromLeft.start();
+            if (!main.pinMode) {
+                if (!keyboardVisible && autoShowToggle){
+                    showFromLeft.start();
+                }
+                main.password = false
             }
-            main.password = false
         }
 
         onShowFromRightCalled: {
-            if (!keyboardVisible && autoShowToggle){
-                showFromRight.start();
+            if (!main.pinMode) {
+                if (!keyboardVisible && autoShowToggle){
+                    showFromRight.start();
+                }
+                main.password = false
             }
-            main.password = false
         }
 
         onHideCalled: {
-            if (keyboardVisible && autoShowToggle){
-                hide.start();
+            if (!main.pinMode) {
+                if (keyboardVisible && autoShowToggle){
+                    settings.visible = false
+                    hide.start();
+                }
+                main.password = false
             }
-            main.password = false
         }
 
         onToggleCalled: {
-            if (keyboardVisible) {
-                hide.start()
-            }
-            else {
-                showFromBottom.start()
+            if (!main.pinMode) {
+                if (keyboardVisible) {
+                     settings.visible = false
+                    hide.start()
+                }
+                else {
+                    showFromBottom.start()
+                }
             }
         }
 
         onToggleAutoShowCalled: {
-            main.autoShowToggle = !main.autoShowToggle
+            if (main.pinMode){
+                settingsVisible = false
+                main.settingsVisible = true
+                main.settingsVisible = false
+                settingsVisible = true
+
+                main.pinMode = false
+                hide.start()
+
+            }
         }
 
         onLayoutChanged: {
@@ -459,8 +494,20 @@ ApplicationWindow {
 
         onPasswordDetected: {
             main.password = true
-            if (!keyboardVisible && autoShowToggle){
+            if (!keyboardVisible && autoShowToggle && !main.pinMode){
                 showFromBottom.start();
+            }
+        }
+
+        onShowPinInputCalled: {
+           if (!main.pinMode){
+                main.pinMode = true
+                main.password = true
+                main.shuffle = true
+                main.previousLayout = main.layout
+                main.layout = "Pin"
+                showPinMode.start()
+                main.settingsVisible = false
             }
         }
     }
@@ -537,6 +584,7 @@ ApplicationWindow {
                     anchors.fill: closeBtnImage
 
                     onClicked: {
+                         settings.visible = false
                         hide.start();
                     }
                 }
@@ -603,11 +651,47 @@ ApplicationWindow {
             visible: main.layout=="Tablet" ? true : false
             anchors.top: dock.bottom
         }
+
+        PinLayout{
+            id: pinLayout
+            visible: main.layout=="Pin" ? true : false
+            anchors.top: dock.bottom
+        }
     }
 
     Settings{
         id: settings
     }
+
+    NumberAnimation {
+        id:showPinMode
+        target:main
+        property: "x"
+        from: -main.width
+        to : main.screenWidth / 8
+        duration: 400
+        easing.type: Easing.OutBack
+
+        onStarted: {
+            settings.height = main.m_settings_height
+            main.visible = true
+            main.width = main.m_width
+            main.height = main.m_height
+            main.x = main.screenWidth / 2 - main.m_width / 2
+            main.keyboardVisible = true
+            settings.opacity = 0
+            main.settingsVisible = true
+            main.settingsVisible = false
+
+
+        }
+
+        onStopped: {
+            settings.opacity = main.opacity
+            console.log("hellostop")
+        }
+    }
+
 
     NumberAnimation {
         id:showFromBottom
@@ -646,8 +730,7 @@ ApplicationWindow {
             main.height = main.m_height
             main.y = main.screenHeight - main.m_height - main.spacing * 20
             main.keyboardVisible = true
-            main.opacity = 1
-            settings.opacity = 1
+
         }
     }
 
@@ -667,8 +750,7 @@ ApplicationWindow {
             main.height = main.m_height
             main.y = main.screenHeight - main.m_height - main.spacing * 20
             main.keyboardVisible = true
-            main.opacity = 1
-            settings.opacity = 1
+
         }
     }
 
@@ -710,7 +792,9 @@ ApplicationWindow {
         }
 
         onStopped: {
+            settings.visible = true
             main.visible = false
+            main.layout = main.previousLayout ? main.previousLayout : main.layout
         }
     }
 

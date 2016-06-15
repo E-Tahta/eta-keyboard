@@ -15,5 +15,6 @@
         <file>ui/TabletLayout.qml</file>
         <file>ui/Test.qml</file>
         <file>ui/TabletKey.qml</file>
+        <file>ui/PinLayout.qml</file>
     </qresource>
 </RCC>
