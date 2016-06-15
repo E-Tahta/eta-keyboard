@@ -10,10 +10,10 @@ SingleInstance::~SingleInstance()
 
 }
 
-void SingleInstance::listen(QString name)
+bool SingleInstance::listen(QString name)
 {
     mServer.removeServer(name);
-    mServer.listen(name);
+    return mServer.listen(name);
 }
 
 bool SingleInstance::hasPrevious(QString name, QStringList arg)

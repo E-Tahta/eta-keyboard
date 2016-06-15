@@ -577,10 +577,12 @@ ApplicationWindow {
                 }
 
                 onPositionChanged: {
-                    main.settingsVisible = false
-                    var delta = Qt.point(mouse.x - cpos.x, mouse.y - cpos.y);
-                    main.x += delta.x;
-                    main.y += delta.y;
+                    if(!helper.isLogin()) {
+                        main.settingsVisible = false
+                        var delta = Qt.point(mouse.x - cpos.x, mouse.y - cpos.y);
+                        main.x += delta.x;
+                        main.y += delta.y;
+                    }
                 }
 
                 onReleased: {
@@ -755,10 +757,11 @@ ApplicationWindow {
             main.screenHeight = Screen.height
             main.screenWidth = Screen.width
             setSize()
-            main.x =  main.screenWidth / 2 - main.width /2
-            main.y = main.screenHeight - main.height * 5/4
             main.settingsVisible = false
+            closeBtnImage.visible = false
+            main.password = true
             main.loaded = true
+            showFromBottom.start()
         }
 
         else {

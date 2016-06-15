@@ -55,3 +55,7 @@ void VkDbusInterface::toggleAutoShowSlot()
 {
     emit toggleAutoShow();
 }
+void VkDbusInterface::showPinInputSlot()
+{
+    emit showPinInput();
+}
