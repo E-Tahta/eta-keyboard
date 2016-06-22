@@ -54,6 +54,7 @@ Helper::Helper(QObject *parent):
     connect(vkdi,SIGNAL(toggle()),this,SIGNAL(toggleCalled()));
     connect(vkdi,SIGNAL(toggleAutoShow()),this,SIGNAL(toggleAutoShowCalled()));
     connect(vkdi,SIGNAL(showPinInput()),this,SIGNAL(showPinInputCalled()));
+    connect(vkdi,SIGNAL(hidePinInput()),this,SIGNAL(hidePinInputCalled()));
 
 }
 

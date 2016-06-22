@@ -466,7 +466,7 @@ ApplicationWindow {
         onToggleCalled: {
             if (!main.pinMode) {
                 if (keyboardVisible) {
-                     settings.visible = false
+                    settings.visible = false
                     hide.start()
                 }
                 else {
@@ -476,17 +476,9 @@ ApplicationWindow {
         }
 
         onToggleAutoShowCalled: {
-            if (main.pinMode){
-                settingsVisible = false
-                main.settingsVisible = true
-                main.settingsVisible = false
-                settingsVisible = true
-
-                main.pinMode = false
-                hide.start()
-
-            }
+            main.autoShowToggle = !main.autoShowToggle
         }
+
 
         onLayoutChanged: {
             main.layoutChange = !main.layoutChange
@@ -500,7 +492,7 @@ ApplicationWindow {
         }
 
         onShowPinInputCalled: {
-           if (!main.pinMode){
+            if (!main.pinMode){
                 main.pinMode = true
                 main.password = true
                 main.shuffle = true
@@ -508,6 +500,19 @@ ApplicationWindow {
                 main.layout = "Pin"
                 showPinMode.start()
                 main.settingsVisible = false
+            }
+        }
+
+        onHidePinInputCalled: {
+            if (main.pinMode){
+                settingsVisible = false
+                main.settingsVisible = true
+                main.settingsVisible = false
+                settingsVisible = true
+
+                main.pinMode = false
+                hide.start()
+
             }
         }
     }
@@ -584,7 +589,7 @@ ApplicationWindow {
                     anchors.fill: closeBtnImage
 
                     onClicked: {
-                         settings.visible = false
+                        settings.visible = false
                         hide.start();
                     }
                 }
