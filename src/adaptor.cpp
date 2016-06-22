@@ -72,3 +72,8 @@ void VirtualKeyboardInterfaceAdaptor::showPinInput()
 {
     QMetaObject::invokeMethod(parent(), "showPinInputSlot");
 }
+
+void VirtualKeyboardInterfaceAdaptor::hidePinInput()
+{
+    QMetaObject::invokeMethod(parent(), "hidePinInputSlot");
+}

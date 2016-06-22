@@ -476,7 +476,9 @@ ApplicationWindow {
         }
 
         onToggleAutoShowCalled: {
-            main.autoShowToggle = !main.autoShowToggle
+            if (!main.pinMode) {
+                main.autoShowToggle = !main.autoShowToggle
+            }
         }
 
 
@@ -512,6 +514,7 @@ ApplicationWindow {
 
                 main.pinMode = false
                 hide.start()
+                main.password = false
 
             }
         }

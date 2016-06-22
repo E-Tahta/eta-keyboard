@@ -59,3 +59,7 @@ void VkDbusInterface::showPinInputSlot()
 {
     emit showPinInput();
 }
+void VkDbusInterface::hidePinInputSlot()
+{
+    emit hidePinInput();
+}

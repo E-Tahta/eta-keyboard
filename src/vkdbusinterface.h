@@ -36,6 +36,7 @@ signals:
     void showFromBottom();
     void toggleAutoShow();
     void showPinInput();
+    void hidePinInput();
 public Q_SLOTS:
     void toggleSlot();
     void hideSlot();
@@ -44,6 +45,8 @@ public Q_SLOTS:
     void fromBottomSlot();
     void toggleAutoShowSlot();
     void showPinInputSlot();
+    void hidePinInputSlot();
+
 };
 
 #endif // VKDBUSINTERFACE_H
