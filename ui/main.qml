@@ -70,7 +70,7 @@ ApplicationWindow {
     property bool keyboardVisible: false
     property bool autoShowToggle
     property bool layoutChange: false
-    property string themeName
+    property int themeName
     property bool loaded: false
     property string storedMirror
     property string mirrorCharacter
@@ -84,6 +84,7 @@ ApplicationWindow {
     property bool shuffle: true
     property bool pinMode: false
     property string previousLayout
+    property double previousOpacity
     property int panelPos : 0 // 0 is default left, 1 is right
     function setAndSave(){
 
@@ -376,8 +377,10 @@ ApplicationWindow {
 
         if (main.layout == "Full") {
             scaleVariable = main.scale
-        } else {
+        } else if (main.layout == "Tablet") {
             scaleVariable = main.scale + 0.2
+        }  else {
+            scaleVariable = 0.8
         }
 
 
@@ -434,6 +437,7 @@ ApplicationWindow {
 
     function showPinMode(){
         if (!main.pinMode){
+            main.opacity = 1
             main.pinMode = true
             main.password = true
             main.shuffle = true
@@ -455,6 +459,7 @@ ApplicationWindow {
 
     function hidePinMode(){
         if (main.pinMode){
+            main.opacity = main.previousOpacity
             hide.start()
             main.pinMode = false
             closeBtnImage.visible = true
@@ -781,7 +786,7 @@ ApplicationWindow {
             main.height = main.m_height
             main.width = main.m_width
             settings.height = main.m_settings_height
-            main.opacity = main.transparency
+            main.opacity = main.pinMode? 1 : main.transparency
             settings.opacity = main.transparency
             main.y = main.screenHeight - main.m_height - main.spacing * 20
             if (main.pinMode) {
@@ -810,7 +815,7 @@ ApplicationWindow {
             main.height = main.m_height
             main.width = main.m_width
             settings.height = main.m_settings_height
-            main.opacity = main.transparency
+            main.opacity = main.pinMode? 1 : main.transparency
             settings.opacity = main.transparency
             main.y = main.screenHeight - main.m_height - main.spacing * 20
             if (main.pinMode) {
@@ -901,7 +906,7 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        main.themeName = helper.getColor() ? helper.getColor() : "Grey"
+        main.themeName = helper.getColor() ? helper.getColor() : 0
         main.autoShowToggle = helper.getAutoShow() ?
                     helper.getAutoShow() : false
         main.layout = helper.getLayoutType() == "Tablet" | "Full" ?
@@ -911,6 +916,7 @@ ApplicationWindow {
                     helper.getScale() : 1
         main.transparency = helper.getOpacity() ? helper.getOpacity() : 1
         main.opacity = main.transparency
+        main.previousOpacity = main.opacity
         settings.opacity = main.transparency
 
         if (helper.isLogin()){

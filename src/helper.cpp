@@ -84,7 +84,7 @@ void Helper::showSlot()
     }
 }
 
-void Helper::setSettings(const QString& color,
+void Helper::setSettings(int color,
                          const QString& layoutType,
                          double scale,
                          unsigned int languageLayoutIndex,
@@ -93,7 +93,7 @@ void Helper::setSettings(const QString& color,
     s->setSettings(color, layoutType, scale, languageLayoutIndex, autoShow, opacity);
 }
 
-QString Helper::getColor() const
+int Helper::getColor() const
 {
     return s->getColor();
 }

@@ -61,12 +61,12 @@ public:
     Q_INVOKABLE void setLayout(unsigned int layoutIndex);
     Q_INVOKABLE int getCapslockStatus();
 
-    Q_INVOKABLE void setSettings(const QString& color,
+    Q_INVOKABLE void setSettings(int color,
                                  const QString& layoutType,
                                  double scale,
                                  unsigned int languageLayoutIndex,
                                  bool autoShow, double opacity);
-    Q_INVOKABLE QString getColor() const;
+    Q_INVOKABLE int getColor() const;
     Q_INVOKABLE QString getLayoutType() const;
     Q_INVOKABLE double getScale();
     Q_INVOKABLE double getOpacity();

@@ -32,11 +32,11 @@ class Settings : public QObject
     Q_OBJECT
 public:
     explicit Settings(QObject *parent = 0);
-    void setSettings(const QString& color, const QString& layoutType,
+    void setSettings(const int color, const QString& layoutType,
                      double scale,
                      unsigned int languageLayoutIndex, bool autoShow,
                      double opacity);
-    QString getColor() const;
+    int getColor() const;
     QString getLayoutType() const;
     double getScale();
     unsigned int getLanguageLayoutIndex();
@@ -44,7 +44,7 @@ public:
     double getOpacity();
     void saveSettings();
 private:
-    QString m_color;
+    int m_color;
     QString m_layoutType;
     double m_scale;
     unsigned int m_languageLayoutIndex;

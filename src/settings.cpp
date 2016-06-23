@@ -34,7 +34,7 @@ Settings::Settings(QObject *parent) :
     if (checkConfig.exists() && checkConfig.isFile()) {
         preferences = new QSettings(configpath,QSettings::IniFormat);
         preferences->beginGroup("virtualkeyboard");
-        m_color = preferences->value("Color").toString();
+        m_color = preferences->value("Color").toInt();
         m_layoutType = preferences->value("LayoutType").toString();
         m_scale = preferences->value("Scale").toDouble();
         m_languageLayoutIndex = preferences->
@@ -45,7 +45,7 @@ Settings::Settings(QObject *parent) :
     }
 }
 
-void Settings::setSettings(const QString& color, const QString& layoutType,
+void Settings::setSettings(const int color, const QString& layoutType,
                            double scale,
                            unsigned int languageLayoutIndex, bool autoShow,
                            double opacity)
@@ -58,7 +58,7 @@ void Settings::setSettings(const QString& color, const QString& layoutType,
     this->m_opacity = opacity;
 }
 
-QString Settings::getColor() const
+int Settings::getColor() const
 {
     return this->m_color;
 }

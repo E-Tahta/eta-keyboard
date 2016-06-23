@@ -34,6 +34,11 @@ ApplicationWindow {
     property bool layout: main.layoutChange
     property bool loaded: main.loaded
     property bool waitFlag : true
+    property variant colorsCurrentArr
+    property variant colorsTr: ["Gri","Yeşil","Mavi","Kahve","Beyaz"]
+    property variant colorsUs: ["Grey","Green","Blue","Brown","White"]
+    property variant colorsAra: ["رمادي","أخضر","أزرق","بنى","أبيض"]
+
 
     visible: true
     color: main.color
@@ -73,9 +78,13 @@ ApplicationWindow {
                     colorModel.get(settings.colorIndex).atColor3;
             main.keyHoverColor = colorModel.get(settings.colorIndex).hColor;
             main.color = colorModel.get(settings.colorIndex).bColor;
+
             main.updateTheme = !main.updateTheme
-            main.themeName = colorModel.get(settings.colorIndex).text
-            colorKey.keyText = main.themeName
+           main.themeName = settings.colorIndex
+
+            colorKey.keyText = settings.colorsCurrentArr[settings.colorIndex]
+
+
         }
         else {
             settings.colorIndex = 0
@@ -94,8 +103,8 @@ ApplicationWindow {
             main.keyHoverColor = colorModel.get(settings.colorIndex).hColor;
             main.color = colorModel.get(settings.colorIndex).bColor;
             main.updateTheme = !main.updateTheme
-            main.themeName = colorModel.get(settings.colorIndex).text
-            colorKey.keyText = main.themeName
+            main.themeName = settings.colorIndex
+            colorKey.keyText = settings.colorsCurrentArr[settings.colorIndex]
         }
 
         settings.setAndSaveConf()
@@ -443,7 +452,7 @@ ApplicationWindow {
                         }
 
                         onReleased: {
-                           scaleDown.btnReleased()
+                            scaleDown.btnReleased()
                         }
 
                         onClicked: {
@@ -550,6 +559,7 @@ ApplicationWindow {
         easing.type: Easing.OutQuad
     }
 
+
     onLayoutChanged: {
         languageModel.clear()
         for(var i = 0; i< helper.getNumberOfLayouts();i++) {
@@ -557,6 +567,17 @@ ApplicationWindow {
         }
         if (settings.waitFlag)
             changeLanguageLayout(false)
+        if (languageKey.keyText.substring(0,2) == "tr") {
+            settings.colorsCurrentArr = settings.colorsTr
+        } else if (languageKey.keyText.substring(0,3) == "ara") {
+            settings.colorsCurrentArr = settings.colorsAra
+        } else {
+            settings.colorsCurrentArr = settings.colorsUs
+        }
+    }
+
+    onColorsCurrentArrChanged : {
+        colorKey.keyText = settings.colorsCurrentArr[settings.colorIndex]
     }
 
     onSettingsVisibleChanged: {
@@ -569,23 +590,19 @@ ApplicationWindow {
     }
 
     onLoadedChanged: {
-        switch (main.themeName){
-        case "Grey": settings.colorIndex = 0
-            break;
-        case "Green": settings.colorIndex = 1
-            break;
-        case "Blue": settings.colorIndex = 2
-            break;
-        case "Brown": settings.colorIndex = 3
-            break;
-        case "White": settings.colorIndex = 4
-            break;
+        settings.colorIndex = main.themeName
+        if (languageKey.keyText.substring(0,2) == "tr") {
+            settings.colorsCurrentArr = settings.colorsTr
+        } else if (languageKey.keyText.substring(0,3) == "ara") {
+            settings.colorsCurrentArr = settings.colorsAra
+        } else {
+            settings.colorsCurrentArr = settings.colorsUs
         }
         changeTheme()
         changeLanguageLayout(false)
         setLayout()
-
         settings.setAndSaveConf()
+
     }
 
     Component.onCompleted: {
