@@ -437,6 +437,7 @@ ApplicationWindow {
 
     function showPinMode(){
         if (!main.pinMode){
+            settings.visible  = false
             main.pinMode = true
             main.password = true
             main.shuffle = true
