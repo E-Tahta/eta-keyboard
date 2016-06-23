@@ -904,7 +904,8 @@ ApplicationWindow {
         main.themeName = helper.getColor() ? helper.getColor() : "Grey"
         main.autoShowToggle = helper.getAutoShow() ?
                     helper.getAutoShow() : false
-        main.layout = helper.getLayoutType() ? helper.getLayoutType() : "Tablet"
+        main.layout = helper.getLayoutType() == "Tablet" | "Full" ?
+                    helper.getLayoutType() : "Tablet"
         main.previousLayout = main.layout
         main.scale = helper.getScale() < 1.6 && helper.getScale() > 0.4 ?
                     helper.getScale() : 1
