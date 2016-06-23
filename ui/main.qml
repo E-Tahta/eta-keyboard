@@ -436,13 +436,13 @@ ApplicationWindow {
 
     function showPinMode(){
         if (!main.pinMode){
-            settings.visible  = false
             main.pinMode = true
             main.password = true
             main.shuffle = true
             main.previousLayout = main.layout
             main.layout = "Pin"
             main.settingsVisible = false
+            settings.visible  = false
             closeBtnImage.visible = false
             if (main.panelPos<1) {
                 showFromLeft.start()
@@ -707,6 +707,7 @@ ApplicationWindow {
 
     Settings{
         id: settings
+        visible: false
     }
 
     /*NumberAnimation {
@@ -932,6 +933,7 @@ ApplicationWindow {
             main.x =  main.screenWidth / 2 - main.width /2
             main.y = main.screenHeight + main.height
             main.settingsVisible = false
+            settings.visible = false
             main.loaded = true
         }
     }
