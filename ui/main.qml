@@ -434,7 +434,6 @@ ApplicationWindow {
         }
     }
 
-
     function showPinMode(){
         if (!main.pinMode){
             settings.visible  = false
