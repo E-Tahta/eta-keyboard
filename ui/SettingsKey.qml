@@ -40,6 +40,9 @@ Key {
             to: 90 - key.angle
             duration: 300
             easing.type:  Easing.OutQuad
+            onStarted: {
+                settings.visible = true
+            }
         }
     }
 

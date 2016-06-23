@@ -55,7 +55,7 @@ ApplicationWindow {
     property int keyLevel: 0
     property bool symbolMode: false
     property bool releaseAll: false
-    property bool settingsVisible
+    property bool settingsVisible : false
     property bool updateTheme: false
     property bool keyHover: true
     property bool keyHoverTimer: false
@@ -84,10 +84,18 @@ ApplicationWindow {
     property bool shuffle: true
     property bool pinMode: false
     property string previousLayout
-
+    property int panelPos : 0 // 0 is default left, 1 is right
     function setAndSave(){
+        var layoutTemp
+        if (main.layout == "Pin") {
+            layoutTemp = main.previousLayout
+        }
+        else {
+            layoutTemp = main.layout
+        }
+
         helper.setSettings(main.themeName,
-                           main.layout,
+                           layoutTemp,
                            main.scale,
                            main.languageLayoutIndex,
                            main.autoShowToggle,
@@ -374,6 +382,8 @@ ApplicationWindow {
             scaleVariable = main.scale + 0.2
         }
 
+
+
         main.keyHeight =  main.screenHeight * scaleVariable / 23
         main.dockSize = main.screenHeight * scaleVariable / 35
         if (main.layout == "Full"){
@@ -400,7 +410,8 @@ ApplicationWindow {
         main.m_settings_width = settings.width
         main.x += (oldWidth - main.width) / 2
         main.y += (oldHeight - main.height) / 2
-        //main.visible = true
+
+
 
     }
 
@@ -423,56 +434,102 @@ ApplicationWindow {
         }
     }
 
+
+    function showPinMode(){
+        if (!main.pinMode){
+            main.pinMode = true
+            main.password = true
+            main.shuffle = true
+            main.previousLayout = main.layout
+            main.layout = "Pin"
+            main.settingsVisible = false
+            closeBtnImage.visible = false
+            if (main.panelPos<1) {
+                showFromLeft.start()
+            }
+            else {
+                showFromRight.start()
+            }
+
+        }
+    }
+
+    function hidePinMode(){
+        if (main.pinMode){
+            hide.start()
+            closeBtnImage.visible = true
+        }
+    }
+
+
+    function hideKeyboard(){
+        if (!main.pinMode) {
+            if (keyboardVisible && autoShowToggle){
+                hide.start();
+            }
+        }
+    }
+
+    function showKeyboardFromBottom(){
+        if (!main.pinMode){
+            if (!keyboardVisible && autoShowToggle){
+                showFromBottom.start();
+            }
+            main.password = false
+        }
+    }
+
+    function showKeyboardFromLeft(){
+        if (!main.pinMode) {
+            if (!keyboardVisible && autoShowToggle){
+                showFromLeft.start();
+            }
+            main.password = false
+        }
+    }
+
+    function showKeyboardFromRight(){
+        if (!main.pinMode) {
+            if (!keyboardVisible && autoShowToggle){
+                showFromRight.start();
+            }
+            main.password = false
+        }
+
+    }
+
+    function toggleKeyboard(){
+        if (!main.pinMode) {
+            if (keyboardVisible) {
+                hide.start()
+            }
+            else {
+                showFromBottom.start()
+            }
+        }
+    }
+
     Helper {
         id: helper
 
         onShowFromBottomCalled: {
-            if (!main.pinMode){
-                if (!keyboardVisible && autoShowToggle){
-                    showFromBottom.start();
-                }
-                main.password = false
-            }
+            showKeyboardFromBottom()
         }
 
         onShowFromLeftCalled: {
-            if (!main.pinMode) {
-                if (!keyboardVisible && autoShowToggle){
-                    showFromLeft.start();
-                }
-                main.password = false
-            }
+           showKeyboardFromLeft()
         }
 
         onShowFromRightCalled: {
-            if (!main.pinMode) {
-                if (!keyboardVisible && autoShowToggle){
-                    showFromRight.start();
-                }
-                main.password = false
-            }
+           showKeyboardFromRight()
         }
 
         onHideCalled: {
-            if (!main.pinMode) {
-                if (keyboardVisible && autoShowToggle){
-                    settings.visible = false
-                    hide.start();
-                }
-                main.password = false
-            }
+            hideKeyboard()
         }
 
         onToggleCalled: {
-            if (!main.pinMode) {
-                if (keyboardVisible) {
-                    settings.visible = false
-                    hide.start()
-                }
-                else {
-                    showFromBottom.start()
-                }
-            }
+            toggleKeyboard()
         }
 
         onToggleAutoShowCalled: {
@@ -494,29 +551,11 @@ ApplicationWindow {
         }
 
         onShowPinInputCalled: {
-            if (!main.pinMode){
-                main.pinMode = true
-                main.password = true
-                main.shuffle = true
-                main.previousLayout = main.layout
-                main.layout = "Pin"
-                showPinMode.start()
-                main.settingsVisible = false
-            }
+            showPinMode()
         }
 
         onHidePinInputCalled: {
-            if (main.pinMode){
-                settingsVisible = false
-                main.settingsVisible = true
-                main.settingsVisible = false
-                settingsVisible = true
-
-                main.pinMode = false
-                hide.start()
-                main.password = false
-
-            }
+            hidePinMode()
         }
     }
 
@@ -592,7 +631,6 @@ ApplicationWindow {
                     anchors.fill: closeBtnImage
 
                     onClicked: {
-                        settings.visible = false
                         hide.start();
                     }
                 }
@@ -671,7 +709,7 @@ ApplicationWindow {
         id: settings
     }
 
-    NumberAnimation {
+    /*NumberAnimation {
         id:showPinMode
         target:main
         property: "x"
@@ -698,7 +736,7 @@ ApplicationWindow {
             settings.opacity = main.opacity
             console.log("hellostop")
         }
-    }
+    }*/
 
 
     NumberAnimation {
@@ -711,14 +749,16 @@ ApplicationWindow {
         easing.type: Easing.OutBack
 
         onStarted: {
+
             main.visible = true
             main.keyboardVisible = true
+            main.height = main.m_height
+            main.width = main.m_width
             settings.height = main.m_settings_height
             main.opacity = main.transparency
             settings.opacity = main.transparency
-            main.height = main.m_height
-            main.width = main.m_width
             main.x = main.screenWidth / 2 - main.m_width / 2
+
         }
     }
 
@@ -727,17 +767,27 @@ ApplicationWindow {
         target:main
         property: "x"
         from: -main.width
-        to : main.screenWidth / 2 - main.m_width /2
+        to : main.pinMode ? main.screenWidth / 7 :
+                            main.screenWidth / 2 - main.m_width /2
         duration: 400
         easing.type: Easing.OutBack
 
         onStarted: {
-            settings.height = main.m_settings_height
+
+
             main.visible = true
-            main.width = main.m_width
-            main.height = main.m_height
-            main.y = main.screenHeight - main.m_height - main.spacing * 20
             main.keyboardVisible = true
+            main.height = main.m_height
+            main.width = main.m_width
+            settings.height = main.m_settings_height
+            main.opacity = main.transparency
+            settings.opacity = main.transparency
+            main.y = main.screenHeight - main.m_height - main.spacing * 20
+            if (main.pinMode) {
+                main.y = main.screenHeight / 2 - main.m_height / 2
+            }
+
+
 
         }
     }
@@ -747,17 +797,25 @@ ApplicationWindow {
         target:main
         property: "x"
         from: main.screenWidth
-        to : main.screenWidth / 2 - main.m_width /2
+        to : main.pinMode ? main.screenWidth * 6 / 7 - main.m_width :
+                            main.screenWidth / 2 - main.m_width /2
         duration: 400
         easing.type: Easing.OutBack
 
         onStarted: {
-            settings.height = main.m_settings_height
+
             main.visible = true
-            main.width = main.m_width
-            main.height = main.m_height
-            main.y = main.screenHeight - main.m_height - main.spacing * 20
             main.keyboardVisible = true
+            main.height = main.m_height
+            main.width = main.m_width
+            settings.height = main.m_settings_height
+            main.opacity = main.transparency
+            settings.opacity = main.transparency
+            main.y = main.screenHeight - main.m_height - main.spacing * 20
+            if (main.pinMode) {
+                main.y = main.screenHeight / 2 - main.m_height / 2
+            }
+
 
         }
     }
@@ -773,13 +831,6 @@ ApplicationWindow {
             duration: 100
         }
 
-        NumberAnimation {
-            target: settings
-            property: "height"
-            from: settings.height
-            to : 0
-            duration: 100
-        }
 
         NumberAnimation {
             target: main
@@ -791,18 +842,27 @@ ApplicationWindow {
         }
 
         onStarted: {
-            main.settingsVisible = false
+
             main.keyboardVisible = false
+            main.settingsVisible = false
+            settings.visible  = false
+
             main.symbolMode = false
+            main.pinMode = false
             mirrorText.text = ""
             main.storedMirror = ""
+            main.password = false
             releaseAllSticky()
+
         }
 
         onStopped: {
-            settings.visible = true
             main.visible = false
             main.layout = main.previousLayout ? main.previousLayout : main.layout
+
+
+
+
         }
     }
 
