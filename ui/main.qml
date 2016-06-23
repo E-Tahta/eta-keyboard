@@ -86,21 +86,19 @@ ApplicationWindow {
     property string previousLayout
     property int panelPos : 0 // 0 is default left, 1 is right
     function setAndSave(){
-        var layoutTemp
+
         if (main.layout == "Pin") {
-            layoutTemp = main.previousLayout
+
         }
         else {
-            layoutTemp = main.layout
+            helper.setSettings(main.themeName,
+                               main.layout,
+                               main.scale,
+                               main.languageLayoutIndex,
+                               main.autoShowToggle,
+                               main.opacity)
+            helper.saveSettings()
         }
-
-        helper.setSettings(main.themeName,
-                           layoutTemp,
-                           main.scale,
-                           main.languageLayoutIndex,
-                           main.autoShowToggle,
-                           main.opacity)
-        helper.saveSettings()
     }
 
     function releaseAllSticky(){
@@ -439,7 +437,8 @@ ApplicationWindow {
             main.pinMode = true
             main.password = true
             main.shuffle = true
-            main.previousLayout = main.layout
+            main.previousLayout = main.layout == "Pin" ? main.previousLayout:
+                                                         main.layout
             main.layout = "Pin"
             main.settingsVisible = false
             settings.visible  = false
@@ -457,6 +456,7 @@ ApplicationWindow {
     function hidePinMode(){
         if (main.pinMode){
             hide.start()
+            main.pinMode = false
             closeBtnImage.visible = true
         }
     }
@@ -517,11 +517,11 @@ ApplicationWindow {
         }
 
         onShowFromLeftCalled: {
-           showKeyboardFromLeft()
+            showKeyboardFromLeft()
         }
 
         onShowFromRightCalled: {
-           showKeyboardFromRight()
+            showKeyboardFromRight()
         }
 
         onHideCalled: {
@@ -859,11 +859,8 @@ ApplicationWindow {
 
         onStopped: {
             main.visible = false
-            main.layout = main.previousLayout ? main.previousLayout : main.layout
-
-
-
-
+            main.layout = main.previousLayout != "Pin" ? main.previousLayout :
+                                                         "Tablet"
         }
     }
 
@@ -908,6 +905,7 @@ ApplicationWindow {
         main.autoShowToggle = helper.getAutoShow() ?
                     helper.getAutoShow() : false
         main.layout = helper.getLayoutType() ? helper.getLayoutType() : "Tablet"
+        main.previousLayout = main.layout
         main.scale = helper.getScale() < 1.6 && helper.getScale() > 0.4 ?
                     helper.getScale() : 1
         main.transparency = helper.getOpacity() ? helper.getOpacity() : 1
