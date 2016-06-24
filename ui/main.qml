@@ -461,8 +461,6 @@ ApplicationWindow {
         if (main.pinMode){
             main.opacity = main.previousOpacity
             hide.start()
-            main.pinMode = false
-            closeBtnImage.visible = true
         }
     }
 
@@ -854,7 +852,6 @@ ApplicationWindow {
             settings.visible  = false
 
             main.symbolMode = false
-            main.pinMode = false
             mirrorText.text = ""
             main.storedMirror = ""
             main.password = false
@@ -864,8 +861,17 @@ ApplicationWindow {
 
         onStopped: {
             main.visible = false
-            main.layout = main.previousLayout != "Pin" ? main.previousLayout :
-                                                         "Tablet"
+            if (main.pinMode) {
+            main.layout = main.previousLayout != "Pin" &&
+                    main.layout == "Pin"? main.previousLayout : "Tablet"
+                main.pinMode = false
+                closeBtnImage.visible = true
+
+            } else {
+                main.layout = main.previousLayout == "Pin" &&
+                        main.layout == "Pin" ? "Tablet" : main.layout
+            }
+
         }
     }
 
@@ -909,7 +915,8 @@ ApplicationWindow {
         main.themeName = helper.getColor() ? helper.getColor() : 0
         main.autoShowToggle = helper.getAutoShow() ?
                     helper.getAutoShow() : false
-        main.layout = helper.getLayoutType() == "Tablet" | "Full" ?
+        main.layout = helper.getLayoutType() == "Tablet" ||
+                helper.getLayoutType() == "Full" ?
                     helper.getLayoutType() : "Tablet"
         main.previousLayout = main.layout
         main.scale = helper.getScale() < 1.6 && helper.getScale() > 0.4 ?
