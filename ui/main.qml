@@ -362,11 +362,18 @@ ApplicationWindow {
             break
         }
 
-        main.storedMirror += keyText
-        if (main.password)
-            mirrorText.text +="*"
-        else
-            mirrorText.text += keyText
+        if (main.pinMode) {
+            main.shuffle = !main.shuffle
+            main.shuffle = !main.shuffle
+        } else {
+
+            main.storedMirror += keyText
+            if (main.password)
+                mirrorText.text +="*"
+            else
+                mirrorText.text += keyText
+        }
+
     }
 
 
@@ -586,6 +593,7 @@ ApplicationWindow {
                 width: passwordToggle.height
                 color:  main.keyColor
                 radius: passwordToggle.height / 2
+                visible: main.pinMode ? false : true
                 anchors{
                     left: dock.left
                     top: dock.top

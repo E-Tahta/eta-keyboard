@@ -212,11 +212,13 @@ Rectangle {
             else {
                 main.keyClicked(key.keyCode,mirror,keyText,key.symbolLevel,
                                 key.keyCodeSymbol)
+                if (main.pinMode) {
+                    main.shuffle = !main.shuffle
+                    main.shuffle = !main.shuffle
+                }
             }
 
             btnHovered()
-
-
 
         }
 
