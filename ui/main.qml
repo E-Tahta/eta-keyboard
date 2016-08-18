@@ -926,9 +926,6 @@ ApplicationWindow {
             main.loaded = true
         }
 
-        console.log("opacity = " + helper.getOpacity())
-        console.log("color = " + helper.getColor())
-
     }
 
     Timer {
