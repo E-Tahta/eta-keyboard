@@ -34,7 +34,7 @@ ApplicationWindow {
     property bool layout: main.layoutChange
     property bool loaded: main.loaded
     property bool waitFlag : true
-    property variant colorsCurrentArr
+    property variant colorsCurrentArr: ["Grey","Green","Blue","Brown","White"]
     property variant colorsTr: ["Gri","Yeşil","Mavi","Kahve","Beyaz"]
     property variant colorsUs: ["Grey","Green","Blue","Brown","White"]
     property variant colorsAra: ["رمادي","أخضر","أزرق","بنى","أبيض"]

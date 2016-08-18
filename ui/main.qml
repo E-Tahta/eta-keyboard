@@ -721,36 +721,6 @@ ApplicationWindow {
         visible: false
     }
 
-    /*NumberAnimation {
-        id:showPinMode
-        target:main
-        property: "x"
-        from: -main.width
-        to : main.screenWidth / 8
-        duration: 400
-        easing.type: Easing.OutBack
-
-        onStarted: {
-            settings.height = main.m_settings_height
-            main.visible = true
-            main.width = main.m_width
-            main.height = main.m_height
-            main.x = main.screenWidth / 2 - main.m_width / 2
-            main.keyboardVisible = true
-            settings.opacity = 0
-            main.settingsVisible = true
-            main.settingsVisible = false
-
-
-        }
-
-        onStopped: {
-            settings.opacity = main.opacity
-            console.log("hellostop")
-        }
-    }*/
-
-
     NumberAnimation {
         id:showFromBottom
         target:main
@@ -927,8 +897,7 @@ ApplicationWindow {
                 helper.getLayoutType() == "Full" ?
                     helper.getLayoutType() : "Tablet"
         main.previousLayout = main.layout
-        main.scale = helper.getScale() < 1.6 && helper.getScale() > 0.4 ?
-                    helper.getScale() : 1
+        main.scale = helper.getScale() ? helper.getScale() : 1
         main.transparency = helper.getOpacity() ? helper.getOpacity() : 1
         main.opacity = main.transparency
         main.previousOpacity = main.opacity
@@ -956,6 +925,10 @@ ApplicationWindow {
             settings.visible = false
             main.loaded = true
         }
+
+        console.log("opacity = " + helper.getOpacity())
+        console.log("color = " + helper.getColor())
+
     }
 
     Timer {
