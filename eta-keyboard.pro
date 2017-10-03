@@ -33,8 +33,12 @@ target.path = /usr/bin/
 desktop_file.files = eta-keyboard.desktop
 desktop_file.path = /usr/share/applications/
 
+autostart_file.files = eta-keyboard-autostart.desktop
+autostart_file.commands = mkdir -p /etc/xdg/autostart
+autostart_file.path = /etc/xdg/autostart/
+
 icon.files = keyboard.svg
 icon.commands = mkdir -p /usr/share/eta/eta-keyboard
 icon.path = /usr/share/eta/eta-keyboard/
 
-INSTALLS += target desktop_file icon
+INSTALLS += target desktop_file autostart_file icon
