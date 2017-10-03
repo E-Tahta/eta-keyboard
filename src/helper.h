@@ -57,6 +57,7 @@ public:
     Q_INVOKABLE QString getLayoutName(int layoutIndex) const;
     Q_INVOKABLE QString getCurrentLayout() const;
     Q_INVOKABLE bool isLogin() const;
+    Q_INVOKABLE bool isShowOnStartEnabled() const;
     Q_INVOKABLE int getCurrentLayoutIndex();
     Q_INVOKABLE void setLayout(unsigned int layoutIndex);
     Q_INVOKABLE int getCapslockStatus();
@@ -76,6 +77,7 @@ public:
     Q_INVOKABLE void layoutChangedCallback();
 
     static bool login;
+    static bool showOnStart;
 private:
     XWrapper *xw;
     VkDbusInterface *vkdi;

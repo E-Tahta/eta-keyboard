@@ -31,6 +31,8 @@ int main(int argc, char *argv[])
 {
     if (argc == 2 && QString(argv[1]) == "login") {
         Helper::login = true;
+    } else if (argc == 2 && QString(argv[1]) == "show") {
+        Helper::showOnStart = true;
     }
 
     qmlRegisterType<Helper>("eta.helper",1,0,"Helper");
@@ -43,7 +45,14 @@ int main(int argc, char *argv[])
     SingleInstance cInstance;
     if(cInstance.hasPrevious(name, QCoreApplication::arguments()))
     {
-        qDebug() << "eta-keyboard is allready open";
+        if (argc == 2 && QString(argv[1]) == "show") {
+            qDebug() << "Trying to show";
+            qDebug() << system("qdbus org.eta.virtualkeyboard /VirtualKeyboard "
+                               "org.eta.virtualkeyboard.showFromBottom");
+        } else {
+            qDebug() << "eta-keyboard is allready open";
+        }
+
         return 0;
     }
     if (cInstance.listen(name)) {

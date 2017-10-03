@@ -30,6 +30,7 @@
 #include <QDebug>
 
 bool Helper::login = false;
+bool Helper::showOnStart = false;
 
 Helper::Helper(QObject *parent):
     QObject (parent)
@@ -156,6 +157,11 @@ QString Helper::getCurrentLayout() const
 bool Helper::isLogin() const
 {
    return Helper::login;
+}
+
+bool Helper::isShowOnStartEnabled() const
+{
+    return Helper::showOnStart;
 }
 
 QString Helper::layout() const

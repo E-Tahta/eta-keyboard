@@ -903,7 +903,7 @@ ApplicationWindow {
         main.previousOpacity = main.opacity
         settings.opacity = main.transparency
 
-        if (helper.isLogin()){
+        if (helper.isLogin()) {
             main.screenHeight = Screen.height
             main.screenWidth = Screen.width
             setSize()
@@ -912,9 +912,17 @@ ApplicationWindow {
             main.password = true
             main.loaded = true
             showFromBottom.start()
-        }
-
-        else {
+        } else if (helper.isShowOnStartEnabled()) {
+            main.screenHeight = Screen.height
+            main.screenWidth = Screen.width
+            setSize()
+            main.x =  main.screenWidth / 2 - main.width /2
+            main.y = main.screenHeight + main.height
+            main.settingsVisible = false
+            settings.visible = false
+            main.loaded = true
+            showFromBottom.start()
+        } else {
             hide.start()
             main.screenHeight = Screen.height
             main.screenWidth = Screen.width
