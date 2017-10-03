@@ -15,9 +15,6 @@ SOURCES += src/xwrapper.cpp \
 
 RESOURCES += qml.qrc images.qrc
 
-# Default rules for deployment.
-include(deployment.pri)
-
 HEADERS += src/xwrapper.h \
     src/xkblibwrapper.h \
     src/vkdbusinterface.h \
