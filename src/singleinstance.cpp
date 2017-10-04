@@ -45,7 +45,7 @@ bool SingleInstance::hasPrevious(QString name, QStringList arg)
 
     if(socket.waitForConnected())
     {
-        qInfo("Sending args to previous instance");
+        qDebug("Sending args to previous instance");
         QByteArray buffer;
 
         foreach(QString item, arg)
@@ -74,7 +74,7 @@ void SingleInstance::readyRead()
 }
 void SingleInstance::cleanUp()
 {
-    qInfo("Cleaning up");
+    qDebug("Cleaning up");
     mServer.close();
     QApplication::quit();
 }

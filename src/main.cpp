@@ -56,11 +56,11 @@ int main(int argc, char *argv[])
     if(cInstance.hasPrevious(name, QCoreApplication::arguments()))
     {
         if (argc == 2 && QString(argv[1]) == "show") {
-            qInfo("Trying to show");
+            qDebug("Trying to show");
             return system("qdbus org.eta.virtualkeyboard /VirtualKeyboard "
                           "org.eta.virtualkeyboard.showFromBottom");
         } else {
-            qInfo("eta-keyboard is allready running");
+            qDebug("eta-keyboard is allready running");
             return 0;
         }
 
