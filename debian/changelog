@@ -1,3 +1,9 @@
+eta-keyboard (0.2.3) unstable; urgency=medium
+
+  * Make images smoother
+
+ -- Yunusemre Şentürk <yunusemre.senturk@pardus.org.tr>  Wed, 04 Oct 2017 17:13:38 +0300
+
 eta-keyboard (0.2.2) unstable; urgency=medium
 
   * Add SignalHandler class to be able to handle Unix Signals
