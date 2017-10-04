@@ -148,7 +148,7 @@ void XWrapper::processXkbEvents(xcb_generic_event_t *gevent, keyboard *kbd)
 }
 
 bool XWrapper::nativeEventFilter(const QByteArray &eventType,
-                                 void *message, long *) Q_DECL_OVERRIDE
+                                 void *message, long *)
 {
 
     if (eventType == "xcb_generic_event_t") {
