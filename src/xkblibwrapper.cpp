@@ -17,16 +17,13 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-
 #include "src/xkblibwrapper.h"
-
 #include <QX11Info>
-
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
-//#include <X11/XKBlib.h>
 #include <X11/extensions/XKBrules.h>
+#include <QDebug>
 
 XKBLibWrapper::XKBLibWrapper(QObject *parent) :
     QObject(parent)
@@ -37,13 +34,10 @@ XKBLibWrapper::XKBLibWrapper(QObject *parent) :
 void XKBLibWrapper::setLayout(unsigned int layoutIndex)
 {
     if (XkbLockGroup(display, XkbUseCoreKbd, layoutIndex)) {
-        qDebug() << "Attempt to change layout group to " << layoutIndex;
         //XkbStateRec xkbState;
 
         XkbGetState( display, XkbUseCoreKbd, &xkbState );
-        unsigned int group = xkbState.group;
-        qDebug() << "Current group after attempting to change layout group is "
-                 << group;
+
     } else {
         qDebug() << "Failed to change layout group to " << layoutIndex;
     }

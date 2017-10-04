@@ -17,11 +17,11 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-
 #ifndef SIGNALHANDLER_H
 #define SIGNALHANDLER_H
 
 #include <QObject>
+
 class QSocketNotifier;
 
 class SignalHandler : public QObject

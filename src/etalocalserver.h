@@ -1,9 +1,8 @@
 #ifndef ETALOCALSERVER_H
 #define ETALOCALSERVER_H
 
-#include <QtNetwork/QLocalServer>
-#include <QtNetwork/QLocalSocket>
 #include <QList>
+#include <QLocalServer>
 
 #define MAX_CILENT (3)
 #define MAX_DATA_LEN (15)

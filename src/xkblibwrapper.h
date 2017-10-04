@@ -27,8 +27,6 @@
 
 typedef struct _XDisplay Display;
 
-
-
 struct XkbConfig {
     QString keyboardModel;
     QStringList layouts;

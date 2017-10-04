@@ -11,7 +11,8 @@ SOURCES += src/xwrapper.cpp \
     src/localserverinterface.cpp \
     src/helper.cpp \
     src/etalocalserver.cpp \
-    src/adaptor.cpp
+    src/adaptor.cpp \
+    src/signalhandler.cpp
 
 RESOURCES += qml.qrc images.qrc
 
@@ -23,7 +24,8 @@ HEADERS += src/xwrapper.h \
     src/localserverinterface.h \
     src/helper.h \
     src/etalocalserver.h \
-    src/adaptor.h
+    src/adaptor.h \
+    src/signalhandler.h
 LIBS += -lxcb -lxkbcommon -lxkbcommon-x11 -lX11 -lXtst -lxcb-xkb
 
 

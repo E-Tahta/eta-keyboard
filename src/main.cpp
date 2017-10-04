@@ -17,15 +17,18 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
+#include "src/helper.h"
+#include "src/singleinstance.h"
+#include "src/signalhandler.h"
+#include "signal.h"
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QtQml>
-#include "src/helper.h"
-#include "src/singleinstance.h"
 #include <QDir>
 #include <QCursor>
 
 #define SINGLE_INSTANCE ".virtualkeyboard"
+static int setup_unix_signal_handlers();
 
 int main(int argc, char *argv[])
 {
@@ -40,31 +43,56 @@ int main(int argc, char *argv[])
 
     app.setOverrideCursor(QCursor(Qt::BlankCursor));
 
+    SignalHandler sh;
+
+    setup_unix_signal_handlers();
+
     QString name = SINGLE_INSTANCE;
 
     SingleInstance cInstance;
+
+    QObject::connect(&sh, SIGNAL(signalRecieved()), &cInstance, SLOT(cleanUp()));
+
     if(cInstance.hasPrevious(name, QCoreApplication::arguments()))
     {
         if (argc == 2 && QString(argv[1]) == "show") {
-            qDebug() << "Trying to show";
-            qDebug() << system("qdbus org.eta.virtualkeyboard /VirtualKeyboard "
-                               "org.eta.virtualkeyboard.showFromBottom");
+            qInfo("Trying to show");
+            return system("qdbus org.eta.virtualkeyboard /VirtualKeyboard "
+                          "org.eta.virtualkeyboard.showFromBottom");
         } else {
-            qDebug() << "eta-keyboard is allready open";
+            qInfo("eta-keyboard is allready running");
+            return 0;
         }
 
-        return 0;
     }
+
     if (cInstance.listen(name)) {
-        qDebug() << "creating single instance";
+        qDebug() << "Creating single instance";
     } else {
-        qDebug() << "couldnt create single instance aborting";
-        return 0;
+        qFatal("Couldn't create single instance aborting");
     }
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/ui/main.qml")));
 
-
     return app.exec();
+}
+
+static int setup_unix_signal_handlers()
+{
+    struct sigaction sig;
+    sig.sa_handler = SignalHandler::handleSignals;
+    sigemptyset(&sig.sa_mask);
+    sig.sa_flags = 0;
+    sig.sa_flags |= SA_RESTART;
+
+    if (sigaction(SIGINT, &sig, 0)) {
+        return 1;
+    }
+
+    if (sigaction(SIGTERM, &sig, 0)) {
+        return 2;
+    }
+
+    return 0;
 }

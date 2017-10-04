@@ -17,14 +17,12 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-
 #include <QObject>
-#include <QString>
 
+class QString;
 class QSettings;
 
 class Settings : public QObject

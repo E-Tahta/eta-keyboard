@@ -20,9 +20,8 @@
 #ifndef ADAPTOR_H
 #define ADAPTOR_H
 
-
-#include <QtCore/QObject>
-#include <QtDBus/QtDBus>
+#include <QObject>
+#include <QtDBus>
 
 class QByteArray;
 template<class T> class QList;

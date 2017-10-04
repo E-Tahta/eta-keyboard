@@ -19,19 +19,14 @@
  *****************************************************************************/
 #include "src/xwrapper.h"
 #include "src/helper.h"
-
-
-
-#include <QX11Info>
-
 #define explicit redefine_explicit
 #include <xcb/xkb.h>
 #undef explicit
-
 #include <xkbcommon/xkbcommon-x11.h>
 #include <X11/Xlib.h>
 #include <X11/XKBlib.h>
 #include <X11/extensions/XTest.h>
+#include <QX11Info>
 
 XWrapper::XWrapper()
 {

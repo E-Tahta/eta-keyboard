@@ -1,8 +1,8 @@
 #ifndef LOCALSERVERINTERFACE_H
 #define LOCALSERVERINTERFACE_H
 
-#include <QObject>
 #include "src/etalocalserver.h"
+#include <QObject>
 
 class EtaLocalServer;
 

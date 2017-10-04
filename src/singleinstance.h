@@ -17,14 +17,13 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-
 #ifndef SINGLEINSTANCE_H
 #define SINGLEINSTANCE_H
 
 #include <QObject>
-#include <QDebug>
 #include <QLocalServer>
-#include <QLocalSocket>
+
+class QLocalSocket;
 
 class SingleInstance : public QObject
 {

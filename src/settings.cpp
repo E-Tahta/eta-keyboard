@@ -17,12 +17,12 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
+#include "src/settings.h"
 #include <QDir>
 #include <QFileInfo>
-#include "src/settings.h"
 #include <QSettings>
 #include <QVariant>
-#include <QDebug>
+#include <QString>
 
 Settings::Settings(QObject *parent) :
     QObject(parent),

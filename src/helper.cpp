@@ -27,7 +27,6 @@
 #include <QAbstractEventDispatcher>
 #include <QFileInfo>
 #include <QTimer>
-#include <QDebug>
 
 bool Helper::login = false;
 bool Helper::showOnStart = false;

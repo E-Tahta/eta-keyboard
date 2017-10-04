@@ -17,12 +17,12 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-
 #include "src/singleinstance.h"
+#include <QLocalSocket>
 #include <QApplication>
 
 SingleInstance::SingleInstance(QObject *parent) : QObject(parent)
-{
+{    
     connect(&mServer, SIGNAL(newConnection()),this,SLOT(newConnection()));
 }
 
@@ -74,7 +74,7 @@ void SingleInstance::readyRead()
 }
 void SingleInstance::cleanUp()
 {
-    qDebug() << "Cleaning up";
+    qInfo("Cleaning up");
     mServer.close();
     QApplication::quit();
 }

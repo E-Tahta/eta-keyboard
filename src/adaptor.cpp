@@ -18,14 +18,13 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
 #include "src/adaptor.h"
-
-#include <QtCore/QMetaObject>
-#include <QtCore/QByteArray>
-#include <QtCore/QList>
-#include <QtCore/QMap>
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QVariant>
+#include <QMetaObject>
+#include <QByteArray>
+#include <QList>
+#include <QMap>
+#include <QString>
+#include <QStringList>
+#include <QVariant>
 
 
 VirtualKeyboardInterfaceAdaptor::VirtualKeyboardInterfaceAdaptor

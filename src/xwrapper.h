@@ -23,12 +23,12 @@
 #include <QAbstractNativeEventFilter>
 #include <QDebug>
 #include <xcb/xcb.h>
+
 typedef struct xcb_connection_t xcb_connection_t;
 struct xkb_context;
 struct xkb_keymap;
 struct xkb_state;
 typedef struct _XDisplay Display;
-
 class Helper;
 
 struct keyboard {
