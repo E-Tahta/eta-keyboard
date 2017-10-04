@@ -29,6 +29,8 @@ Key {
         width: parent.width * 2 / 3
         height: img.width
         source: "Images/pardus.svg"
+        smooth: true
+        mipmap: true
         anchors.centerIn: parent
     }
 }

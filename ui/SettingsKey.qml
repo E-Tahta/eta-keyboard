@@ -33,6 +33,8 @@ Key {
         height: img.width
         anchors.centerIn: parent
         source: "Images/gear.svg"
+        smooth: true
+        mipmap: true
 
         RotationAnimation on rotation {
             id: rotationAnimation

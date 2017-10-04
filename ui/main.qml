@@ -629,6 +629,8 @@ ApplicationWindow {
             Image {
                 id: closeBtnImage
                 source: "Images/close.svg"
+                smooth: true
+                mipmap: true
                 height:main.dockSize
                 width: closeBtnImage.height
                 anchors {
