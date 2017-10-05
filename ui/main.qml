@@ -685,12 +685,12 @@ ApplicationWindow {
                 }
 
                 onPositionChanged: {
-                    if(!helper.isLogin()) {
-                        main.settingsVisible = false
-                        var delta = Qt.point(mouse.x - cpos.x, mouse.y - cpos.y);
-                        main.x += delta.x;
-                        main.y += delta.y;
-                    }
+
+                    main.settingsVisible = false
+                    var delta = Qt.point(mouse.x - cpos.x, mouse.y - cpos.y);
+                    main.x += delta.x;
+                    main.y += delta.y;
+
                 }
 
                 onReleased: {
@@ -842,8 +842,8 @@ ApplicationWindow {
         onStopped: {
             main.visible = false
             if (main.pinMode) {
-            main.layout = main.previousLayout != "Pin" &&
-                    main.layout == "Pin"? main.previousLayout : "Tablet"
+                main.layout = main.previousLayout != "Pin" &&
+                        main.layout == "Pin"? main.previousLayout : "Tablet"
                 main.pinMode = false
                 closeBtnImage.visible = true
 
@@ -908,6 +908,7 @@ ApplicationWindow {
         if (helper.isLogin()) {
             main.screenHeight = Screen.height
             main.screenWidth = Screen.width
+            main.layout = "Full"
             setSize()
             main.settingsVisible = false
             closeBtnImage.visible = false
