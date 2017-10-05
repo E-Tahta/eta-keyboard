@@ -1,3 +1,9 @@
+eta-keyboard (0.2.4) unstable; urgency=medium
+
+  * Update helper login mechanism
+
+ -- Yunusemre Şentürk <yunusemre.senturk@pardus.org.tr>  Thu, 05 Oct 2017 10:42:07 +0300
+
 eta-keyboard (0.2.3) unstable; urgency=medium
 
   * Make images smoother
