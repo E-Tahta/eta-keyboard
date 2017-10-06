@@ -23,7 +23,7 @@
 #include "src/vkdbusinterface.h"
 #include "src/xkblibwrapper.h"
 #include "src/settings.h"
-#include "src/localserverinterface.h"
+//#include "src/localserverinterface.h"
 #include <QAbstractEventDispatcher>
 #include <QFileInfo>
 #include <QTimer>
@@ -41,13 +41,9 @@ Helper::Helper(QObject *parent):
     vkdi = new VkDbusInterface(this);
     xkblw = new XKBLibWrapper(this);
     s = new Settings(this);
-    lsi = new LocalServerInterface(this);
-
-    connect(lsi,SIGNAL(hideSignal()),this,SLOT(hideSlot()));
-    connect(lsi,SIGNAL(showSignal()),this,SLOT(showSlot()));
-    connect(lsi,SIGNAL(passwordSignal()),this,SLOT(passwordDetectedSlot()));
 
     connect(vkdi,SIGNAL(hide()),this,SIGNAL(hideCalled()));
+    connect(vkdi,SIGNAL(show(bool)),this,SLOT(showSlot(bool)));
     connect(vkdi,SIGNAL(showFromLeft()),this,SIGNAL(showFromLeftCalled()));
     connect(vkdi,SIGNAL(showFromRight()),this,SIGNAL(showFromRightCalled()));
     connect(vkdi,SIGNAL(showFromBottom()),this,SIGNAL(showFromBottomCalled()));
@@ -63,24 +59,14 @@ Helper::~Helper()
     delete xw;
 }
 
-void Helper::passwordDetectedSlot()
+void Helper::showSlot(bool password)
 {
     if(s->getAutoShow()) {
-        emit passwordDetected();
-    }
-}
-
-void Helper::hideSlot()
-{
-    if(s->getAutoShow()) {
-        emit hideCalled();
-    }
-}
-
-void Helper::showSlot()
-{
-    if(s->getAutoShow()) {
-        emit showFromBottomCalled();
+        if (password) {
+            emit passwordDetected();
+        } else {
+            emit showFromBottomCalled();
+        }
     }
 }
 

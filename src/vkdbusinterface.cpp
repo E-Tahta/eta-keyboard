@@ -31,6 +31,11 @@ VkDbusInterface::VkDbusInterface(QObject *parent) :
     connection.registerService("org.eta.virtualkeyboard");
 }
 
+void VkDbusInterface::showSlot(bool password)
+{
+    emit show(password);
+}
+
 void VkDbusInterface::toggleSlot()
 {
     emit toggle();

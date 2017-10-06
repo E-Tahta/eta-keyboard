@@ -29,8 +29,9 @@ public:
     explicit VkDbusInterface(QObject *parent = 0);
 
 signals:
+    void show(bool password);
     void toggle();
-    void hide();
+    void hide();    
     void showFromLeft();
     void showFromRight();
     void showFromBottom();
@@ -38,6 +39,7 @@ signals:
     void showPinInput();
     void hidePinInput();
 public Q_SLOTS:
+    void showSlot(bool password);
     void toggleSlot();
     void hideSlot();
     void fromLeftSlot();

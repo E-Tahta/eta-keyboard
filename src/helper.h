@@ -22,7 +22,6 @@
 
 #include <QObject>
 #include <QString>
-#include "src/etalocalserver.h"
 
 class XWrapper;
 class VkDbusInterface;
@@ -85,10 +84,8 @@ private:
     XKBLibWrapper *xkblw;
     Settings *s;
     LocalServerInterface *lsi;
-private slots:
-    void hideSlot();
-    void showSlot();
-    void passwordDetectedSlot();
+private slots:    
+    void showSlot(bool password);
 signals:
     void hideCalled();
     void layoutChanged();
