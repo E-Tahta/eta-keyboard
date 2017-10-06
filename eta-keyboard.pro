@@ -9,9 +9,7 @@ SOURCES += src/xwrapper.cpp \
     src/singleinstance.cpp \
     src/settings.cpp \
     src/main.cpp \
-    src/localserverinterface.cpp \
     src/helper.cpp \
-    src/etalocalserver.cpp \
     src/adaptor.cpp \
     src/signalhandler.cpp
 
@@ -22,9 +20,7 @@ HEADERS += src/xwrapper.h \
     src/vkdbusinterface.h \
     src/singleinstance.h \
     src/settings.h \
-    src/localserverinterface.h \
     src/helper.h \
-    src/etalocalserver.h \
     src/adaptor.h \
     src/signalhandler.h
 
