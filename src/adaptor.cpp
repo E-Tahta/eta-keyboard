@@ -36,43 +36,48 @@ VirtualKeyboardInterfaceAdaptor::~VirtualKeyboardInterfaceAdaptor()
 {
 
 }
+Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::show(bool password)
+{
+    QMetaObject::invokeMethod(parent(), "showSlot", Q_ARG(bool, password));
+}
 
-void VirtualKeyboardInterfaceAdaptor::toggle()
+
+Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::toggle()
 {
     QMetaObject::invokeMethod(parent(), "toggleSlot");
 }
 
-void VirtualKeyboardInterfaceAdaptor::hide()
+Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::hide()
 {
     QMetaObject::invokeMethod(parent(), "hideSlot");
 }
 
-void VirtualKeyboardInterfaceAdaptor::showFromLeft()
+Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::showFromLeft()
 {
     QMetaObject::invokeMethod(parent(), "fromLeftSlot");
 }
 
-void VirtualKeyboardInterfaceAdaptor::showFromRight()
+Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::showFromRight()
 {
     QMetaObject::invokeMethod(parent(), "fromRightSlot");
 }
 
-void VirtualKeyboardInterfaceAdaptor::showFromBottom()
+Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::showFromBottom()
 {
     QMetaObject::invokeMethod(parent(), "fromBottomSlot");
 }
 
-void VirtualKeyboardInterfaceAdaptor::toggleAutoShow()
+Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::toggleAutoShow()
 {
     QMetaObject::invokeMethod(parent(), "toggleAutoShowSlot");
 }
 
-void VirtualKeyboardInterfaceAdaptor::showPinInput()
+Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::showPinInput()
 {
     QMetaObject::invokeMethod(parent(), "showPinInputSlot");
 }
 
-void VirtualKeyboardInterfaceAdaptor::hidePinInput()
+Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::hidePinInput()
 {
     QMetaObject::invokeMethod(parent(), "hidePinInputSlot");
 }

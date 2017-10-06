@@ -34,33 +34,22 @@ class VirtualKeyboardInterfaceAdaptor : public QDBusAbstractAdaptor
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.eta.virtualkeyboard")
-    Q_CLASSINFO("D-Bus Introspection", ""
-"  <interface name=\"org.eta.virtualkeyboard\">\n"
-"    <method name=\"toggle\"/>\n"
-"    <method name=\"hide\"/>\n"
-"    <method name=\"showFromLeft\"/>\n"
-"    <method name=\"showFromRight\"/>\n"
-"    <method name=\"showFromBottom\"/>\n"
-"    <method name=\"toggleAutoShow\"/>\n"
-"    <method name=\"showPinInput\"/>\n"
-"    <method name=\"hidePinInput\"/>\n"
-"  </interface>\n"
-        "")
 
 public:
     VirtualKeyboardInterfaceAdaptor(QObject *parent);
     virtual ~VirtualKeyboardInterfaceAdaptor();
 
 
-public Q_SLOTS:
-    void toggle();
-    void hide();
-    void showFromLeft();
-    void showFromRight();
-    void showFromBottom();
-    void toggleAutoShow();
-    void showPinInput();
-    void hidePinInput();
+public slots:
+    Q_NOREPLY void show(bool password=false);
+    Q_NOREPLY void toggle();
+    Q_NOREPLY void hide();
+    Q_NOREPLY void showFromLeft();
+    Q_NOREPLY void showFromRight();
+    Q_NOREPLY void showFromBottom();
+    Q_NOREPLY void toggleAutoShow();
+    Q_NOREPLY void showPinInput();
+    Q_NOREPLY void hidePinInput();
 
 
 };
