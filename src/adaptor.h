@@ -41,7 +41,7 @@ public:
 
 
 public slots:
-    Q_NOREPLY void show(bool password=false);
+    Q_NOREPLY void show(bool password);
     Q_NOREPLY void toggle();
     Q_NOREPLY void hide();
     Q_NOREPLY void showFromLeft();
