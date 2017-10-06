@@ -1,3 +1,9 @@
+eta-keyboard (0.3.1) unstable; urgency=medium
+
+  * Remove default value of input argument because of the bug in python-dbus
+
+ -- Yunusemre Şentürk <yunusemre.senturk@pardus.org.tr>  Fri, 06 Oct 2017 21:31:25 +0300
+
 eta-keyboard (0.3.0) unstable; urgency=medium
 
   * Remove localserver adaptation use only dbus interface
