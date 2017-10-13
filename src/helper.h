@@ -21,14 +21,13 @@
 #define HELPER_H
 
 #include <QObject>
-#include <QString>
 
-class XWrapper;
-class VkDbusInterface;
 class QDBusInterface;
-class XKBLibWrapper;
+class QString;
 class Settings;
-class LocalServerInterface;
+class VkDbusInterface;
+class XKBLibWrapper;
+class XWrapper;
 
 class Helper : public QObject
 {
@@ -60,7 +59,6 @@ public:
     Q_INVOKABLE int getCurrentLayoutIndex();
     Q_INVOKABLE void setLayout(unsigned int layoutIndex);
     Q_INVOKABLE int getCapslockStatus();
-
     Q_INVOKABLE void setSettings(int color,
                                  const QString& layoutType,
                                  double scale,
@@ -74,7 +72,6 @@ public:
     Q_INVOKABLE bool getAutoShow();
     Q_INVOKABLE void saveSettings();
     Q_INVOKABLE void layoutChangedCallback();
-
     static bool login;
     static bool showOnStart;
 private:
@@ -82,8 +79,7 @@ private:
     VkDbusInterface *vkdi;
     QDBusInterface *interface;
     XKBLibWrapper *xkblw;
-    Settings *s;
-    LocalServerInterface *lsi;
+    Settings *s;    
 private slots:    
     void showSlot(bool password);
 signals:

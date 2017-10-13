@@ -20,7 +20,6 @@
 #include "src/vkdbusinterface.h"
 #include "src/adaptor.h"
 #include <QDBusConnection>
-#include <QDebug>
 
 VkDbusInterface::VkDbusInterface(QObject *parent) :
     QObject(parent)

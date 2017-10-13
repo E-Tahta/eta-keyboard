@@ -23,17 +23,14 @@
 #include "src/vkdbusinterface.h"
 #include "src/xkblibwrapper.h"
 #include "src/settings.h"
-//#include "src/localserverinterface.h"
 #include <QAbstractEventDispatcher>
-#include <QFileInfo>
-#include <QTimer>
+#include <QString>
 
 bool Helper::login = false;
 bool Helper::showOnStart = false;
 
 Helper::Helper(QObject *parent):
     QObject (parent)
-
 {
     xw = new XWrapper;
     xw->setHelper(this);

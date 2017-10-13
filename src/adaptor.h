@@ -23,23 +23,12 @@
 #include <QObject>
 #include <QtDBus>
 
-class QByteArray;
-template<class T> class QList;
-template<class Key, class Value> class QMap;
-class QString;
-class QStringList;
-class QVariant;
-
 class VirtualKeyboardInterfaceAdaptor : public QDBusAbstractAdaptor
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.eta.virtualkeyboard")
-
 public:
     VirtualKeyboardInterfaceAdaptor(QObject *parent);
-    virtual ~VirtualKeyboardInterfaceAdaptor();
-
-
 public slots:
     Q_NOREPLY void show(bool password);
     Q_NOREPLY void toggle();
@@ -50,8 +39,6 @@ public slots:
     Q_NOREPLY void toggleAutoShow();
     Q_NOREPLY void showPinInput();
     Q_NOREPLY void hidePinInput();
-
-
 };
 
 #endif // ADAPTOR_H

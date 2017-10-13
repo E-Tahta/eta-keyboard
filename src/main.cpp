@@ -19,8 +19,8 @@
  *****************************************************************************/
 #include "src/helper.h"
 #include "src/singleinstance.h"
-#include "src/signalhandler.h"
-#include "signal.h"
+#include <signal.h>
+#include <unistd.h>
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QtQml>
@@ -41,17 +41,11 @@ int main(int argc, char *argv[])
     qmlRegisterType<Helper>("eta.helper",1,0,"Helper");
     QApplication app(argc, argv);
 
-    app.setOverrideCursor(QCursor(Qt::BlankCursor));
-
-    SignalHandler sh;
-
-    setup_unix_signal_handlers();
+    app.setOverrideCursor(QCursor(Qt::BlankCursor));        
 
     QString name = SINGLE_INSTANCE;
 
-    SingleInstance cInstance;
-
-    QObject::connect(&sh, SIGNAL(signalRecieved()), &cInstance, SLOT(cleanUp()));
+    SingleInstance cInstance;    
 
     if(cInstance.hasPrevious(name, QCoreApplication::arguments()))
     {
@@ -68,6 +62,7 @@ int main(int argc, char *argv[])
 
     if (cInstance.listen(name)) {
         qDebug() << "Creating single instance";
+        setup_unix_signal_handlers();
     } else {
         qFatal("Couldn't create single instance aborting");
     }
@@ -78,21 +73,25 @@ int main(int argc, char *argv[])
     return app.exec();
 }
 
+static void handle_signal(int sig)
+{
+    Q_UNUSED(sig);
+    unlink("/tmp/.virtualkeyboard");
+    exit(0);
+}
+
 static int setup_unix_signal_handlers()
 {
-    struct sigaction sig;
-    sig.sa_handler = SignalHandler::handleSignals;
+    struct sigaction sig;    
+    sig.sa_handler = handle_signal;
     sigemptyset(&sig.sa_mask);
     sig.sa_flags = 0;
     sig.sa_flags |= SA_RESTART;
-
     if (sigaction(SIGINT, &sig, 0)) {
         return 1;
     }
-
     if (sigaction(SIGTERM, &sig, 0)) {
         return 2;
     }
-
     return 0;
 }

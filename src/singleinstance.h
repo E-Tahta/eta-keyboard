@@ -29,22 +29,14 @@ class SingleInstance : public QObject
 {
     Q_OBJECT
 public:
-    explicit SingleInstance(QObject *parent = 0);
-    ~SingleInstance();
-
-
+    explicit SingleInstance(QObject *parent = 0);    
     bool listen(QString name);
     bool hasPrevious(QString name, QStringList arg);
-
 signals:    
     void newInstance();
-
-
 public slots:
     void newConnection();
     void readyRead();
-    void cleanUp();
-
 private:
     QLocalSocket* mSocket;
     QLocalServer mServer;

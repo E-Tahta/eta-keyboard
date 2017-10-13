@@ -21,7 +21,6 @@
 #define XWRAPPER_H
 
 #include <QAbstractNativeEventFilter>
-#include <QDebug>
 #include <xcb/xcb.h>
 
 typedef struct xcb_connection_t xcb_connection_t;
@@ -39,7 +38,6 @@ struct keyboard {
     int32_t device_id;
     unsigned int active_laypout_index;
 };
-
 
 class XWrapper : public QAbstractNativeEventFilter
 {

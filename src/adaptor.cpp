@@ -19,28 +19,17 @@
  *****************************************************************************/
 #include "src/adaptor.h"
 #include <QMetaObject>
-#include <QByteArray>
-#include <QList>
-#include <QMap>
-#include <QString>
-#include <QStringList>
-#include <QVariant>
-
 
 VirtualKeyboardInterfaceAdaptor::VirtualKeyboardInterfaceAdaptor
 (QObject *parent): QDBusAbstractAdaptor(parent)
 {
     setAutoRelaySignals(true);
 }
-VirtualKeyboardInterfaceAdaptor::~VirtualKeyboardInterfaceAdaptor()
-{
 
-}
 Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::show(bool password)
 {
     QMetaObject::invokeMethod(parent(), "showSlot", Q_ARG(bool, password));
 }
-
 
 Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::toggle()
 {

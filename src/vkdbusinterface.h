@@ -27,7 +27,6 @@ class VkDbusInterface : public QObject
     Q_OBJECT
 public:
     explicit VkDbusInterface(QObject *parent = 0);
-
 signals:
     void show(bool password);
     void toggle();
@@ -48,7 +47,6 @@ public Q_SLOTS:
     void toggleAutoShowSlot();
     void showPinInputSlot();
     void hidePinInputSlot();
-
 };
 
 #endif // VKDBUSINTERFACE_H

@@ -50,9 +50,6 @@ private:
     QString configpath;
     QSettings *preferences;
     double m_opacity;
-
-public slots:
-
 };
 
 #endif // SETTINGS_H

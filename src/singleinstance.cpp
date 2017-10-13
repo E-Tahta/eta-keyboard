@@ -26,11 +26,6 @@ SingleInstance::SingleInstance(QObject *parent) : QObject(parent)
     connect(&mServer, SIGNAL(newConnection()),this,SLOT(newConnection()));
 }
 
-SingleInstance::~SingleInstance()
-{
-
-}
-
 bool SingleInstance::listen(QString name)
 {
     mServer.removeServer(name);
@@ -47,7 +42,6 @@ bool SingleInstance::hasPrevious(QString name, QStringList arg)
     {
         qDebug("Sending args to previous instance");
         QByteArray buffer;
-
         foreach(QString item, arg)
         {
             buffer.append(item + "\n");
@@ -56,9 +50,7 @@ bool SingleInstance::hasPrevious(QString name, QStringList arg)
         socket.waitForBytesWritten();
         return true;
     }
-
     return false;
-
 }
 
 void SingleInstance::newConnection()
@@ -71,11 +63,5 @@ void SingleInstance::newConnection()
 void SingleInstance::readyRead()
 {   
     mSocket->deleteLater();
-}
-void SingleInstance::cleanUp()
-{
-    qDebug("Cleaning up");
-    mServer.close();
-    QApplication::quit();
 }
 
