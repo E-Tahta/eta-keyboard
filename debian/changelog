@@ -1,3 +1,9 @@
+eta-keyboard (0.3.2) unstable; urgency=medium
+
+  * Remove signal handler class and cleaup white spaces
+
+ -- Yunusemre Şentürk <yunusemre.senturk@pardus.org.tr>  Fri, 13 Oct 2017 15:27:33 +0300
+
 eta-keyboard (0.3.1) unstable; urgency=medium
 
   * Remove default value of input argument because of the bug in python-dbus
