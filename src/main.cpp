@@ -41,9 +41,22 @@ int main(int argc, char *argv[])
     qmlRegisterType<Helper>("eta.helper",1,0,"Helper");
     QApplication app(argc, argv);
 
-    app.setOverrideCursor(QCursor(Qt::BlankCursor));        
+    app.setOverrideCursor(QCursor(Qt::BlankCursor));
 
-    QString name = SINGLE_INSTANCE;
+    QString pidName = SINGLE_INSTANCE;
+    QString username = qgetenv("USER");
+    if (username.isEmpty())
+        username = qgetenv("USERNAME");
+    QString tmpPath= "/tmp/";
+    QString pidPath = tmpPath.append(username);
+
+
+    QDir dir(pidPath);
+    if (!dir.exists()) {
+        dir.mkpath(".");
+    }
+
+    QString name = pidPath.append("/").append(pidName);
 
     SingleInstance cInstance;    
 
@@ -75,8 +88,16 @@ int main(int argc, char *argv[])
 
 static void handle_signal(int sig)
 {
+    QString pidName = SINGLE_INSTANCE;
+    QString username = qgetenv("USER");
+    if (username.isEmpty())
+        username = qgetenv("USERNAME");
+    QString tmpPath= "/tmp/";
+    QString pidPath = tmpPath.append(username);
+    QString name = pidPath.append("/").append(pidName);
+    QByteArray ba = name.toLatin1();
     Q_UNUSED(sig);
-    unlink("/tmp/.virtualkeyboard");
+    unlink(ba.data());
     exit(0);
 }
 
