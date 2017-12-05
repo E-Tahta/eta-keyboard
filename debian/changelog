@@ -1,3 +1,18 @@
+eta-keyboard (0.3.3) unstable; urgency=medium
+
+  [ Yunusemre Şentürk ]
+  * Add LICENSE file
+  * Add screenshots
+  * Update README
+
+  [ Hikmet Baş ]
+  * Change single instance pid path bind with user name
+
+  [ Yunusemre Şentürk ]
+  * Update singleinstance pid priorities
+
+ -- Yunusemre Şentürk <yunusemre.senturk@pardus.org.tr>  Tue, 05 Dec 2017 16:39:07 +0300
+
 eta-keyboard (0.3.2) unstable; urgency=medium
 
   * Remove signal handler class and cleaup white spaces
