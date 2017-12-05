@@ -29,7 +29,7 @@ SingleInstance::SingleInstance(QObject *parent) : QObject(parent)
 bool SingleInstance::listen(QString name)
 {
     mServer.removeServer(name);
-    mServer.setSocketOptions(QLocalServer::WorldAccessOption);
+    //mServer.setSocketOptions(QLocalServer::WorldAccessOption);
     return mServer.listen(name);
 }
 
