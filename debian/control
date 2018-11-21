@@ -32,6 +32,11 @@ Homepage: http://pardus.org.tr
 
 Package: eta-keyboard
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5svg5, qml-module-qtquick-controls, qml-module-qtquick-window2, qml-module-qtquick2
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ libqt5svg5,
+ qdbus-qt5,
+ qml-module-qtquick-controls,
+ qml-module-qtquick-window2,
+ qml-module-qtquick2
 Description: ETAP Sanal Klavye
  Sürüklenebilir, rahat kullanımlı , TrQ , TrF , Arapça desteği vardır.
