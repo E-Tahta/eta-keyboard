@@ -1,3 +1,10 @@
+eta-keyboard (0.3.4) unstable; urgency=medium
+
+  * Pardus CI integration
+  * add qdbus-qt5 to binary package dependency
+
+ -- Yunusemre Şentürk <yunusemre.senturk@pardus.org.tr>  Wed, 21 Nov 2018 17:04:24 +0300
+
 eta-keyboard (0.3.3) unstable; urgency=medium
 
   [ Yunusemre Şentürk ]
